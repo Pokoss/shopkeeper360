@@ -178,7 +178,6 @@ function StockScreen({ company, stock_item, product }) {
         event.preventDefault();
         toast.loading();
         var companyId = company.company_id;
-        toast.success(companyId);
         var product_id = selectedOption.value;
         if (quantity == '') {
             toast.dismiss()
@@ -194,12 +193,12 @@ function StockScreen({ company, stock_item, product }) {
                     {
                         onSuccess: () => {
                             toast.success('Product added successfully');
+                            handleOpen();
+                            setBatch('');
+                            setQuantity('');
+                            setExpiry('');
                             setInputVal('');
                             setSelectedOption(useState(null));
-                            setQuantity('');
-                            setBatch('');
-                            setExpiry('');
-                            handleOpen();
                         }
                     }
                 )
