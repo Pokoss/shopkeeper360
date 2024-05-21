@@ -69,7 +69,7 @@ function SupplierScreen({ company, supplier }) {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        var companyId = company.id;
+        var companyId = company.company_id;
         if (name == '') {
             toast.dismiss()
             toast.error('Write supplier name/business');

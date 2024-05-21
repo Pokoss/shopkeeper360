@@ -19,7 +19,7 @@ import axios from 'axios';
 
 function StockScreen({ company, stock_item, product }) {
   
-    console.log(stock_item)
+    console.log(company)
     const [search, setSearch] = useState('');
 
     const [quantity, setQuantity] = useState('');
@@ -177,7 +177,8 @@ function StockScreen({ company, stock_item, product }) {
     const postStock = async (event) => {
         event.preventDefault();
         toast.loading();
-        var companyId = company.id;
+        var companyId = company.company_id;
+        toast.success(companyId);
         var product_id = selectedOption.value;
         if (quantity == '') {
             toast.dismiss()

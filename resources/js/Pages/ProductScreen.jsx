@@ -78,7 +78,7 @@ function ProductScreen({ company, products, measurements }) {
         event.preventDefault();
         toast.loading();
 
-        var companyId = company.id;
+        var companyId = company.company_id;
         if (editProduct == '') {
             toast.dismiss()
             toast.error('Write product name');
@@ -135,7 +135,7 @@ function ProductScreen({ company, products, measurements }) {
     const postProduct = async (event) => {
         event.preventDefault();
         toast.loading();
-        var companyId = company.id;
+        var companyId = company.company_id;
         if (product == '') {
             toast.dismiss()
             toast.error('Write product name');

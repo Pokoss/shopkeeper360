@@ -1,1 +1,0 @@
-import{j as e}from"./app-aHdaXhPY.js";import{L as o}from"./Layout-C6SQXMuW.js";import"./index-BMC0YVzm.js";function n(){return e.jsx("div",{children:"ExpenseScreen"})}n.layout=r=>e.jsx(o,{children:r,props:r.props.company});export{n as default};
