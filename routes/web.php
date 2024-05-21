@@ -82,6 +82,8 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/add-stock', [StockItemController::class, 'store']);
     Route::get('/search_stock', [StockItemController::class, 'search']);
+    Route::post('/edit-stock', [StockItemController::class, 'edit']);
+    Route::post('/delete-stock', [StockItemController::class, 'destroy']);
     
     Route::get('/dashboard/{company}/pos', [SalePointController::class, 'index']);
     

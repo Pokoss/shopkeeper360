@@ -99,9 +99,26 @@ class StockItemController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(StockItem $stockItem)
+    public function edit(Request $request)
     {
         //
+        $stock = StockItem::where('id',$request->stockId)->first();
+
+        //first subtract from product
+        $product = Product::where('product_id',$stock->product_id)->first();
+        $old_available = $product->available - $stock->quantity;
+
+        $stock->update([
+            'quantity' => $request->editQuantity,
+            'batch' => $request->editBatch,
+            'expiry_date' => $request->editExpiry,
+        ]);
+
+        $new_available = $old_available + $request->editQuantity;
+
+        $product->update([
+            'available' => $new_available
+        ]);
     }
 
     /**
@@ -115,8 +132,10 @@ class StockItemController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(StockItem $stockItem)
+    public function destroy(Request $request)
     {
         //
+        $stock = StockItem::where('id',$request->stockId)->first();
+        $stock->delete();
     }
 }
