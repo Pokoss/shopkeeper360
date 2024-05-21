@@ -18,6 +18,7 @@ function PointOfSaleScreen({ company, products, cart_items }) {
         var initialOptions = products.data.map((prod) => ({
             value: prod.id,
             label: String(prod.name + ' (' + prod.brand + ') -> UGX ' + Intl.NumberFormat('en-US').format(prod.retail_price)),
+            available: prod.available
         }));
         setOptions(initialOptions);
     }, [products]);
@@ -65,11 +66,11 @@ function PointOfSaleScreen({ company, products, cart_items }) {
     };
     const [inputVal, setInputVal] = useState('');
 
-    const formatOptionLabel = ({ value, label, brand }) => (
+    const formatOptionLabel = ({ value, label, available }) => (
         <div style={{ display: "" }}>
-          <div>{'oioiioioo'}</div>
-          <div style={{ marginLeft: "10px", color: "#ccc" }}>
-            {'oioioi'}
+          <div>{label}</div>
+          <div className='text-green-700 text-sm'>
+            {available + ' remaining'}
           </div>
         </div>
       );
@@ -80,7 +81,8 @@ function PointOfSaleScreen({ company, products, cart_items }) {
         if (!inputValue) {
             var initialOptions = products.data.map((prod) => ({
                 value: prod.id,
-                label: String(prod.name + ' (' + prod.brand + ') -> UGX ' + Intl.NumberFormat('en-US').format(prod.retail_price))
+                label: String(prod.name + ' (' + prod.brand + ') -> UGX ' + Intl.NumberFormat('en-US').format(prod.retail_price)),
+                available: prod.available
             }));
             setOptions(initialOptions);
             return;
@@ -93,6 +95,7 @@ function PointOfSaleScreen({ company, products, cart_items }) {
                 var filteredOptions = productss.map((prod) => ({
                     value: prod.id,
                     label: String(prod.name + ' (' + prod.brand + ') -> UGX ' + Intl.NumberFormat('en-US').format(prod.retail_price)),
+                    available: prod.available
                 }));
                 setOptions(filteredOptions);
             }
@@ -250,7 +253,7 @@ function PointOfSaleScreen({ company, products, cart_items }) {
                     <Select
                         value={selectedOption} // Set the value prop to the selected option state
                         onChange={handleSelectChange} // Call handleSelectChange when an option is selected
-                        // formatOptionLabel={formatOptionLabel}
+                        formatOptionLabel={formatOptionLabel}
                         options={options}
                         isClearable
                         placeholder="Search for a product..."
