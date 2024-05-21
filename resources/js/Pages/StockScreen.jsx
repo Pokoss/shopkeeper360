@@ -198,7 +198,7 @@ function StockScreen({ company, stock_item, product }) {
                             setQuantity('');
                             setExpiry('');
                             setInputVal('');
-                            setSelectedOption(useState(null));
+                            // setSelectedOption(useState(null));
                         }
                     }
                 )
