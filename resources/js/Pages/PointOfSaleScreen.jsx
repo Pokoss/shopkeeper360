@@ -250,7 +250,7 @@ function PointOfSaleScreen({ company, products, cart_items }) {
                     <Select
                         value={selectedOption} // Set the value prop to the selected option state
                         onChange={handleSelectChange} // Call handleSelectChange when an option is selected
-                        formatOptionLabel={formatOptionLabel}
+                        // formatOptionLabel={formatOptionLabel}
                         options={options}
                         isClearable
                         placeholder="Search for a product..."
