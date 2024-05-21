@@ -1,0 +1,1 @@
+import{j as o}from"./app-Dku4P5uR.js";import{L as e}from"./Layout-D4YRCLUt.js";import"./index-BxObqgjV.js";function s(){return o.jsx("div",{children:"PurchaseScreen"})}s.layout=r=>o.jsx(e,{children:r,props:r.props.company});export{s as default};
