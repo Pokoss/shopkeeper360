@@ -88,7 +88,7 @@ function PointOfSaleScreen({ company, products, cart_items }) {
             return;
         }
         try {
-            const response = await axios.get(`/search_stock?q=${inputValue}`,{params:{company_id}});
+            const response = await axios.get(`/search_stock?q=${inputValue}&company_id=${company_id}`);
             if (response.data.product.data && response.data.product.data) {
                 console.log('pro data:', response.data.product.data);
                 const productss = response.data.product.data;
@@ -201,6 +201,9 @@ function PointOfSaleScreen({ company, products, cart_items }) {
         }
         else if (number == '') {
             toast.error('Input the quantity')
+        }
+        else if (selectedOption == null) {
+            toast.error('Select the item')
         }
         else {
 

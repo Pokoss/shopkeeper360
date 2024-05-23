@@ -83,7 +83,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
           </button>
           {/* Logo */}
           <Link href="/" className="block">
-            <img className='w-20 h-20 rounded-full' src={'/' + props.company.logo} />
+            <img className='w-20 h-20 rounded-full' src={props.company.logo!=''?'/'+props.company.logo : '/images/user/user.png'} />
             <span className=" text-white font-bold text-md">{props.company.name}</span>
           </Link>
         </div>

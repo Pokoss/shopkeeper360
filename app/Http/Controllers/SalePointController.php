@@ -29,7 +29,7 @@ class SalePointController extends Controller
         })->with('company', 'user')->where('user_id', Auth::user()->id)->first();
 
 
-        $products = Product::where('name','like','%'.$query.'%')->orWhere('brand','like','%'.$query.'%')->latest()->paginate(20);
+        $products = Product::where('company_id', $comp->company_id)->latest()->paginate(20);
 
         $cart_items = CartItem::with('product')->where('company_id',$comp->company_id)->where('user_id', Auth::user()->id)->latest()->get();
 

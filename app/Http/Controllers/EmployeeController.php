@@ -23,7 +23,11 @@ class EmployeeController extends Controller
             $query->where('slug', $company);
         })->with('company', 'user')->where('user_id', Auth::user()->id)->first();
 
-        $employees = Employee::with('user')->where('company_id',$comp->company_id)->latest()->paginate(10);
+        $employees = Employee::whereHas('user', function ($query) use ($search_text){
+            $query->where('name', 'LIKE', "%{$search_text}%");
+        })->with('user')->where('company_id',$comp->company_id)->latest()->paginate(10);
+
+        // $employees = Employee::with('user')->where('company_id',$comp->company_id)->latest()->paginate(10);
 
         return Inertia::render('EmployeeScreen', ['company' => $comp,'employees'=>$employees]);
     }
@@ -46,10 +50,10 @@ class EmployeeController extends Controller
 
         $user = User::where('email', $request->employeeEmail)->first();
 
-        $check_email = Employee::where('user_id',$user->id)->where('company_id',$request->companyId)->exists();
+        $check_email = Employee::where('user_id',$user->id)->where('company_id',$request->company_id)->exists();
         if(!$check_email){
             Employee::create([
-                'company_id' => $request->companyId,
+                'company_id' => $request->company_id,
                 'user_id' => $user->id,
                 'position' => $request->position,
             ]);
@@ -75,16 +79,22 @@ class EmployeeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Employee $employee)
+    public function update(Request $request)
     {
         //
+        $employee = Employee::where('id',$request->employee_id)->where('company_id',$request->company_id)->first();
+
+        $update = $employee->update([
+            'position'=> $request->position
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Employee $employee)
+    public function destroy(Request $request)
     {
         //
+        $employee = Employee::where('id', $request->employee_id)->delete();
     }
 }

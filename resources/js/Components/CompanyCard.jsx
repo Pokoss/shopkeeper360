@@ -13,7 +13,7 @@ function CompanyCard({props}) {
         <div className='flex items-center'>
 
 
-          <Avatar className='mr-2' src={props.company.logo!=''?props.company.logo:'/images/user/user.png'}></Avatar>
+          <Avatar className='mr-2' src={props.company.logo!=''?'/'+props.company.logo : '/images/user/user.png'}></Avatar>
           <div className="flex justify-between py-4 px-2 items-center w-full border-b-2 ">
             <div className="w-full content-start">
               <div className=" text-start text-lg font-semibold">{props.company.name}</div>

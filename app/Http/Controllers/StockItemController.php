@@ -27,10 +27,10 @@ class StockItemController extends Controller
         // $stock = StockItem::with('product')->where('company_id',$comp->company_id)->get();
 
         $stock = StockItem::whereHas('product', function ($query) use ($search_text){
-            $query->where('name','like','%'.$search_text.'%')->orWhere('brand','like','%'.$search_text.'%');
+            $query->where('name', 'LIKE', "%{$search_text}%")->orWhere('name', 'LIKE', "%{$search_text}%");
         })->with('product')->where('company_id',$comp->company_id)->latest()->paginate(10);
 
-        $product = Product::where('name','like','%'.$request->product_search.'%')->orWhere('brand','like','%'.$request->product_search.'%')->latest()->paginate(20);
+        $product = Product::where('company_id', $comp->company_id)->latest()->paginate(20);
 
         // return Response(['product'=> $product]);
 
@@ -42,8 +42,14 @@ class StockItemController extends Controller
     public function search(Request $request)
     {
         $query = $request->input('q');
+        $company_id = $request->input('company_id');
+        
 
-        $products = Product::where('name','like','%'.$query.'%')->orWhere('brand','like','%'.$query.'%')->where('company_id',$request->company_id)->latest()->paginate(20);
+        // $products = Product::where('company_id',$company_id)->where('name', 'LIKE', "%{$query}%")->latest()->paginate(20);
+        
+        $products = Product::where(function ($q) use ($query){
+            $q->where('name', 'LIKE', "%{$query}%")->orWhere('brand', 'LIKE', "%{$query}%");
+        })->where('company_id',$company_id)->latest()->paginate(20);
 
         return Response(['product' => $products]);
     }

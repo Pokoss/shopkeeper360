@@ -43,7 +43,7 @@ function UserMenu({props}) {
         onClick={() => setDropdownOpen(true)}
         aria-expanded={dropdownOpen}
       >
-        <img src={'/images/company/lehub-logo.jpg'} className="w-8 h-8 rounded-full"
+        <img src={'/images/user/user.png'} className="w-8 h-8 rounded-full"
 
           width="32" height="32" alt=""
         />
@@ -68,26 +68,26 @@ function UserMenu({props}) {
               <div className="font-medium text-gray-800">{props.user.name}</div>
               <div className="text-xs italic text-gray-500">{props.user.email}</div>
             </div>
-            {/* <ul>
-              <li>
+            <ul>
+              {/* <li>
                 <Link
                   className="flex items-center px-3 py-1 text-sm font-medium text-indigo-500 hover:text-indigo-600"
                   href="/profile"
                 >
                   Profile
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <form onSubmit=''>
-                  <button
-                    className="flex items-center px-3 py-1 text-sm font-medium text-indigo-500 hover:text-indigo-600"
+                  <Link href={route('logout')} method="post" as="button"
+                    className="w-full flex items-center px-3 py-1 text-sm font-medium text-indigo-500 hover:text-indigo-600"
                     type="submit"
                   >
                     Sign Out
-                  </button>
+                  </Link>
                 </form>
               </li>
-            </ul> */}
+            </ul>
           </div>
         </section>
       }

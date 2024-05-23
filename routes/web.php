@@ -39,10 +39,19 @@ use Inertia\Inertia;
 Route::get('/', function () {
     return Inertia::render('HomeScreen');
 });
-
-Route::get('/business/register', function () {
-    return Inertia::render('RegisterCompanyScreen');
+Route::get('/home', function () {
+    return Inertia::render('UserHomeScreen');
 });
+Route::get('/home',[CompanyController::class, 'businesses']);
+Route::get('/business/{slug}',[CompanyController::class, 'view_business']);
+
+// Route::get('/business-home', function () {
+//     return Inertia::render('UserBusinessScreen');
+// });
+Route::get('/product-details', function () {
+    return Inertia::render('UserProductDetailsScreen');
+});
+
 Route::get('/dashboard/pos', function () {
     return Inertia::render('PointOfSaleScreen');
 });
@@ -53,9 +62,9 @@ Route::get('/dashboard/inventory/product', function () {
 Route::get('/dashboard/inventory/stock', function () {
     return Inertia::render('StockScreen');
 });
-Route::get('/dashboard/hr/employee', function () {
-    return Inertia::render('EmployeeScreen');
-});
+// Route::get('/dashboard/hr/employee', function () {
+//     return Inertia::render('EmployeeScreen');
+// });
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -66,10 +75,15 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
-    Route::get('/business', [CompanyController::class, 'index']);
+    Route::get('/company/register', function () {
+        return Inertia::render('RegisterCompanyScreen');
+    });
+    Route::get('/company', [CompanyController::class, 'index']);
     Route::get('/dashboard/{company}', [CompanyController::class, 'show']);
     
     Route::get('/dashboard/{company}', [DashboardHomeController::class, 'index']);
+
+    Route::post('/register-company', [CompanyController::class, 'store']);
 
     Route::get('/dashboard/{company}/inventory/supplier', [SupplierController::class, 'index']);
     Route::get('/dashboard/{company}/inventory/product', [ProductController::class, 'index']);
@@ -89,6 +103,7 @@ Route::middleware('auth')->group(function () {
     
     
     Route::get('/dashboard/{company}/hr/employee', [EmployeeController::class, 'index']);
+    Route::post('/add-employee', [EmployeeController::class, 'store']);
 
     Route::post('/addtocart', [CartItemController::class, 'store']);
     Route::post('/delete_cart_item', [CartItemController::class, 'destroy']);

@@ -24,7 +24,11 @@ class ProductController extends Controller
             $query->where('slug', $company);
         })->with('company', 'user')->where('user_id', Auth::user()->id)->first();
 
-        $products =  Product::with('measurement')->where('company_id',$comp->company_id)->where('name', 'LIKE', "%{$search_text}%")->orWhere('brand', 'LIKE', "%{$search_text}%")->latest()->paginate(10);
+        $products = Product::where(function ($query) use ($search_text){
+            $query->where('name', 'LIKE', "%{$search_text}%")->orWhere('brand', 'LIKE', "%{$search_text}%");
+        })->with('measurement')->where('company_id',$comp->company_id)->latest()->paginate(10);
+
+        // $products =  Product::with('measurement')->where('company_id',$comp->company_id)->where('name', 'LIKE', "%{$search_text}%")->latest()->paginate(10);
         $measurement = Measurement::get();
 
         return Inertia::render('ProductScreen', ['company' => $comp,'products' => $products,'measurements'=>$measurement]);

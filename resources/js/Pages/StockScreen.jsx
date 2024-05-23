@@ -71,8 +71,9 @@ function StockScreen({ company, stock_item, product }) {
             return;
         }
         try {
-            const response = await axios.get(`/search_stock?q=${inputValue}`);
-            console.log('full response', response)
+            var company_id = company.company_id;
+            const response = await axios.get(`/search_stock?q=${inputValue}&company_id=${company_id}`);
+            console.log('full response', response.data)
             if (response.data.product.data && response.data.product.data) {
                 console.log('pro data:', response.data.product.data);
                 const productss = response.data.product.data;
@@ -137,7 +138,7 @@ function StockScreen({ company, stock_item, product }) {
         },
         {
             name: 'Expiry Date',
-            selector: row => row.expiry_date,
+            selector: row => row.expiry_date == null? "No date":new Date(row.expiry_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric'}),
         },
         ,
         {
@@ -152,7 +153,7 @@ function StockScreen({ company, stock_item, product }) {
         },
     ];
 
-    const [page, setPage] = useState(products.current_page);
+    const [page, setPage] = useState(stock_item.current_page);
     const fetchData = (page) => {
         router.get(`/dashboard/${company.company.slug}/inventory/stock`, { page,search }, { preserveState: true });
     };
