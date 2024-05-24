@@ -233,10 +233,10 @@ function HomeScreen() {
                             </div>
 
                             <div>
-                                <h1 className="text-xl font-semibold text-gray-700">What destinations in Uganda does Vialey Kankou Tours cover?</h1>
+                                <h1 className="text-xl font-semibold text-gray-700">What type of businesses can use the shopkeeper360 system</h1>
 
                                 <p className="mt-2 text-sm text-gray-500">
-                                    Vialey Kankou Tours covers a wide range of destinations in Uganda, including popular national parks like Bwindi Impenetrable National Park, Queen Elizabeth National Park, Murchison Falls National Park, and more. We also offer city tours in Kampala and cultural experiences in local communities.
+                                    The shopkeeper360 system is designed for all retail type of businesses like shops, supermarkets hardware stores, electronic stores, pharmacies, restaurants and cosmetic stores and so many more. Has long has there is a product that can be sold to customers we are here to help you thrive and get reach more customers 
                                 </p>
                             </div>
                         </div>
@@ -249,10 +249,10 @@ function HomeScreen() {
                             </div>
 
                             <div>
-                                <h1 className="text-xl font-semibold text-gray-700">Are your packages customizable?</h1>
+                                <h1 className="text-xl font-semibold text-gray-700">What happens if i fail to renew my subscription</h1>
 
                                 <p className="mt-2 text-sm text-gray-500">
-                                    Absolutely! We offer both pre-designed packages and fully customizable itineraries. If our pre-designed packages don't meet your specific requirements, our experienced team can tailor an itinerary to match your interests, preferences, and budget. Just let us know your preferences, and we'll create a unique and memorable journey just for you.
+                                    Pretty much nothing big, we disable the important features from working but your data still remains safe until you renew the subscription. We also give reminders and a 4 day grace period to enable you proceed, our aim is to make sure your business succeeds and if it does ours does too.
                                 </p>
                             </div>
                         </div>
@@ -265,10 +265,11 @@ function HomeScreen() {
                             </div>
 
                             <div>
-                                <h1 className="text-xl font-semibold text-gray-700">What types of vehicles do you offer for car hire?</h1>
+                                <h1 className="text-xl font-semibold text-gray-700">Does your system work offline</h1>
 
                                 <p className="mt-2 text-sm text-gray-500">
-                                    We have a diverse fleet of well-maintained vehicles available for car hire, including sedans, SUVs, minibusses, and 4x4 vehicles suitable for safaris. Our vehicles are equipped with modern amenities and maintained to ensure your comfort and safety during your travels.
+                                    Currently the system is fully online but we are soon releasing an offline sale point where by you can sell and make transactions without interent then later on you when you get internet connect it the data of your transactions will be automatically uploaded. 
+                
                                 </p>
                             </div>
                         </div>
@@ -284,7 +285,7 @@ function HomeScreen() {
                                 <h1 className="text-xl font-semibold text-gray-700">What is your cancellation policy?</h1>
 
                                 <p className="mt-2 text-sm text-gray-500">
-                                    Our cancellation policy may vary depending on the specific package or service booked. We recommend reviewing our terms and conditions or contacting our team directly for detailed information regarding cancellations, refunds, and any applicable fees.
+                                    Our cancellation policy may vary depending on the specific reason of the package. If you feel you wish to discontinue the use of the system. No pentalty will be given, just simply stop the use of the system. Or let the subcription expire. You thoroughly revise through our terms and contions and privacy policy, or you could contact our team on any of the provided platforms.
                                 </p>
                             </div>
                         </div>
@@ -297,10 +298,10 @@ function HomeScreen() {
                             </div>
 
                             <div>
-                                <h1 className="text-xl font-semibold text-gray-700">Is travel insurance included in your packages?</h1>
+                                <h1 className="text-xl font-semibold text-gray-700">If my retail store has very many products, do you do data entry for us?</h1>
 
                                 <p className="mt-2 text-sm text-gray-500">
-                                    No, travel insurance is not included in our packages. We highly recommend obtaining comprehensive travel insurance to protect yourself against unexpected events, including trip cancellations, medical emergencies, or lost luggage. Please ensure you have suitable travel insurance coverage before embarking on your journey.
+                                    If you feel it will be difficult to enter the data first time, we can offer to get for you data entrants who you will compensate with shs.50 per product entered and stocked on the system. These are proffessionals and will ensure the data is entered  correctly.
                                 </p>
                             </div>
                         </div>
@@ -313,10 +314,10 @@ function HomeScreen() {
                             </div>
 
                             <div>
-                                <h1 className="text-xl font-semibold text-gray-700">How can I contact Vialey Kankou Tours for further assistance or inquiries?</h1>
+                                <h1 className="text-xl font-semibold text-gray-700">How can I contact Shopkeeper360 for further assistance or inquiries?</h1>
 
                                 <p className="mt-2 text-sm text-gray-500">
-                                    For further assistance or inquiries, you can reach our friendly team through various channels. You can fill out the contact form on our website, email us at info@vialeykankoutours.com, or call us at +256-393-246-536. We'll be more than happy to assist you and provide any additional information you may need.
+                                    For further assistance or inquiries, you can reach our friendly team through various channels. You can fill out the contact form on our website, email us at info@lehub.dev, or call us at +256-765-974-111. We'll be more than happy to assist you and provide any additional information you may need.
                                 </p>
                             </div>
                         </div>

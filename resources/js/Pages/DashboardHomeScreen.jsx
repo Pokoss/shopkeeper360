@@ -161,9 +161,9 @@ function DashboardHomeScreen({ company, sales_today, customer_visits, out_of_sto
               <img src='/images/access/department.png' alt="" className='w-14' />
               <span className='text-base'>Customers</span>
             </Link>
-            <Link href={`/dashboard/${company.company.slug}/accounting/income`} className='w-full bg-white rounded m-1 flex flex-col items-center space-y-3 py-3 border-b-4 border-transparent hover:border-tertiary cursor-pointer'>
+            <Link href={`/dashboard/${company.company.slug}/accounting/receipts`} className='w-full bg-white rounded m-1 flex flex-col items-center space-y-3 py-3 border-b-4 border-transparent hover:border-tertiary cursor-pointer'>
               <img src='/images/access/income.png' alt="" className='w-14' />
-              <span className='text-base'>Income</span>
+              <span className='text-base'>Receipts</span>
             </Link>
             <Link href={`/dashboard/${company.company.slug}/accounting/expenses`} className='w-full  rounded m-1 flex flex-col items-center space-y-3 py-3 border-b-4 border-transparent hover:border-tertiary cursor-pointer'>
               <img src='/images/access/expense.png' alt="" className='w-14' />

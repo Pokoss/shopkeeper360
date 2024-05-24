@@ -80,6 +80,9 @@ class SalePointController extends Controller
             ]);
             $product = Product::where('id',$cartItem->product_id)->first();
             $new_available = $product->available - $cartItem->quantity;
+            if($new_available<0){
+                $new_available = 0;
+            }
             $product->update(['available'=>$new_available]);
         }
 

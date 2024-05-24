@@ -274,7 +274,7 @@ function EmployeeScreen({ company, employees }) {
                 >
                     <DialogHeader>
                         <Typography variant="h5" color="blue-gray">
-                            Edit a Stock
+                            Edit Employee
                         </Typography>
                     </DialogHeader>
                     <form

@@ -154,8 +154,6 @@ function PointOfSaleScreen({ company, products, cart_items }) {
     function registerPay() {
         var company_id = company.company.id;
         
-       
-
         
         if(cart_items.length == 0 ){
             toast.error('You cant sale nothing')
@@ -169,13 +167,12 @@ function PointOfSaleScreen({ company, products, cart_items }) {
                     
                     toast.success('Success');
                     try {
-                        const response = await axios.get(`/getlastsale`,{company_id});
+                        const response = await axios.get(`/getlastsale?company_id=${company_id}`);
                         console.log(response);
                         if (response.data && response.data) {
                             console.log('pro data:', response.data);
                             setReceiptProducts(response.data);
                             handleOpen("xl")
-                            
                         }
                         else {
                             console.error('unexpected')
@@ -353,7 +350,7 @@ function PointOfSaleScreen({ company, products, cart_items }) {
                     <DialogFooter>
                             <div className='flex w-full justify-between'>
 
-                                <Button  variant="gradient" color="red">
+                                <Button  onClick={handleOpen} variant="gradient" color="red">
                                     Ignore
                                 </Button>
                                 <div className="space-x-2">

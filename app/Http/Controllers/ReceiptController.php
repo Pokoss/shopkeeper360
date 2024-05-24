@@ -46,7 +46,7 @@ class ReceiptController extends Controller
     public function sale(Request $request)
     {
         //
-        $receipt = Receipt::with('sales.product','user')->where('company_id',1)->where('sold_by', Auth::user()->id)->latest()->first();
+        $receipt = Receipt::with('sales.product','user')->where('company_id',$request->company_id)->where('sold_by', Auth::user()->id)->latest()->first();
 
         return Response(['receipts'=>$receipt]);
     }

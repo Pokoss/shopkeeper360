@@ -178,7 +178,7 @@ function ReceiptScreen({company, receipts}) {
                     <DialogFooter>
                             <div className='flex w-full justify-between'>
 
-                                <Button  variant="gradient" color="red">
+                                <Button onClick={handleOpen} variant="gradient" color="red">
                                     Ignore
                                 </Button>
                                 <div className="space-x-2">

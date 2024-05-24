@@ -7,6 +7,7 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Head, Link, useForm } from '@inertiajs/react';
 import Navbar from '@/Layouts/components/Navbar';
+import Footer from '@/Layouts/components/Footer';
 
 export default function Login({ status, canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -98,6 +99,7 @@ export default function Login({ status, canResetPassword }) {
                 </div>
             </form>
         </GuestLayout>
+        <Footer/>
         </div>
     );
 }
