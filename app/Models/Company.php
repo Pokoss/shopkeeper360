@@ -15,12 +15,19 @@ class Company extends Model
         'name',
         'slug',
         'logo',
-        'contact',
+        'contacts',
+        'category_id',
         'location',
         'email',
+        'latitude',
+        'longitude',
+        'subscription_date',
+        'subscription_expiry',
+        'slogan',
+        'status',
     ];
-    // public function events(){
-    //     return $this->hasMany(Event::class);
-    // }
+    public function category(){
+        return $this->belongsTo(BusinessCategory::class,'category_id','id');
+    }
 }
 

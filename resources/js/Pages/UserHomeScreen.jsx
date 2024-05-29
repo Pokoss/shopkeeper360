@@ -8,75 +8,73 @@ import React from 'react'
 
 var mapping = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
-function UserHomeScreen({businesses}) {
+function UserHomeScreen({ businesses, products, business }) {
 
-    console.log(businesses)
+    console.log(products)
     return (
-
-
         <div>
             <Navbar />
             <section className="flex flex-col lg:flex-row lg:space-x-5 justify-center items-center bg-gray-100 p-2 lg:p-10">
-                    <div className='w-full  lg:w-4/6'>
-                        <Splide options={{
-                            rewind: true,
-                            autoplay: true,
-                        }}>
-                            {
-                                businesses.data && businesses.data.map((soon => (
-                                    <SplideSlide >
-                                        <Link className='items-center w-full' href={`/business/${soon.slug}`}>
-                                            <div className='flex flex-col items-center justify-center h-full lg:flex-row hover:bg-gray-300'>
-                                                <img className="h-96 w-full object-cover bg-white lg:w-3/6 mr-4  sm:h-90" src={`/${soon.logo}`} alt="" />
-                                                <div className="w-full justify-start lg:w-3/6 lg:flex-1 space-y-4 mt-2 sm:text-center  text-left">
-                                                    <h1 className="text-2xl lg:text-3xl font-bold text-primary hover:underline text-left">
-                                                        {soon.name}
-                                                    </h1>
-                                                    <p className="w-full max-w-xl text-md leading-relaxed text-gray-800 lg:ml-0 text-left">
-                                                        {soon.location}
-                                                    </p>
-                                                    {/* <p className="w-full font-thin text-sm max-w-xl text-md leading-relaxed text-gray-800 lg:ml-0 text-left">
+                <div className='w-full  lg:w-4/6'>
+                    <Splide options={{
+                        rewind: true,
+                        autoplay: true,
+                    }}>
+                        {
+                            business && business.map((soon => (
+                                <SplideSlide >
+                                    <Link className='items-center w-full' href={`/business/${soon.slug}`}>
+                                        <div className='flex flex-col items-center justify-center h-full lg:flex-row hover:bg-gray-300'>
+                                            <img className="h-96 w-full object-cover bg-white lg:w-3/6 mr-4  sm:h-90" src={`/${soon.logo}`} alt="" />
+                                            <div className="w-full justify-start lg:w-3/6 lg:flex-1 space-y-4 mt-2 sm:text-center  text-left">
+                                                <h1 className="text-2xl lg:text-3xl font-bold text-primary hover:underline text-left">
+                                                    {soon.name}
+                                                </h1>
+                                                <p className="w-full max-w-xl text-md leading-relaxed text-gray-800 lg:ml-0 text-left">
+                                                    {soon.location}
+                                                </p>
+                                                {/* <p className="w-full font-thin text-sm max-w-xl text-md leading-relaxed text-gray-800 lg:ml-0 text-left">
                                                         {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' })}
                                                     </p> */}
-                                                    <div className="block text-primary rounded-md hover:underline text-left">
-                                                        View this business
-                                                    </div>
+                                                <div className="block text-primary rounded-md hover:underline text-left">
+                                                    View this business
                                                 </div>
                                             </div>
-                                        </Link>
-                                    </SplideSlide>
+                                        </div>
+                                    </Link>
+                                </SplideSlide>
 
-                                )))
-                            }
-                        </Splide>
-                    </div>
-                    <div className='hidden md:block w-full lg:w-2/6 text-gray-200'>
-                        <h1 className='font-semibold text-lg text-primary'>RECENTLY JOINED BUSINESSES</h1>
-                        {
-                            businesses.data && businesses.data.map((recent => (
-                                <Link href={`/business/${recent.slug}`}>
-                                    <VideoListCard image={'/' + recent.logo} title={recent.name} time={recent.location} />
-                                </Link>
                             )))
                         }
+                    </Splide>
+                </div>
+                <div className='hidden md:block w-full lg:w-2/6 text-gray-200'>
+                    <h1 className='font-semibold text-lg text-primary'>RECENTLY ADDED ITEMS</h1>
+                    {
+                        products && products.map((recent => (
+                            <Link href={`/product/${recent.slug}`}>
+                                <VideoListCard image={'/' + recent.image} price={recent.product.retail_price} title={recent.product.name} time={'By ' + recent.company.name} />
+                            </Link>
+                        )))
+                    }
 
-                        {/* <Link href='/ssgtv' className='flex space-x-2 items-center font-semibold text-base text-primary float-right hover:underline'>
+                    {/* <Link href='/ssgtv' className='flex space-x-2 items-center font-semibold text-base text-primary float-right hover:underline'>
                             <span>See More Recently added Events</span>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 animate-pulse">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
                             </svg>
                         </Link> */}
-                    </div>
+                </div>
 
-                </section>
+            </section>
 
             <div className='w-full fill'>
 
                 <div className='container mx-auto flex flex-wrap  max-w-full'>
                     <main className="m-2 w-full md:w-4/5 flex flex-col items-center">
-                    <div className='flex w-full justify-center'>
-                        <p className='text-lg text-primary font-semibold'>Businesses</p>
-                    </div>
+                        <div className='flex w-full justify-center'>
+                            <p className='text-lg text-primary font-semibold'>Businesses</p>
+                        </div>
                         <div className="w-full mt-3 grid grid-cols-1 gap-y-3 gap-x-2 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-3">
                             {
                                 businesses.data && businesses.data.map(m => (
@@ -111,7 +109,7 @@ function UserHomeScreen({businesses}) {
                                                     </svg>
 
                                                     <p className="ml-2 text-gray-700 text-xs mb-2 font-light">
-                                                       {m.location}
+                                                        {m.location}
                                                     </p>
 
                                                 </div>
@@ -129,7 +127,7 @@ function UserHomeScreen({businesses}) {
                     </aside>
                 </div>
             </div>
-<Footer/>
+            <Footer />
         </div>
     )
 }

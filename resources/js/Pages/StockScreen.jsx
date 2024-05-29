@@ -30,7 +30,7 @@ function StockScreen({ company, stock_item, product }) {
     const [selectedOption, setSelectedOption] = useState(null);
     const handleSelectChange = (selectedOption) => {
         setSelectedOption(selectedOption); // Update selectedOption state when an option is selected
-        console.log(selectedOption.value)
+        console.log(selectedOption)
     };
 
     
@@ -44,9 +44,9 @@ function StockScreen({ company, stock_item, product }) {
     const [editExpiry, setEditExpiry] = useState('');
     const [editQuantity, setEditQuantity] = useState('');
 
-    function editStock(name, brand, quantity, batch, expiry) {
+    function editStock(name, quantity, batch, expiry) {
         handleOpenEdit("xl")
-        setEditName(name + ' (' + brand + ')');
+        setEditName(name);
         setEditQuantity(quantity);
         setEditBatch(batch);
         setEditExpiry(expiry);
@@ -55,7 +55,7 @@ function StockScreen({ company, stock_item, product }) {
     useEffect(() => {
         var initialOptions = product.data.map((prod) => ({
             value: prod.id,
-            label: String(prod.name + ' (' + prod.brand + ')'),
+            label: String(prod.name),
         }));
         setOptions(initialOptions);
     }, [product]);
@@ -65,7 +65,7 @@ function StockScreen({ company, stock_item, product }) {
         if (!inputValue) {
             var initialOptions = product.data.map((prod) => ({
                 value: prod.id,
-                label: String(prod.name + ' (' + prod.brand + ')')
+                label: String(prod.name)
             }));
             setOptions(initialOptions);
             return;
@@ -79,7 +79,7 @@ function StockScreen({ company, stock_item, product }) {
                 const productss = response.data.product.data;
                 var filteredOptions = productss.map((prod) => ({
                     value: prod.id,
-                    label: String(prod.name + ' (' + prod.brand + ')'),
+                    label: String(prod.name),
 
                 }));
                 setOptions(filteredOptions);
@@ -125,10 +125,6 @@ function StockScreen({ company, stock_item, product }) {
             selector: row => row.product.name,
         },
         {
-            name: 'Brand',
-            selector: row => row.product.brand,
-        },
-        {
             name: 'Quantity',
             selector: row => row.quantity,
         },
@@ -146,7 +142,7 @@ function StockScreen({ company, stock_item, product }) {
             selector: row => new Date(row.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }),
         },
         {
-            selector: row => <button onClick={() => editStock(row.product.name, row.product.brand, row.quantity, row.batch, row.expiry_date)} className='bg-green-600 rounded-md p-1'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-5 h-5">
+            selector: row => <button onClick={() => editStock(row.product.name, row.quantity, row.batch, row.expiry_date)} className='bg-green-600 rounded-md p-1'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-5 h-5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
             </svg>
             </button>
@@ -258,6 +254,7 @@ function StockScreen({ company, stock_item, product }) {
                                 value={expiry} onChange={(event) => setExpiry(event.target.value)}
                             />                    
                         </DialogBody>
+                        
                         <DialogFooter className="space-x-2">
                             <Button onClick={handleOpen} variant="gradient" color="blue-gray">
                                 Close

@@ -9,7 +9,7 @@ import DataTable from "react-data-table-component";
 const columns = [
     {
         name: <b>Item</b>,
-        selector: row => row.product.name + ' ('+row.product.brand+')',
+        selector: row => row.product.name,
         wrap: true,
     },
     {

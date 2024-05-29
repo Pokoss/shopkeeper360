@@ -19,6 +19,13 @@ return new class extends Migration
             $table->string('contacts')->nullable();
             $table->string('location')->nullable();
             $table->string('email')->nullable();
+            $table->bigInteger('category_id')->nullable();
+            $table->string('latitude')->nullable();
+            $table->string('longitude')->nullable();
+            $table->string('subscription_date')->nullable();
+            $table->string('subscription_expiry')->nullable();
+            $table->string('slogan')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

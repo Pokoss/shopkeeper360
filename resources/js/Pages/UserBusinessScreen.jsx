@@ -4,13 +4,13 @@ import { Link } from '@inertiajs/react'
 import { Avatar } from '@material-tailwind/react'
 import React from 'react'
 
-function UserBusinessScreen({business}) {
-    console.log(business)
-    // var mapping = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-  return (
-    <div>
-        <Navbar/>
-         <div className="w-full  p-5 shadow-sm shadow-primary bg-white">
+function UserBusinessScreen({ business, category, products }) {
+    console.log(products)
+    var mapping = [1, 2, 3, 4, 5, 6, 7, 8]
+    return (
+        <div>
+            <Navbar />
+            <div className="w-full  p-5 shadow-sm shadow-primary bg-white">
                 <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
                     <div className="grid-cols-1 lg:col-span-3">
                         <div className="mx-auto flex items-center justify-center  ">
@@ -52,90 +52,105 @@ function UserBusinessScreen({business}) {
                         <div className="mt-6 grid grid-cols-2 gap-4">
                             <Link to={`/businesscart`} className="w-full rounded-xl border-2 border-blue-500 bg-white px-3 py-2 font-semibold text-blue-500 hover:bg-blue-500 hover:text-white" ><p className='w-full text-center'>My Cart</p></Link>
 
-                            <button className="w-full rounded-xl border-2 border-red-500 bg-white px-3 py-2 font-semibold text-red-500 hover:bg-red-500 hover:text-white" >Orders</button>
+                            <button className="w-full rounded-xl border-2 border-red-500 bg-white px-3 py-2 font-semibold text-red-500 hover:bg-red-500 hover:text-white" >Add Favorite</button>
                         </div>
                     </div>
                 </div>
 
 
             </div>
-                <div className='container mx-auto flex flex-wrap  max-w-full'>
-                    <main className="m-2 w-full md:w-4/5 flex flex-col items-center">
+            <div className='container mx-auto flex flex-wrap  max-w-full'>
+                <main className="p-2 w-full md:w-4/5 flex flex-col items-center">
 
                     <form className='mt-5'>
-          <div className='flex rounded-md mb-10 mx-5'>
-            <input
-              className="shadow appearance-none border rounded-l-md w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="articleTitle"
-              type="text"
-              placeholder="Search for an item"
-            //   value={data.search_text ?? ''}
-            //   onChange={(event) => setData('search_text', event.target.value)}
-            />
-            <button type='submit' className='bg-primary px-4 rounded-r-md shadow text-white'>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-              </svg>
-            </button>
-          </div>
-        </form>
-                    <div className="w-full mt-3 grid grid-cols-1 gap-y-3 gap-x-2 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-3">
-                            {
-                                // mapping.map(m => (
-                                //     <Link href={`${'/images/team/opoka-daniel.jepg'}`}>
-                                //         <div className='cursor-pointer w-full'
-                                //         // to={`/escorts/${link}`}
-                                //         //   state={{ id: '' }}
-                                //         >
-
-                                //             <img
-                                //                 src={'/images/team/hannah-mercy.jpg'}
-                                //                 className="object-cover w-full h-64 sm:h-90"
-                                //                 alt=""
-                                //             />
-                                //             <div className="p-4 border border-t-0" >
-
-
-                                //                 <div className='justify-between'>
-                                //                     <p
-
-                                //                         aria-label="Category"
-                                //                         title="Visit the East"
-                                //                         className="inline-block mb-3 text-lg font-medium   leading-5 transition-colors duration-200 hover:text-deep-purple-accent-700"
-                                //                     >
-                                //                         Lehub Supermarket
-                                //                     </p>
-                                //                 </div>
-
-
-                                //                 <div className='flex justify-start align-middle'>
-                                //                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-                                //                         <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
-                                //                         <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
-                                //                     </svg>
-
-                                //                     <p className="ml-2 text-gray-700 text-xs mb-2 font-light">
-                                //                         Kampala
-                                //                     </p>
-
-                                //                 </div>
-
-                                //             </div>
-                                //         </div>
-                                //     </Link>
-                                // ))
-                            }
+                        <div className='flex rounded-md mb-10 mx-5'>
+                            <input
+                                className="shadow appearance-none border rounded-l-md w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                id="articleTitle"
+                                type="text"
+                                placeholder="Search for an item here"
+                            //   value={data.search_text ?? ''}
+                            //   onChange={(event) => setData('search_text', event.target.value)}
+                            />
+                            <button type='submit' className='bg-primary px-4 rounded-r-md shadow text-white'>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                                </svg>
+                            </button>
                         </div>
+                    </form>
+                    <div className="w-full mt-3 grid grid-cols-2 gap-y-3 gap-x-2 sm:grid-cols-3 lg:grid-cols-4 xl:gap-x-3">
+                        {
+                            category.map(m => (
+                                <div className='rounded-xl bg-primary p-5'>
+                                    <p className='text-white font-semibold text-center'>{m.name}</p>
+                                </div>
+                            ))
 
 
-                    </main>
-                    <aside className="p-2 w-full md:w-1/5 flex flex-col items-center">
-
-                    </aside>
+                        }
                     </div>
-                    <Footer/>
-    </div>
-  )
+                    <div className='flex w-full justify-center mt-14'>
+                        <p className='text-lg text-primary font-bold'>All Items</p>
+                    </div>
+
+
+                    <div className="w-full mt-3 grid grid-cols-2 gap-y-3 gap-x-2 sm:grid-cols-3 lg:grid-cols-4 xl:gap-x-3">
+                        {
+                            products.data && products.data.map(m => (
+                                <Link href={`/product/${m.slug}`}>
+                                    <div className='cursor-pointer w-full'
+                                    // to={`/escorts/${link}`}
+                                    //   state={{ id: '' }}
+                                    >
+
+                                        <img
+                                            src={`/${m.image}`}
+                                            className="object-cover w-full h-64 sm:h-90"
+                                            alt=""
+                                        />
+                                        <div className="p-2 border border-t-0" >
+
+
+                                            <div className='justify-between'>
+                                                <p
+
+                                                    aria-label="Category"
+                                                    title="Visit the East"
+                                                    className="inline-block mb-2 text-lg font-medium line-clamp-2  leading-5 transition-colors duration-200 hover:text-deep-purple-accent-700"
+                                                >
+                                                    {m.product.name}
+                                                </p>
+                                            </div>
+
+
+                                            <div className='justify-start'>
+                                                {/* <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                                                    </svg> */}
+
+                                                <p className="text-red-700 mb-2 font-semibold line-clamp-1">
+                                                    {`UGX ${Intl.NumberFormat('en-US').format(m.product.retail_price)}`}
+                                                </p>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </Link>
+                            ))
+                        }
+                    </div>
+
+                </main>
+                <aside className="p-2 w-full md:w-1/5 flex flex-col items-center">
+                    <a className="uppercase mt-5" href="">Promoted</a>
+                </aside>
+            </div>
+            <Footer />
+        </div>
+    )
 }
 
 export default UserBusinessScreen

@@ -3,7 +3,7 @@ import React, { Fragment, useEffect, useState,useRef } from 'react'
 import Select from 'react-select'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { router } from '@inertiajs/react';
+import { router,Link } from '@inertiajs/react';
 import Receipt from '@/Components/Receipt';
 import { useReactToPrint } from "react-to-print";
 import { Button, Dialog, DialogBody, DialogFooter, DialogHeader, Input, Typography } from '@material-tailwind/react';
@@ -17,7 +17,7 @@ function PointOfSaleScreen({ company, products, cart_items }) {
     useEffect(() => {
         var initialOptions = products.data.map((prod) => ({
             value: prod.id,
-            label: String(prod.name + ' (' + prod.brand + ') -> UGX ' + Intl.NumberFormat('en-US').format(prod.retail_price)),
+            label: String(prod.name + ' -> UGX ' + Intl.NumberFormat('en-US').format(prod.retail_price)),
             available: prod.available
         }));
         setOptions(initialOptions);
@@ -81,7 +81,7 @@ function PointOfSaleScreen({ company, products, cart_items }) {
         if (!inputValue) {
             var initialOptions = products.data.map((prod) => ({
                 value: prod.id,
-                label: String(prod.name + ' (' + prod.brand + ') -> UGX ' + Intl.NumberFormat('en-US').format(prod.retail_price)),
+                label: String(prod.name +' -> UGX ' + Intl.NumberFormat('en-US').format(prod.retail_price)),
                 available: prod.available
             }));
             setOptions(initialOptions);
@@ -94,7 +94,7 @@ function PointOfSaleScreen({ company, products, cart_items }) {
                 const productss = response.data.product.data;
                 var filteredOptions = productss.map((prod) => ({
                     value: prod.id,
-                    label: String(prod.name + ' (' + prod.brand + ') -> UGX ' + Intl.NumberFormat('en-US').format(prod.retail_price)),
+                    label: String(prod.name + ' -> UGX ' + Intl.NumberFormat('en-US').format(prod.retail_price)),
                     available: prod.available
                 }));
                 setOptions(filteredOptions);
@@ -113,7 +113,7 @@ function PointOfSaleScreen({ company, products, cart_items }) {
     let [number, setNumber] = useState(0);
     function addNumber() {
         if (number == 1000) {
-            toast.error('Best I can do is 10 ' + props.name + ' tickets');
+            toast.error('1000 is the max number');
         } else {
             number = number + 1;
             setNumber(parseInt(number));
@@ -121,9 +121,9 @@ function PointOfSaleScreen({ company, products, cart_items }) {
     }
     function subtractNumber() {
         if (number == 0) {
-            toast.error('Seriously!! You want negative tickets')
+            toast.error('Quantity below 0 is forbidden')
         } else {
-            number = number - 1;
+            number = number - 1;                
             setNumber(parseInt(number));
         }
     }
@@ -300,10 +300,12 @@ function PointOfSaleScreen({ company, products, cart_items }) {
                     </thead>
                     <tbody className="text-gray-600 dark:text-gray-100 ">
                         {
+
                             cart_items && cart_items.map((item => (
+                        
                                 <tr key={item.id} className='w-full justify-end'>
-                                    <td className="sm:px-3 py-2 px-1 border-b border-gray-200 dark:border-gray-800 w-1/3">
-                                        {item.product.name + ' (' + item.product.brand + ')'}
+                                    <td onClick={()=> toast.success(item.product.name)} className="cursor-pointer sm:px-3 py-2 px-1 border-b border-gray-200 dark:border-gray-800 w-1/3">
+                                        {item.product.name}
                                     </td>
                                     <td className="sm:px-3 py-2 px-1 border-b border-gray-200 dark:border-gray-800 ">
                                         {Intl.NumberFormat('en-US').format(item.product.retail_price)}
@@ -318,6 +320,8 @@ function PointOfSaleScreen({ company, products, cart_items }) {
                                         </button>
                                     </td>
                                 </tr>
+                                
+                               
                             )))
                         }
                     </tbody>

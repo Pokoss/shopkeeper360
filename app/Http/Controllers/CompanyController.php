@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BusinessCategory;
 use App\Models\Company;
 use App\Models\Employee;
+use App\Models\OnlineCategory;
+use App\Models\OnlineProduct;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,13 +27,26 @@ class CompanyController extends Controller
 
         return Inertia::render('CompanyScreen', ['companies' => $companies]);
     }
+    public function business()
+    {
+        //
+
+        $category = BusinessCategory::all();
+
+        
+
+        return Inertia::render('RegisterCompanyScreen', ['category' => $category]);
+    }
     public function businesses()
     {
         //
         $businesses = Company::latest()->paginate(10);
+        $business = Company::latest()->limit(5)->get();
+
+        $products = OnlineProduct::with('product','category','company')->limit(4)->get();
         
 
-        return Inertia::render('UserHomeScreen', ['businesses' => $businesses]);
+        return Inertia::render('UserHomeScreen', ['businesses' => $businesses, 'business' => $business, 'products'=>$products]);
     }
 
     /**
@@ -72,8 +88,13 @@ class CompanyController extends Controller
             'slug' => $company_slug,
             'logo' => $path,
             'contacts' => $request->contact,
+            'category_id' => $request->categoryId,
             'location' => $request->location,
             'email' => $request->email,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
+            'slogan' => 'Thank you for supporing us!',
+            'status' => 'inactive',
         ]);
 
         Employee::create([
@@ -101,7 +122,11 @@ class CompanyController extends Controller
     {
         $business = Company::where('slug',$company)->first();
 
-        return Inertia::render('UserBusinessScreen', ['business' => $business]);
+        $category = OnlineCategory::where('company_id',$business->id)->get();
+
+        $products = OnlineProduct::with('product','category')->where('company_id',$business->id)->latest()->paginate(12);
+
+        return Inertia::render('UserBusinessScreen', ['business' => $business, 'category'=> $category, 'products' => $products]);
         
         
     }

@@ -283,7 +283,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
               </Accordion>
             </li>
 
-            {/* <li className="rounded-sm mb-0.5">
+            <li className="rounded-sm mb-0.5">
               <Accordion open={open === 4} icon={<Icon id={4} open={open} />}>
                 <AccordionHeader onClick={() => handleOpen(4)}>
                   <div className="pl-2 text-gray-200 flex items-center flex-grow">
@@ -298,13 +298,24 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
                 <AccordionBody>
                   <ul>
                     <li className="rounded-sm mb-0.5">
-                      <Link href={`/dashboard/${props.company.slug}/accounting/receipts`} className="block text-gray-200 hover:bg-brown-500 p-2">
+                      <Link href={`/dashboard/${props.company.slug}/online-portal/category`} className="block text-gray-200 hover:bg-brown-500 p-2">
                         <div className="flex items-center flex-grow">
                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 mr-3">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 10.5v6m3-3H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
                           </svg>
 
-                          <span className="text-sm font-medium">Add Product</span>
+                          <span className="text-sm font-medium">Product Categories</span>
+                        </div>
+                      </Link>
+                    </li>
+                    <li className="rounded-sm mb-0.5">
+                      <Link href={`/dashboard/${props.company.slug}/online-portal/product`} className="block text-gray-200 hover:bg-brown-500 p-2">
+                        <div className="flex items-center flex-grow">
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 mr-3">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 10.5v6m3-3H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
+                          </svg>
+
+                          <span className="text-sm font-medium">Add Online Product</span>
                         </div>
                       </Link>
                     </li>
@@ -322,7 +333,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
                   </ul>
                 </AccordionBody>
               </Accordion>
-            </li> */}
+            </li>
 
             {/* <li className="rounded-sm mb-0.5">
               <Link href={`/dashboard/${props.company.slug}/sales`} className="block text-gray-200 hover:bg-brown-500 p-2">

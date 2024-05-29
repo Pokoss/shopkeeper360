@@ -27,7 +27,7 @@ class StockItemController extends Controller
         // $stock = StockItem::with('product')->where('company_id',$comp->company_id)->get();
 
         $stock = StockItem::whereHas('product', function ($query) use ($search_text){
-            $query->where('name', 'LIKE', "%{$search_text}%")->orWhere('name', 'LIKE', "%{$search_text}%");
+            $query->where('name', 'LIKE', "%{$search_text}%");
         })->with('product')->where('company_id',$comp->company_id)->latest()->paginate(10);
 
         $product = Product::where('company_id', $comp->company_id)->latest()->paginate(20);
@@ -48,7 +48,7 @@ class StockItemController extends Controller
         // $products = Product::where('company_id',$company_id)->where('name', 'LIKE', "%{$query}%")->latest()->paginate(20);
         
         $products = Product::where(function ($q) use ($query){
-            $q->where('name', 'LIKE', "%{$query}%")->orWhere('brand', 'LIKE', "%{$query}%");
+            $q->where('name', 'LIKE', "%{$query}%");
         })->where('company_id',$company_id)->latest()->paginate(20);
 
         return Response(['product' => $products]);

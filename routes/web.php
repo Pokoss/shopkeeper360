@@ -5,6 +5,8 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DashboardHomeController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\OnlineCategoryController;
+use App\Http\Controllers\OnlineProductController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PurchaseController;
@@ -45,12 +47,14 @@ Route::get('/home', function () {
 Route::get('/home',[CompanyController::class, 'businesses']);
 Route::get('/business/{slug}',[CompanyController::class, 'view_business']);
 
+Route::get('/product/{slug}',[OnlineProductController::class, 'show']);
+
 // Route::get('/business-home', function () {
 //     return Inertia::render('UserBusinessScreen');
 // });
-Route::get('/product-details', function () {
-    return Inertia::render('UserProductDetailsScreen');
-});
+// Route::get('/product-details', function () {
+//     return Inertia::render('UserProductDetailsScreen');
+// });
 
 Route::get('/dashboard/pos', function () {
     return Inertia::render('PointOfSaleScreen');
@@ -62,6 +66,7 @@ Route::get('/dashboard/inventory/product', function () {
 Route::get('/dashboard/inventory/stock', function () {
     return Inertia::render('StockScreen');
 });
+
 // Route::get('/dashboard/hr/employee', function () {
 //     return Inertia::render('EmployeeScreen');
 // });
@@ -75,10 +80,13 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
-    Route::get('/company/register', function () {
-        return Inertia::render('RegisterCompanyScreen');
-    });
+    // Route::get('/company/register', function () {
+    //     return Inertia::render('RegisterCompanyScreen');
+    // });
     Route::get('/company', [CompanyController::class, 'index']);
+
+    Route::get('/company/register', [CompanyController::class, 'business']);
+    
     Route::get('/dashboard/{company}', [CompanyController::class, 'show']);
     
     Route::get('/dashboard/{company}', [DashboardHomeController::class, 'index']);
@@ -118,6 +126,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard/{company}/sales', [SaleController::class, 'index']);
 
     Route::get('/getlastsale', [ReceiptController::class, 'sale']);
+    
+
+    Route::get('/dashboard/{company}/online-portal/category', [OnlineCategoryController::class, 'index']);
+    Route::post('/add-online-category', [OnlineCategoryController::class, 'store']);
+    Route::get('/dashboard/{company}/online-portal/product', [OnlineProductController::class, 'index']);
+    Route::post('/add-online-product', [OnlineProductController::class, 'store']);
 });
 
 require __DIR__.'/auth.php';

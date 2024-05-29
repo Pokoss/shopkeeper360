@@ -1,8 +1,10 @@
+import Footer from '@/Layouts/components/Footer'
 import Navbar from '@/Layouts/components/Navbar'
 import { Button } from '@material-tailwind/react'
 import React from 'react'
 
-function UserProductDetailsScreen() {
+function UserProductDetailsScreen({product}) {
+    console.log(product)
     return (
         <div>
             <div>
@@ -12,11 +14,11 @@ function UserProductDetailsScreen() {
                         <main className="w-full md:w-4/5 flex flex-col items-center">
                             <article className="w-full flex flex-col shadow my-2 ">
                                 <div className="bg-white flex flex-col justify-start px-3 md:px-5">
-                                    <h1 className="text-3xl font-semibold hover:text-gray-700">Beans</h1>
-                                    <p className="font-san text-sm font-semibold hover:text-gray-700 text-primary pb-1">by Lehub</p>
+                                    <h1 className="text-3xl font-semibold hover:text-gray-700">{product.product.name}</h1>
+                                    <p className="font-san text-sm font-semibold hover:text-gray-700 text-primary pb-1">by {product.company.name}</p>
                                 </div>
                                 <div className='py-5 text-center'>
-                                    <img src={'/images/team/hannah-mercy.jpg'} className='w-full h-96 object-contain' />
+                                    <img src={`/${product.image}`} className='w-full h-96 object-contain' />
                                     {/* <span className='text-sm italic text-gray-600'>Image: {blog.image_description ?? 'no description'}</span> */}
                                    
                                 </div>
@@ -30,7 +32,7 @@ function UserProductDetailsScreen() {
                                         <div className='py-4 border-b'>
                                           
                                             <div className=" border-gray-200 flex items-center justify-between">
-                                                <p className="text-base leading-4 text-gray-500 font-light"><span className='text-red-500 text-md font-semibold'>UGX {Intl.NumberFormat('en-US').format(10000000)} </span></p>
+                                                <p className="text-base leading-4 text-gray-500 font-light"><span className='text-red-500 text-md font-semibold'>UGX {Intl.NumberFormat('en-US').format(product.product.retail_price)} </span></p>
                                                 <div className="flex justify-center bg-primary p-1 rounded-lg">
                                                     <svg  className="fill-current text-white w-5 pl-1" viewBox="0 0 448 512"><path d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
                                                     </svg>
@@ -50,7 +52,7 @@ function UserProductDetailsScreen() {
 
 
                                     <div className="text-md my-3 font-bold uppercase text-transparent bg-clip-text bg-gradient-to-r to-black from-primary">{"About Event"}</div>
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas nisi maxime perferendis, culpa incidunt tempora aut reprehenderit repudiandae nam temporibus aliquam officia perspiciatis. Voluptas, voluptates architecto. Porro quam repudiandae error.
+                                    {product.description}
                                 </div>
                                 <div className="ml-4 text-sm pb-6 text-blue-900 font-thin">
                                     {/* {!['regional', 'africa', 'world'].includes(category_name.slug) && <>
@@ -149,15 +151,16 @@ function UserProductDetailsScreen() {
                                 layoutKey='-gw-1+2a-9x+5c'
                             /> */}
                                     <a className="uppercase mt-5" href="">Promoted</a>
-                                    <a href="">
+                                    {/* <a href="">
                                         <img className="mx-auto p-1" src="/images/event/host.jpg" alt="advertisement area" />
-                                    </a>
+                                    </a> */}
                                 </div>
                             </div>
                         </aside>
                     </div>
                 </div>
             </div>
+            <Footer/>
         </div>
     )
 }

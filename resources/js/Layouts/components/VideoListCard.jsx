@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from '@inertiajs/react';
 
-export default function VideoListCard({ title, time, image }) {
+export default function VideoListCard({ title, time, image, price }) {
 
     return (
         <div>
@@ -13,6 +13,7 @@ export default function VideoListCard({ title, time, image }) {
                         <div className="w-full lg:w-9/12 mr-2 mb-10 lg:mb-0">
                             <div className="">
                                 <p className="text-sm font-semibold line-clamp-3 text-black hover:underline">{title}</p>
+                                <p className="text-sm font-medium line-clamp-3 text-red-700 hover:underline">{'UGX '+Intl.NumberFormat('en-US').format(price)}</p>
                                 <p className="text-sm font-thin line-clamp-3 text-black hover:underline">{time}</p>
                             </div>
                         </div>

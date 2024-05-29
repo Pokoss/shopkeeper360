@@ -24,16 +24,10 @@ class ProductController extends Controller
             $query->where('slug', $company);
         })->with('company', 'user')->where('user_id', Auth::user()->id)->first();
 
-        $products = Product::where(function ($query) use ($search_text){
-            $query->where('name', 'LIKE', "%{$search_text}%")->orWhere('brand', 'LIKE', "%{$search_text}%");
-        })->with('measurement')->where('company_id',$comp->company_id)->latest()->paginate(10);
-
+        $products = Product::where('name', 'LIKE', "%{$search_text}%")->with('measurement')->where('company_id',$comp->company_id)->latest()->paginate(10);
         // $products =  Product::with('measurement')->where('company_id',$comp->company_id)->where('name', 'LIKE', "%{$search_text}%")->latest()->paginate(10);
         $measurement = Measurement::get();
-
         return Inertia::render('ProductScreen', ['company' => $comp,'products' => $products,'measurements'=>$measurement]);
-
-
     }
 
     /**
@@ -52,22 +46,17 @@ class ProductController extends Controller
         //
         $request->validate([
             'product' => 'required',
-            'brand' => 'required',
             'companyId' => 'required',
             'measurement' => 'required',
-            'barcode' => 'required',
             'sellingPrice' => 'required',
             'costPrice' => 'required',
-            'wholeSaleSellingPrice' => 'required',
         ]);
 
         $product = Product::create([
             'name' => $request->product,
-            'brand' => $request->brand,
             'measurement' => $request->measurement,
             'available' => 0,
             'retail_price' => $request->sellingPrice,
-            'wholesale_price' => $request->wholeSaleSellingPrice,
             'cost_price' => $request->costPrice,
             'barcode' => $request->barcode,
             'company_id' => $request->companyId,
@@ -97,13 +86,10 @@ class ProductController extends Controller
 
         $product->update([
             'name' => $request->editProduct,
-            'brand' => $request->editBrand,
             'measurement' => $request->editMeasurement,
             'available' => $request->editAvailable,
             'retail_price' => $request->editSellingPrice,
-            'wholesale_price' => $request->editWholeSaleSellingPrice,
             'cost_price' => $request->editCostPrice,
-            'barcode' => $request->editBarcode,
         ]);
     }
 

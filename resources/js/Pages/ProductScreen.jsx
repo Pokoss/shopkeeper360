@@ -16,10 +16,10 @@ import { Link, router } from '@inertiajs/react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useCallback } from 'react';
+import { usePage } from '@inertiajs/react';
 
-function ProductScreen({ company, products, measurements }) {
+function ProductScreen({ company, products, measurements}) {
     const [product, setProduct] = useState('');
-    const [brand, setBrand] = useState('');
     const [measurement, setMeasurement] = useState('');
     const [barcode, setBarcode] = useState('');
     const [sellingPrice, setSellingPrice] = useState('');
@@ -29,7 +29,6 @@ function ProductScreen({ company, products, measurements }) {
     const [search, setSearch] = useState('');
 
     const [editProduct, setEditProduct] = useState('');
-    const [editBrand, setEditBrand] = useState('');
     const [editAvailable, setEditAvailable] = useState('');
     const [editMeasurement, setEditMeasurement] = useState('');
     const [editBarcode, setEditBarcode] = useState('');
@@ -38,11 +37,10 @@ function ProductScreen({ company, products, measurements }) {
     const [editCostPrice, setEditCostPrice] = useState('');
     const [productId, setProductId] = useState('');
 
-    function openEditProduct(id, name, brand, available, barcode, emeasurement, retail_price, cost_price, wholesale_price) {
+    function openEditProduct(id, name, available, barcode, emeasurement, retail_price, cost_price, wholesale_price) {
         handleOpenEdit("xl")
         setProductId(id)
         setEditProduct(name)
-        setEditBrand(brand)
         setEditAvailable(available)
         setEditBarcode(barcode)
         setEditMeasurement(emeasurement)
@@ -83,10 +81,6 @@ function ProductScreen({ company, products, measurements }) {
             toast.dismiss()
             toast.error('Write product name');
         }
-        else if (editBrand == '') {
-            toast.dismiss()
-            toast.error('Write the brand')
-        }
         else if (editAvailable == '') {
             toast.dismiss()
             toast.error('Select the quantity available')
@@ -103,7 +97,7 @@ function ProductScreen({ company, products, measurements }) {
         }
         else {
             try {
-                router.post('/edit-product', { companyId, productId, editProduct, editBrand, editAvailable, editBarcode, editMeasurement, editCostPrice, editSellingPrice, editWholeSaleSellingPrice },
+                router.post('/edit-product', { companyId, productId, editProduct, editAvailable, editBarcode, editMeasurement, editCostPrice, editSellingPrice, editWholeSaleSellingPrice },
                     {
                         onSuccess: () => {
                             toast.success('Product edited successfully');
@@ -140,10 +134,6 @@ function ProductScreen({ company, products, measurements }) {
             toast.dismiss()
             toast.error('Write product name');
         }
-        else if (brand == '') {
-            toast.dismiss()
-            toast.error('Write the brand')
-        }
         else if (measurement == '') {
             toast.dismiss()
             toast.error('Select the measurement')
@@ -155,17 +145,14 @@ function ProductScreen({ company, products, measurements }) {
         else if (costPrice == '') {
             toast.dismiss()
         }
-        if (wholeSaleSellingPrice == '') {
-            toast.error('Set Wholesale if not use the retail price')
-        }
         else {
             try {
-                router.post('/add-product', { companyId, product, brand, measurement, barcode, costPrice, sellingPrice, wholeSaleSellingPrice },
+                router.post('/add-product', { companyId, product, measurement, barcode, costPrice, sellingPrice, wholeSaleSellingPrice },
                     {
                         onSuccess: () => {
                             toast.success('Product added successfully');
                             setProduct('');
-                            setBrand('');
+                      
                             setMeasurement('');
                             setBarcode('');
                             setSellingPrice('');
@@ -173,7 +160,11 @@ function ProductScreen({ company, products, measurements }) {
                             setCostPrice('');
                             handleOpen();
 
+                        },
+                        onError:(e)=>{
+                            toast.error(e);
                         }
+                        
                     }
                 )
             } catch (error) {
@@ -215,10 +206,6 @@ function ProductScreen({ company, products, measurements }) {
             selector: row => row.name,
         },
         {
-            name: 'Brand',
-            selector: row => row.brand,
-        },
-        {
             name: 'Available',
             selector: row => `${row.available}`,
         },
@@ -233,7 +220,7 @@ function ProductScreen({ company, products, measurements }) {
         },
         {
             selector: row => <div className='flex items-center'>
-                <button onClick={() => openEditProduct(row.id, row.name, row.brand, row.available, row.barcode, row.measurement.id, row.retail_price, row.cost_price, row.wholesale_price)} className='bg-green-600 rounded-md p-1'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-5 h-5">
+                <button onClick={() => openEditProduct(row.id, row.name, row.available, row.barcode, row.measurement.id, row.retail_price, row.cost_price, row.wholesale_price)} className='bg-green-600 rounded-md p-1'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-5 h-5">
                     <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                 </svg>
                 </button>
@@ -269,9 +256,6 @@ function ProductScreen({ company, products, measurements }) {
                             <Input label='Product'
                                 value={product} onChange={(event) => setProduct(event.target.value)} size='sm'
                             />
-                            <Input label='Brand'
-                                value={brand} onChange={(event) => setBrand(event.target.value)} size='sm'
-                            />
                             <Select color='deep-orange' label="Measurement"
                                 value={measurement} onChange={(e) => setMeasurement(e)}
                             >
@@ -280,18 +264,18 @@ function ProductScreen({ company, products, measurements }) {
                                 )}
 
                             </Select>
-                            <Input label='Barcode'
+                            {/* <Input label='Barcode'
                                 value={barcode} onChange={(event) => setBarcode(event.target.value)} size='sm'
-                            />
-                            <Input label='Cost Price'
+                            /> */}
+                            <Input label='Cost Price' type='number'
                                 value={costPrice} onChange={(event) => setCostPrice(event.target.value)} size='sm'
                             />
                             <Input label='Retail Selling Price'
                                 value={sellingPrice} onChange={(event) => setSellingPrice(event.target.value)} size='sm'
                             />
-                            <Input label='Wholesale Selling Price'
+                            {/* <Input label='Wholesale Selling Price' type='number'
                                 value={wholeSaleSellingPrice} onChange={(event) => setWholeSaleSellingPrice(event.target.value)} size='sm'
-                            />
+                            /> */}
                         </DialogBody>
                         <DialogFooter className="space-x-2">
                             <Button onClick={handleOpen} variant="gradient" color="blue-gray">
@@ -360,15 +344,12 @@ function ProductScreen({ company, products, measurements }) {
                             <Input label='Product'
                                 value={editProduct} onChange={(event) => setEditProduct(event.target.value)} size='sm'
                             />
-                            <Input label='Brand'
-                                value={editBrand} onChange={(event) => setEditBrand(event.target.value)} size='sm'
-                            />
                             <Input label='Available'
                                 value={editAvailable} onChange={(event) => setEditAvailable(event.target.value)} size='sm'
                             />
-                            <Input label='Barcode'
+                            {/* <Input label='Barcode'
                                 value={editBarcode} onChange={(event) => setEditBarcode(event.target.value)} size='sm'
-                            />
+                            /> */}
                             <Select color='deep-orange' label="Measurement"
                                 value={editMeasurement} onChange={(e) => setEditMeasurement(e)}
                             >
@@ -382,9 +363,9 @@ function ProductScreen({ company, products, measurements }) {
                             <Input label='Retail Price' type='number'
                                 value={editSellingPrice} onChange={(event) => setEditSellingPrice(event.target.value)} size='sm'
                             />
-                            <Input label='Wholesale Price' type='number'
+                            {/* <Input label='Wholesale Price' type='number'
                                 value={editWholeSaleSellingPrice} onChange={(event) => setEditWholeSaleSellingPrice(event.target.value)} size='sm'
-                            />
+                            /> */}
                         </DialogBody>
                         <DialogFooter>
                             <div className='flex w-full justify-between'>

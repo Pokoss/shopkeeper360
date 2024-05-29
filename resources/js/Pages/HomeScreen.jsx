@@ -4,13 +4,68 @@ import Navbar from '@/Layouts/components/Navbar'
 import { Link } from '@inertiajs/react'
 import { Typography } from '@material-tailwind/react'
 import React from 'react'
+import { useState } from 'react'
+import { useEffect } from 'react'
 
 
 function HomeScreen() {
+    const [location, setLocation] = useState({ latitude: null, longtitude: null });
+    const [error, setError] = useState('');
+    // useEffect(() => {
+    //     if ('geolocation' in navigator) {
+    //         navigator.geolocation.getCurrentPosition(function (position) {
+    //             setPosition({
+    //                 latitude: position.coords.latitude,
+    //                 longitude: position.coords.longitude
+    //             });
+    //         })
+    //     }
+    //     else {
+    //         console.log('Go location not available in your browser')
+    //     }
+    // }, []);
+
+    useEffect(() => {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            position => {
+              const { latitude, longitude } = position.coords;
+              setLocation({ latitude, longitude });
+            //   fetchBusinesses(latitude, longitude);
+            },
+            handleError
+          );
+        } else {
+          setError("Geolocation is not supported by this browser.");
+        }
+      }, []);
+
+
+      const handleError = (error) => {
+        switch(error.code) {
+          case error.PERMISSION_DENIED:
+            setError("User denied the request for Geolocation.");
+            break;
+          case error.POSITION_UNAVAILABLE:
+            setError("Location information is unavailable.");
+            break;
+          case error.TIMEOUT:
+            setError("The request to get user location timed out.");
+            break;
+          case error.UNKNOWN_ERROR:
+            setError("An unknown error occurred.");
+            break;
+          default:
+            setError("An error occurred.");
+        }
+      };
+
+
     return (
 
         <div className="space-y-12 dark:bg-gray-800 dark:text-gray-100">
             <Navbar />
+
 
             <section>
                 <div className="container flex flex-col items-center px-4 py-8 mx-auto text-center md:px-10 lg:px-32 xl:max-w-3xl">
@@ -50,6 +105,11 @@ function HomeScreen() {
                         <p className="text-4xl font-bold leadi lg:text-6xl">5</p>
                         <p className="text-sm sm:text-base">Workshops</p>
                     </div>
+
+                    <p className='text-black font-bold text-lg'>latitude: {location.latitude}</p><br /><br />
+                    <p className='text-black font-bold text-lg'>longtitude: {location.longitude}</p>
+                    <p className='text-black font-bold text-lg'>longtitude: {location.longitude}</p>
+                    <p className='text-black font-bold text-lg'>error: {error}</p>
                 </div>
             </section>
             <section className="py-8">
@@ -236,7 +296,7 @@ function HomeScreen() {
                                 <h1 className="text-xl font-semibold text-gray-700">What type of businesses can use the shopkeeper360 system</h1>
 
                                 <p className="mt-2 text-sm text-gray-500">
-                                    The shopkeeper360 system is designed for all retail type of businesses like shops, supermarkets hardware stores, electronic stores, pharmacies, restaurants and cosmetic stores and so many more. Has long has there is a product that can be sold to customers we are here to help you thrive and get reach more customers 
+                                    The shopkeeper360 system is designed for all retail type of businesses like shops, supermarkets hardware stores, electronic stores, pharmacies, restaurants and cosmetic stores and so many more. Has long has there is a product that can be sold to customers we are here to help you thrive and get reach more customers
                                 </p>
                             </div>
                         </div>
@@ -268,8 +328,8 @@ function HomeScreen() {
                                 <h1 className="text-xl font-semibold text-gray-700">Does your system work offline</h1>
 
                                 <p className="mt-2 text-sm text-gray-500">
-                                    Currently the system is fully online but we are soon releasing an offline sale point where by you can sell and make transactions without interent then later on you when you get internet connect it the data of your transactions will be automatically uploaded. 
-                
+                                    Currently the system is fully online but we are soon releasing an offline sale point where by you can sell and make transactions without interent then later on you when you get internet connect it the data of your transactions will be automatically uploaded.
+
                                 </p>
                             </div>
                         </div>
@@ -439,7 +499,7 @@ function HomeScreen() {
             </div>
 
 
-<Footer/>
+            <Footer />
         </div>
     )
 }
