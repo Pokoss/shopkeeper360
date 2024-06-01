@@ -6,8 +6,8 @@ import React,{useState} from 'react'
 import DataTable from 'react-data-table-component';
 import { toast, ToastContainer } from 'react-toastify';
 
-function SalesScreen({ company, sales, sales_today }) {
-  console.log(sales)
+function SalesScreen({ company, sales, sales_today,profit }) {
+  console.log(profit)
 
   const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
@@ -100,14 +100,11 @@ function SalesScreen({ company, sales, sales_today }) {
       <DataTable
         title={'Sales' &&
           <div className='w-full border-b-2 border-primary pb-3 pt-2'>
-            <div className='flex flex-col md:flex-row space-x-0 md:space-x-5 space-y-5 md:space-y-0 whitespace-nowrap items-start md:items-center justify-between '>
-              <span>{'Sales'}</span>
+            <div className='flex flex-col md:flex-row space-x-0 md:space-x-5 space-y-5 md:space-y-0 whitespace-nowrap items-start md:items-center justify-between mb-3'>
+              <span className='text-lg font-bold'>{'Sales: ' +'UGX ' + Intl.NumberFormat('en-US').format(sales_today)}</span>
 
-              <div className='flex space-x-3 items-center md:space-x-5 w-full md:w-1/2 md:justify-end print:hidden'>
-
-
-
-                {'UGX ' + Intl.NumberFormat('en-US').format(sales_today)}
+              <div className='font-bold flex space-x-3 items-center md:space-x-5 w-full md:w-1/2 md:justify-end print:hidden text-lg'>
+                { 'Profit: UGX ' + Intl.NumberFormat('en-US').format(profit)}
 
               </div>
 

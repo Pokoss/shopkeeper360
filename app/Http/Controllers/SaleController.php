@@ -20,15 +20,9 @@ class SaleController extends Controller
     {
         //
         // $search_text = $request->input('search');
-
-
-
         $comp = Employee::whereHas('company', function ($query) use ($company) {
             $query->where('slug', $company);
         })->with('company', 'user')->where('user_id', Auth::user()->id)->first();
-
-
-
 
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
@@ -47,6 +41,8 @@ class SaleController extends Controller
         $query = Sale::query();
         $query2 = Receipt::query();
         $sales_total = 0;
+        $profit = 0;
+        $discount =0;
 
         if ($startDate && $endDate) {
             // If both dates are provided, filter between the dates
@@ -60,27 +56,18 @@ class SaleController extends Controller
             $query2->where('company_id', $comp->company_id)->whereDate('created_at', $startDate);
         }
         $sales = $query->paginate(10);
-
+        $sales_profit = $query->get();
+        foreach ($sales_profit as $p) {
+                $profit = $profit + ($p->sale_price - ($p->cost_price * $p->quantity));
+            }  
         $the_total = $query2->get();
-        
         foreach ($the_total as $sale) {
                 $sales_total = $sales_total + ($sale->sale_total - $sale->discount);
             }  
-            // return Response([$sales_total]);
-
-
-
-
-        // $sales = Sale::with('product')->where('company_id', $comp->company_id)->latest()->paginate(10);
-
-
-        // $saless = Receipt::whereDate('created_at', Carbon::today())->where('company_id', $comp->company->id)->get();
-        // $sales_today = 0;
-        // foreach ($saless as $sale) {
-        //     $sales_today = $sales_today + ($sale->sale_total - $sale->discount);
-        // }
-
-        return Inertia::render('SalesScreen', ['company' => $comp, 'sales' => $sales, 'sales_today' => $sales_total]);
+            $discount = $the_total->sum('discount');
+            $profit = $profit - $discount;
+        
+        return Inertia::render('SalesScreen', ['company' => $comp, 'sales' => $sales, 'sales_today' => $sales_total,'profit'=>$profit]);
     }
 
     /**

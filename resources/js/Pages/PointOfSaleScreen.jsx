@@ -1,9 +1,9 @@
 import Layout from '@/Layouts/components/Layout'
-import React, { Fragment, useEffect, useState,useRef } from 'react'
+import React, { Fragment, useEffect, useState, useRef } from 'react'
 import Select from 'react-select'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { router,Link } from '@inertiajs/react';
+import { router, Link } from '@inertiajs/react';
 import Receipt from '@/Components/Receipt';
 import { useReactToPrint } from "react-to-print";
 import { Button, Dialog, DialogBody, DialogFooter, DialogHeader, Input, Typography } from '@material-tailwind/react';
@@ -13,7 +13,7 @@ function PointOfSaleScreen({ company, products, cart_items }) {
     const componentRef = useRef();
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
-      });
+    });
     useEffect(() => {
         var initialOptions = products.data.map((prod) => ({
             value: prod.id,
@@ -28,6 +28,7 @@ function PointOfSaleScreen({ company, products, cart_items }) {
     const [selectedOption, setSelectedOption] = useState(null);
 
     const [cartTotal, setCartTotal] = useState(0);
+    const [profit, setProfit] = useState(0);
     const [change, setChange] = useState(0);
     const [received, setReceived] = useState();
 
@@ -35,28 +36,33 @@ function PointOfSaleScreen({ company, products, cart_items }) {
         e.preventDefault();
         setReceived(e.target.value)
 
-        var total= e.target.value - cartTotal
+        var total = e.target.value - cartTotal
 
         setChange(total)
-     
+
 
     }
-    
+
     useEffect(() => {
 
-        if(received==''){
+        if (received == '') {
             setChange(0)
         }
-        if(cart_items.length == 0){
+        if (cart_items.length == 0) {
             setCartTotal(0);
         }
-        var total =0;
+        var total = 0;
+        var tot_profit = 0;
         var cart = cart_items && cart_items.map((item) => {
             var itemtotal = item.quantity * parseFloat(item.product.retail_price)
             total = total + itemtotal
             setCartTotal(total)
+
+            var total_profit = item.quantity * (parseFloat(item.product.retail_price) - parseFloat(item.product.cost_price));
+            tot_profit = tot_profit + total_profit;
+            setProfit(tot_profit)
         });
-    }, [cart_items,received]);
+    }, [cart_items, received]);
 
 
 
@@ -68,12 +74,12 @@ function PointOfSaleScreen({ company, products, cart_items }) {
 
     const formatOptionLabel = ({ value, label, available }) => (
         <div style={{ display: "" }}>
-          <div>{label}</div>
-          <div className='text-green-700 text-sm'>
-            {available + ' remaining'}
-          </div>
+            <div>{label}</div>
+            <div className='text-green-700 text-sm'>
+                {available + ' remaining'}
+            </div>
         </div>
-      );
+    );
 
     const filterOptions = async (inputValue) => {
         var company_id = company.company_id;
@@ -81,7 +87,7 @@ function PointOfSaleScreen({ company, products, cart_items }) {
         if (!inputValue) {
             var initialOptions = products.data.map((prod) => ({
                 value: prod.id,
-                label: String(prod.name +' -> UGX ' + Intl.NumberFormat('en-US').format(prod.retail_price)),
+                label: String(prod.name + ' -> UGX ' + Intl.NumberFormat('en-US').format(prod.retail_price)),
                 available: prod.available
             }));
             setOptions(initialOptions);
@@ -123,7 +129,7 @@ function PointOfSaleScreen({ company, products, cart_items }) {
         if (number == 0) {
             toast.error('Quantity below 0 is forbidden')
         } else {
-            number = number - 1;                
+            number = number - 1;
             setNumber(parseInt(number));
         }
     }
@@ -134,12 +140,12 @@ function PointOfSaleScreen({ company, products, cart_items }) {
             preserveScroll: true,
             onSuccess: () => {
                 toast.success(itemName + ' removed');
-               
+
             }
         })
 
     }
-    
+
     function emptyCart() {
         var company_id = company.company.id;
         router.post('/empty_cart_item', { company_id }, {
@@ -153,18 +159,18 @@ function PointOfSaleScreen({ company, products, cart_items }) {
     }
     function registerPay() {
         var company_id = company.company.id;
-        
-        
-        if(cart_items.length == 0 ){
+
+
+        if (cart_items.length == 0) {
             toast.error('You cant sale nothing')
         }
-        else{
+        else {
             var sale_total = cartTotal;
             var discount = 0;
-            router.post('/register_pay', { company_id,sale_total,discount }, {
+            router.post('/register_pay', { company_id, sale_total, discount }, {
                 preserveScroll: true,
                 onSuccess: async () => {
-                    
+
                     toast.success('Success');
                     try {
                         const response = await axios.get(`/getlastsale?company_id=${company_id}`);
@@ -177,14 +183,14 @@ function PointOfSaleScreen({ company, products, cart_items }) {
                         else {
                             console.error('unexpected')
                             setReceiptProducts(null);
-                           
+
                         }
                     } catch (error) {
                         console.error('Error fetching products:', error);
                         setReceiptProducts(null);
                     }
-                    
-                    
+
+
                 }
             })
         }
@@ -220,35 +226,34 @@ function PointOfSaleScreen({ company, products, cart_items }) {
         }
     }
     const [size, setSize] = useState(null);
-    
+
     const handleOpen = (value) => setSize(value);
 
     return (
         <div>
             <div className='px-5 pt-1'>
 
-            <div className='p-2 w-full grid grid-cols-1 gap-3 sm:grid-cols-3 place-items-center class justify-center'>
+                <div className='p-2 w-full grid grid-cols-1 gap-3 sm:grid-cols-3 place-items-center class justify-center'>
 
-            </div>
+                </div>
 
                 <div className="w-full grid grid-cols-1 gap-3 sm:grid-cols-3 place-items-center class justify-center">
-                <Input type='number'label='Amount received' value={received} onChange={getChange}></Input>
+                    <Input type='number' label='Amount received' value={received} onChange={getChange}></Input>
                     <div className='font-bold text-xl'>
-                        
+
                         <span className='text-base font-semibold'>
-                        Change: UGX {Intl.NumberFormat('en-US').format(change)}
+                            Change: UGX {Intl.NumberFormat('en-US').format(change)}
                         </span>
-                    
                     </div>
                     <div>
-                    <div className='font-bold text-xl mb-1'>
-                        UGX {Intl.NumberFormat('en-US').format(cartTotal)}<br/>
-                                            
-                    </div>
-                    <button onClick={()=> registerPay()} className='py-2 px-10 rounded-md font-semibold text-base text-gray-100 bg-primary hover:bg-red-700'>Register Pay</button>
+                        <div className='font-bold text-xl mb-1'>
+                            UGX {Intl.NumberFormat('en-US').format(cartTotal)}<br />
+
+                        </div>
+                        <button onClick={() => registerPay()} className='py-2 px-10 rounded-md font-semibold text-base text-gray-100 bg-primary hover:bg-red-700'>Register Pay</button>
                     </div>
                 </div>
-                
+
                 <div className='bg-gray-400 p-2 mt-7 w-full grid grid-cols-1 gap-3 sm:grid-cols-3 place-items-center class justify-center'>
                     <Select
                         value={selectedOption} // Set the value prop to the selected option state
@@ -302,9 +307,9 @@ function PointOfSaleScreen({ company, products, cart_items }) {
                         {
 
                             cart_items && cart_items.map((item => (
-                        
+
                                 <tr key={item.id} className='w-full justify-end'>
-                                    <td onClick={()=> toast.success(item.product.name)} className="cursor-pointer sm:px-3 py-2 px-1 border-b border-gray-200 dark:border-gray-800 w-1/3">
+                                    <td onClick={() => toast.success(item.product.name)} className="cursor-pointer sm:px-3 py-2 px-1 border-b border-gray-200 dark:border-gray-800 w-1/3">
                                         {item.product.name}
                                     </td>
                                     <td className="sm:px-3 py-2 px-1 border-b border-gray-200 dark:border-gray-800 ">
@@ -320,8 +325,8 @@ function PointOfSaleScreen({ company, products, cart_items }) {
                                         </button>
                                     </td>
                                 </tr>
-                                
-                               
+
+
                             )))
                         }
                     </tbody>
@@ -342,30 +347,30 @@ function PointOfSaleScreen({ company, products, cart_items }) {
                         </Typography>
                     </DialogHeader>
                     <form
-                       
+
                     >
                         <DialogBody divider className="h-[29rem] overflow-scroll">
-                           <div ref={componentRef}>
-                           <Receipt company={company} props={receiptProducts} />
-                            </div> 
+                            <div ref={componentRef}>
+                                <Receipt company={company} props={receiptProducts} />
+                            </div>
                         </DialogBody>
                     </form>
 
                     <DialogFooter>
-                            <div className='flex w-full justify-between'>
+                        <div className='flex w-full justify-between'>
 
-                                <Button  onClick={handleOpen} variant="gradient" color="red">
-                                    Ignore
+                            <Button onClick={handleOpen} variant="gradient" color="red">
+                                Ignore
+                            </Button>
+                            <div className="space-x-2">
+
+
+                                <Button onClick={handlePrint} type='submit' className='bg-green-500'>
+                                    Print
                                 </Button>
-                                <div className="space-x-2">
-                                   
-                                    
-                                    <Button onClick={handlePrint} type='submit' className='bg-green-500'>
-                                        Print
-                                    </Button>
-                                </div>
                             </div>
-                        </DialogFooter>
+                        </div>
+                    </DialogFooter>
                 </Dialog>
             </Fragment>
             <ToastContainer />

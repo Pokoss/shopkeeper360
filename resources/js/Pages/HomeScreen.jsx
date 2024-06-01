@@ -161,7 +161,7 @@ function HomeScreen() {
                 <div className="grid grid-cols-1 md:grid-cols-2">
                     <div className="bg-white p-12 md:p-24 flex justify-start items-center">
                         <a href="" data-aos='fade-left'>
-                            <img src="/images/user/sale_point.JPG" className="w-full max-w-md" />
+                            <img src="/images/user/user-screen.JPG" className="w-full max-w-md" />
                         </a>
                     </div>
                     <div className="md:order-first bg-gray-100 p-12 md:p-24 flex justify-end items-center">
@@ -172,7 +172,7 @@ function HomeScreen() {
                             <Typography>
                                 We offer users a place to find various businesses, make bookings from that business order different products from the business. Its a place where you find different type of retail stores view their products and order from them or visit them for what you want
                             </Typography>
-                            <Link href="/airportpickup" className="mt-5 inline-block border-2 border-primary font-light text-primary text-sm uppercase tracking-widest py-3 px-8 hover:bg-primary hover:text-white">Contact for Pickup</Link>
+                            <Link href="/home" className="mt-5 inline-block border-2 border-primary font-light text-primary text-sm uppercase tracking-widest py-3 px-8 hover:bg-primary hover:text-white">View Businesses</Link>
                             {/* </p> */}
                             {/* <a href="" className="inline-block border-2 border-primary font-light text-primary text-sm uppercase tracking-widest py-3 px-8 hover:bg-primary hover:text-white">Book Custom Package</a> */}
 

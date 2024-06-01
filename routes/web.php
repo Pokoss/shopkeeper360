@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BusinessCategoryController;
 use App\Http\Controllers\CartItemController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DashboardHomeController;
@@ -67,9 +68,14 @@ Route::get('/dashboard/inventory/stock', function () {
     return Inertia::render('StockScreen');
 });
 
-// Route::get('/dashboard/hr/employee', function () {
-//     return Inertia::render('EmployeeScreen');
-// });
+Route::get('/business/{business}/category/{category}', function () {
+    return Inertia::render('UserBusinessProductCategoryScreen');
+});
+
+Route::get('/business/category/{category}', [BusinessCategoryController::class, 'index']);
+Route::post('/business/category/{category}', [BusinessCategoryController::class, 'business']);
+
+Route::post('/home', [CompanyController::class, 'getNearbyBusinesses']);
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

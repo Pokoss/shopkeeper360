@@ -1,1 +1,0 @@
-import{j as r}from"./app-C8WKr6KS.js";import{L as e}from"./Layout-l3DxoYn-.js";import"./index-faAi_gFe.js";function n(){return r.jsx("div",{children:"IncomeScreen"})}n.layout=o=>r.jsx(e,{children:o,props:o.props.company});export{n as default};

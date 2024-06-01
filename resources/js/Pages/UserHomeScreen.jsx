@@ -1,20 +1,91 @@
 import Footer from '@/Layouts/components/Footer'
 import Navbar from '@/Layouts/components/Navbar'
 import VideoListCard from '@/Layouts/components/VideoListCard';
-import { Link } from '@inertiajs/react'
+import { Link, router } from '@inertiajs/react'
 import { Splide, SplideSlide } from '@splidejs/react-splide'
 import '@splidejs/react-splide/css';
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 var mapping = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
-function UserHomeScreen({ businesses, products, business }) {
+function UserHomeScreen({ businesses, products, business, categories }) {
+
+    const [location, setLocation] = useState({ latitude: null, longtitude: null });
+    const [error, setError] = useState('');
+
+    useEffect(() => {
+        requestLocation();
+        // fetchBusinesses(location.latitude,location.longtitude);
+    }, []);
+
+    const requestLocation = () => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                position => {
+                    const { latitude, longitude } = position.coords;
+                    setLocation({ latitude, longitude });
+                    fetchBusinesses(latitude, longitude);
+                },
+                handleError
+            );
+        } else {
+            fetchBusinesses(latitude, longitude);
+            setError("Geolocation is not supported by this browser.");
+        }
+    }
+
+    const fetchBusinesses = (latitude, longitude) => {
+        router.post('/home', { latitude, longitude });
+    };
+
+    const handleRetry = () => {
+        setError('');
+        setLocationPromptVisible(false);
+        requestLocation();
+    };
+
+
+
+
+    const handleError = (error) => {
+        fetchBusinesses(location.latitude,location.longtitude)
+        switch (error.code) {
+            case error.PERMISSION_DENIED:
+                setError("User denied the request for Geolocation.");
+                console.log(1)
+                break;
+            case error.POSITION_UNAVAILABLE:
+                setError("Location information is unavailable.");
+                console.log(2)
+                break;
+            case error.TIMEOUT:
+                setError("The request to get user location timed out.");
+                console.log(3)
+                break;
+            case error.UNKNOWN_ERROR:
+                setError("An unknown error occurred.");
+                console.log(4)
+                break;
+            default:
+                setError("An error occurred.");
+                console.log(5)
+        }
+    };
+
+    // if (!categories) {
+    //     return (
+    //         <div>
+    //             Loading!!!
+    //         </div>
+    //     )
+    // }
+
 
     console.log(products)
     return (
         <div>
             <Navbar />
-            <section className="flex flex-col lg:flex-row lg:space-x-5 justify-center items-center bg-gray-100 p-2 lg:p-10">
+            <section className="flex flex-col lg:flex-row lg:space-x-5 justify-center items-center bg-gray-100 p-2 lg:p-2">
                 <div className='w-full  lg:w-4/6'>
                     <Splide options={{
                         rewind: true,
@@ -31,7 +102,10 @@ function UserHomeScreen({ businesses, products, business }) {
                                                     {soon.name}
                                                 </h1>
                                                 <p className="w-full max-w-xl text-md leading-relaxed text-gray-800 lg:ml-0 text-left">
-                                                    {soon.location}
+                                                    Located at {soon.location}
+                                                </p>
+                                                <p className="w-full max-w-xl text-md leading-relaxed text-gray-800 lg:ml-0 text-left">
+                                                    {soon.contacts}
                                                 </p>
                                                 {/* <p className="w-full font-thin text-sm max-w-xl text-md leading-relaxed text-gray-800 lg:ml-0 text-left">
                                                         {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' })}
@@ -70,12 +144,76 @@ function UserHomeScreen({ businesses, products, business }) {
 
             <div className='w-full fill'>
 
-                <div className='container mx-auto flex flex-wrap  max-w-full'>
-                    <main className="m-2 w-full md:w-4/5 flex flex-col items-center">
-                        <div className='flex w-full justify-center'>
-                            <p className='text-lg text-primary font-semibold'>Businesses</p>
+                <div className='mt-3 container mx-auto flex flex-wrap  max-w-full'>
+                    <main className="p-2 w-full md:w-4/5 flex flex-col items-center">
+                            {
+                                categories && categories.map((category) => (
+                                    <div className='flex w-full justify-center mb-8'>
+                                    <div className='w-full'>
+
+                                        <p className='text-lg w-full text-center text-primary font-semibold'>{category.name} nearby</p>
+                                        <div className="w-full mt-3 grid grid-cols-2 gap-y-3 gap-x-2 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-3">
+                                            {category.businesses && category.businesses.map((business) => (
+                                                <Link className='shadow-sm shadow-gray-400' href={`/business/${business.slug}`}>
+                                                    <div className='cursor-pointer w-full'
+                                                    >
+
+                                                        <img
+                                                            src={`/${business.logo}`}
+                                                            className="object-cover w-full h-64 sm:h-90"
+                                                            alt=""
+                                                        />
+                                                        <div className="p-4 border border-t-0" >
+
+
+                                                            <div className='justify-between'>
+                                                                <p
+
+                                                                    aria-label="Category"
+                                                                    title="Visit the East"
+                                                                    className="inline-block mb-3 text-lg font-medium   leading-5 transition-colors duration-200 hover:text-deep-purple-accent-700"
+                                                                >
+                                                                    {business.name}
+                                                                </p>
+                                                            </div>
+
+
+                                                            <div className='flex justify-start align-middle'>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                                                                </svg>
+
+                                                                <p className="ml-2 text-gray-700 text-xs mb-2 font-light">
+                                                                    {business.location}
+                                                                </p>
+
+                                                            </div>
+                                                            <div className='flex justify-start align-middle'>
+                                                                
+
+                                                                <p className="ml-2 text-red-700 text-xs mb-2 font-light">
+                                                                    
+                                                                    {business.distance!=null ? `${Intl.NumberFormat('en-US').format((business.distance/1000).toFixed(1))} km away` : 'Distance not available'}
+                                                                </p>
+
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </Link>
+                                            ))
+
+                                            }
+                                        </div>
+                                        <Link href={'/business/category/'+ category.slug}>
+                                        <button className='bg-primary p-3 text-white shadow-md shadow-gray-300 rounded mt-4'>{'More '+category.name + ' nearby'} </button>
+                                        </Link>
+                                    </div>
                         </div>
-                        <div className="w-full mt-3 grid grid-cols-1 gap-y-3 gap-x-2 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-3">
+                                ))
+                            }
+                        {/* <div className="w-full mt-3 grid grid-cols-1 gap-y-3 gap-x-2 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-3">
                             {
                                 businesses.data && businesses.data.map(m => (
                                     <Link href={`/business/${m.slug}`}>
@@ -119,7 +257,7 @@ function UserHomeScreen({ businesses, products, business }) {
                                     </Link>
                                 ))
                             }
-                        </div>
+                        </div> */}
 
                     </main>
                     <aside className="p-2 w-full md:w-1/5 flex flex-col items-center">

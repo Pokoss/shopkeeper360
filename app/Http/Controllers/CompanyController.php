@@ -37,17 +37,41 @@ class CompanyController extends Controller
 
         return Inertia::render('RegisterCompanyScreen', ['category' => $category]);
     }
-    public function businesses()
+    public function businesses(Request $request)
     {
-        //
+        
+        return Inertia::render('UserHomeScreen');
+    }
+
+    public function getNearbyBusinesses(Request $request)
+    {
         $businesses = Company::latest()->paginate(10);
         $business = Company::latest()->limit(5)->get();
-
         $products = OnlineProduct::with('product','category','company')->limit(4)->get();
+        $latitude = $request->latitude;
+        $longitude = $request->longitude;
+
+        // return Response(['latitude' => $latitude, 'longitude'=>$longitude]);
+        // Fetch all categories
+        $categories = BusinessCategory::all();
+
+        // Fetch nearest businesses for each category
+        $categoriesWithBusinesses = $categories->map(function ($category) use ($latitude, $longitude) {
+            $category->businesses = Company::selectRaw("*, ST_Distance_Sphere(point(longitude, latitude), point(?, ?)) as distance", [
+                $longitude, $latitude
+            ])
+            ->where('category_id', $category->id)
+            ->orderBy('distance')
+            ->limit(4)
+            ->get();
+            return $category;
+        });
+
         
 
-        return Inertia::render('UserHomeScreen', ['businesses' => $businesses, 'business' => $business, 'products'=>$products]);
+        return Inertia::render('UserHomeScreen', ['businesses' => $businesses, 'business' => $business, 'products'=>$products, 'categories'=>$categoriesWithBusinesses]); 
     }
+
 
     /**
      * Show the form for creating a new resource.

@@ -62,6 +62,24 @@ function UserBusinessScreen({ business, category, products }) {
             <div className='container mx-auto flex flex-wrap  max-w-full'>
                 <main className="p-2 w-full md:w-4/5 flex flex-col items-center">
 
+                    <div className="w-full mt-3 grid grid-cols-2 gap-y-3 gap-x-2 sm:grid-cols-3 lg:grid-cols-4 xl:gap-x-3">
+                        {
+                            category.map(m => (
+                                <Link href={`/business/${business.slug}/category/${m.id}`}>
+                                <div className='rounded-xl bg-primary p-5'>
+                                    <p className='text-white font-semibold text-center'>{m.name}</p>
+                                </div>
+                                </Link>
+                            ))
+
+
+                        }
+                        
+                    </div>
+                    {/* <div className='flex w-full justify-center mt-14'>
+                        <p className='text-lg text-primary font-bold'>All Items</p>
+                    </div> */}
+
                     <form className='mt-5'>
                         <div className='flex rounded-md mb-10 mx-5'>
                             <input
@@ -79,21 +97,6 @@ function UserBusinessScreen({ business, category, products }) {
                             </button>
                         </div>
                     </form>
-                    <div className="w-full mt-3 grid grid-cols-2 gap-y-3 gap-x-2 sm:grid-cols-3 lg:grid-cols-4 xl:gap-x-3">
-                        {
-                            category.map(m => (
-                                <div className='rounded-xl bg-primary p-5'>
-                                    <p className='text-white font-semibold text-center'>{m.name}</p>
-                                </div>
-                            ))
-
-
-                        }
-                    </div>
-                    <div className='flex w-full justify-center mt-14'>
-                        <p className='text-lg text-primary font-bold'>All Items</p>
-                    </div>
-
 
                     <div className="w-full mt-3 grid grid-cols-2 gap-y-3 gap-x-2 sm:grid-cols-3 lg:grid-cols-4 xl:gap-x-3">
                         {

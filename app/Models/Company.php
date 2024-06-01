@@ -29,5 +29,14 @@ class Company extends Model
     public function category(){
         return $this->belongsTo(BusinessCategory::class,'category_id','id');
     }
+
+    // public function scopeNearest($query, $latitude, $longitude, $limit = 4)
+    // {
+    //     return $query->selectRaw("*, ST_Distance_Sphere(point(longitude, latitude), point(?, ?)) as distance", [
+    //             $longitude, $latitude
+    //         ])
+    //         ->orderBy('distance')
+    //         ->limit($limit);
+    // }
 }
 
