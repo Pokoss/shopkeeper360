@@ -17,7 +17,8 @@ function PointOfSaleScreen({ company, products, cart_items }) {
     useEffect(() => {
         var initialOptions = products.data.map((prod) => ({
             value: prod.id,
-            label: String(prod.name + ' -> UGX ' + Intl.NumberFormat('en-US').format(prod.retail_price)),
+            label: String(prod.name),
+            price: 'UGX ' + Intl.NumberFormat('en-US').format(prod.retail_price),
             available: prod.available
         }));
         setOptions(initialOptions);
@@ -72,11 +73,21 @@ function PointOfSaleScreen({ company, products, cart_items }) {
     };
     const [inputVal, setInputVal] = useState('');
 
-    const formatOptionLabel = ({ value, label, available }) => (
+    const formatOptionLabel = ({ value, label, available,price }) => (
         <div style={{ display: "" }}>
-            <div>{label}</div>
-            <div className='text-green-700 text-sm'>
-                {available + ' remaining'}
+            <div className='text-normal font-semibold'>{label}</div>
+            <div className='flex justify-between'>
+
+            <div className='text-red-700 text-xs font-semibold'>
+            {price } 
+            </div>
+            <div className='text-gray-400 text-xs font-semibold'>
+            Expiry: Not specified 
+            </div>
+            <div className='text-green-700 text-xs'>
+
+            {available + ' remaining'}
+            </div>
             </div>
         </div>
     );
@@ -87,7 +98,8 @@ function PointOfSaleScreen({ company, products, cart_items }) {
         if (!inputValue) {
             var initialOptions = products.data.map((prod) => ({
                 value: prod.id,
-                label: String(prod.name + ' -> UGX ' + Intl.NumberFormat('en-US').format(prod.retail_price)),
+                label: String(prod.name),
+                price: 'UGX ' + Intl.NumberFormat('en-US').format(prod.retail_price),
                 available: prod.available
             }));
             setOptions(initialOptions);
@@ -100,7 +112,8 @@ function PointOfSaleScreen({ company, products, cart_items }) {
                 const productss = response.data.product.data;
                 var filteredOptions = productss.map((prod) => ({
                     value: prod.id,
-                    label: String(prod.name + ' -> UGX ' + Intl.NumberFormat('en-US').format(prod.retail_price)),
+                    label: String(prod.name),
+                    price: 'UGX ' + Intl.NumberFormat('en-US').format(prod.retail_price),
                     available: prod.available
                 }));
                 setOptions(filteredOptions);
@@ -247,10 +260,10 @@ function PointOfSaleScreen({ company, products, cart_items }) {
                     </div>
                     <div>
                         <div className='font-bold text-xl mb-1'>
-                            UGX {Intl.NumberFormat('en-US').format(cartTotal)}<br />
+                            UGX {Intl.NumberFormat('en-US').format(cartTotal)}<br /> 
 
                         </div>
-                        <button onClick={() => registerPay()} className='py-2 px-10 rounded-md font-semibold text-base text-gray-100 bg-primary hover:bg-red-700'>Register Pay</button>
+                        <button onClick={() => registerPay()} className='py-2 px-10 rounded-md font-semibold text-base text-gray-100 bg-primary hover:bg-red-700'>Record Sale</button>
                     </div>
                 </div>
 

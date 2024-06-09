@@ -111,16 +111,20 @@ class StockItemController extends Controller
         $stock = StockItem::where('id',$request->stockId)->first();
 
         //first subtract from product
-        $product = Product::where('product_id',$stock->product_id)->first();
+        $product = Product::where('id',$stock->product_id)->first();
         $old_available = $product->available - $stock->quantity;
 
         $stock->update([
-            'quantity' => $request->editQuantity,
-            'batch' => $request->editBatch,
-            'expiry_date' => $request->editExpiry,
+            'quantity' => $request->quantity,
+            'batch' => $request->batch,
+            'expiry_date' => $request->expiry_date,
         ]);
 
-        $new_available = $old_available + $request->editQuantity;
+        $new_available = $old_available + $request->quantity;
+
+        if($new_available < 0){
+            $new_available = 0;
+        }
 
         $product->update([
             'available' => $new_available
@@ -142,6 +146,17 @@ class StockItemController extends Controller
     {
         //
         $stock = StockItem::where('id',$request->stockId)->first();
+
+        $product = Product::where('id',$stock->product_id)->first();
+        $available = $product->available - $stock->quantity;
+
+        if($available<0){
+            $available = 0;
+        }
+        $product->update([
+            'available'=>$available
+        ]);
+
         $stock->delete();
     }
 }

@@ -1,11 +1,17 @@
 import Footer from '@/Layouts/components/Footer'
 import Navbar from '@/Layouts/components/Navbar'
-import { Button } from '@material-tailwind/react'
+import { router } from '@inertiajs/react'
+import { Input, Button, Dialog, DialogBody, DialogFooter, DialogHeader, Typography } from '@material-tailwind/react'
 import React, { useState, useEffect } from 'react'
+import { Fragment } from 'react'
 import { FacebookIcon, FacebookShareButton, TwitterShareButton, WhatsappIcon, WhatsappShareButton, XIcon } from 'react-share'
+import { toast, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 
 function UserProductDetailsScreen({ product }) {
     const currentUrl = location.href;
+    const [contact, setContact] = useState('')
+    const [locationDetails, setLocationDetails] = useState('')
     const [copied, setCopied] = useState(false)
     const copyLink = () => {
         navigator.clipboard.writeText(currentUrl);
@@ -43,9 +49,47 @@ function UserProductDetailsScreen({ product }) {
         setTotal(total)
     }, [number]);
 
+    const [size, setSize] = useState(null);
+    const handleOpen = (value) => setSize(value);
+
+    const orderProduct = async (event) => {
+        event.preventDefault();
+        toast.loading();
+
+        var company_id = product.company_id;
+        var product_id = product.product_id;
+        var cost_price = product.product.cost_price;
+        var retail_price = product.product.retail_price;
+        var order_total = total;
+        var quantity = number;
+
+        if (contact == '') {
+            toast.error('Type the contact for delivery')
+        }
+        if (number < 1) {
+            toast.error('First Set the quantity')
+        }
+        else if (locationDetails == '') {
+            toast.error('Type the location for delivery')
+        }
+        else {
+            router.post('/order-item', { company_id, product_id, cost_price, retail_price, order_total, quantity, location: locationDetails, contact },
+                {
+                    onSuccess: () => {
+                        toast.dismiss();
+                        handleOpen()
+                        toast.success('Order Placed Successfully')
+                        setContact(''),
+                        setLocationDetails('');
+                    }
+                }
+            )
+        }
+    }
+
     console.log(product)
     return (
-        <div>
+        <div className='font-oswald h-screen w-full scrollbar-thumb-rounded overflow-y-scroll scrollbar-thin scrollbar-thumb-primary scrollbar-track-gray-200'>
             <div>
                 <Navbar />
                 <div className='w-full fill'>
@@ -95,15 +139,15 @@ function UserProductDetailsScreen({ product }) {
                                         </div>
 
                                         <div className='p-2 mt-7 w-full grid grid-cols-2 gap-3 sm:grid-cols-2 md:grid-cols-2 place-items-center class justify-center'>
-                                        <button className='text-white rounded-md flex justify-center items bg-primary p-2 w-full sm:w-32'> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-6 h-6 mr-1">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                        </svg> Add to cart
-                                        </button>
-                                        
-                                        <button className='text-white rounded-md flex justify-center items bg-primary p-2 w-full sm:w-32'> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-6 h-6 mr-1">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                        </svg> Order Now
-                                        </button>
+                                            <button className='text-white rounded-md flex justify-center items bg-primary p-2 w-full sm:w-32'> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-6 h-6 mr-1">
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg> Add to cart
+                                            </button>
+
+                                            <button onClick={() => handleOpen('xl')} className='text-white rounded-md flex justify-center items bg-primary p-2 w-full sm:w-32'> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-6 h-6 mr-1">
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg> Order Now
+                                            </button>
 
                                         </div>
 
@@ -255,6 +299,60 @@ function UserProductDetailsScreen({ product }) {
                     </div>
                 </div>
             </div>
+
+            <Fragment>
+                <Dialog
+                    open={
+                        size === "xl"
+                    }
+                    size={size}
+                    handler={handleOpen}
+                >
+                    <DialogHeader>
+                        <Typography variant="h5" color="blue-gray">
+                            Just few details and its done
+                        </Typography>
+                    </DialogHeader>
+
+                    <form
+                        onSubmit={orderProduct}
+                    >
+                        <DialogBody divider className="grid place-items-center gap-4">
+                            {/* <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-16 w-16 text-primary">
+                       <path strokeLinecap="round" strokeLinejoin="round" d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z" />
+                   </svg> */}
+
+                            <p className='text-lg font-bold text-black'>
+
+                                Order {number + ' ' + product.product.name} at  <span className='text-red-700'>UGX {Intl.NumberFormat('en-US').format(total)}</span>
+                            </p>
+
+
+                            <Input label='Phone contact for delivery'
+                                value={contact} onChange={(event) => setContact(event.target.value)} size='sm'
+                            />
+                            <Input label='Describe where to bring the order'
+                                value={locationDetails} onChange={(event) => setLocationDetails(event.target.value)} size='sm'
+                            />
+
+
+                        </DialogBody>
+                        <DialogFooter className="space-x-2">
+                            <Button onClick={handleOpen} variant="gradient" color="blue-gray">
+                                Close
+                            </Button>
+
+
+                            <Button type='submit' className='bg-primary'>
+                                Order Now
+                            </Button>
+
+
+                        </DialogFooter>
+                    </form>
+                </Dialog>
+            </Fragment>
+            <ToastContainer />
             <Footer />
         </div>
     )

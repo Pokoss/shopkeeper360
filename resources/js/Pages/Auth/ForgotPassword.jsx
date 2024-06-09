@@ -17,7 +17,7 @@ export default function ForgotPassword({ status }) {
     };
 
     return (
-        <div>
+        <div className='font-oswald'>
             <Navbar />
 
             <GuestLayout>

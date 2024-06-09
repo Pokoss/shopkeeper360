@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\CartItem;
 use App\Models\Employee;
+use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\Receipt;
 use App\Models\Sale;
@@ -90,6 +92,53 @@ class SalePointController extends Controller
         CartItem::where('company_id',$request->company_id)->where('user_id', Auth::user()->id)->delete();
 
         
+    }
+
+    public function record_sale(Request $request)
+    {
+        $request->validate([
+            'company_id' => 'required',
+            'order_total' => 'required',
+            'order_id' => 'required',
+            'user_id' => 'required',
+        ]);
+        $transaction_id = mt_rand(1000, 9999) . Carbon::now()->format('ymdHis');
+
+        $receipt = Receipt::create([
+            'sale_id' => $transaction_id,
+            'sale_total' => $request->order_total,
+            'sold_by' => Auth::user()->id,
+            'discount' => 0,
+            'company_id' => $request->company_id,
+        ]);
+
+        $order_items = OrderItem::with('product')->where('company_id',$request->company_id)->where('user_id',$request->user_id)->where('order_id',$request->order_id)->get();
+
+        foreach ($order_items as $order_item) {
+
+            Sale::create([
+                'product_id' => $order_item->product_id,
+                'quantity' => $order_item->quantity,
+                'sale_price' => $order_item->product->retail_price * $order_item->quantity,
+                'cost_price' => $order_item->product->cost_price,
+                'sale_id' => $transaction_id,
+                'sold_by' => Auth::user()->id,
+                'company_id' => $request->company_id,
+            ]);
+            $product = Product::where('id',$order_item->product_id)->first();
+            $new_available = $product->available - $order_item->quantity;
+            if($new_available<0){
+                $new_available = 0;
+            }
+            $product->update(['available'=>$new_available]);
+        }
+
+        $status = Order::where('order_id',$request->order_id)->first();
+
+        $status->update([
+            'status'=>'finished'
+        ]);
+
     }
 
     /**

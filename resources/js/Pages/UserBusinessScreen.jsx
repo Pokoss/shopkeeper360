@@ -8,9 +8,9 @@ function UserBusinessScreen({ business, category, products }) {
     console.log(products)
     var mapping = [1, 2, 3, 4, 5, 6, 7, 8]
     return (
-        <div>
+        <div className='h-screen w-full scrollbar-thumb-rounded overflow-y-scroll scrollbar-thin scrollbar-thumb-primary scrollbar-track-gray-200'>
             <Navbar />
-            <div className="w-full  p-5 shadow-sm shadow-primary bg-white">
+            <div className="font-oswald w-full  p-5 shadow-sm shadow-primary bg-white ">
                 <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
                     <div className="grid-cols-1 lg:col-span-3">
                         <div className="mx-auto flex items-center justify-center  ">
@@ -145,6 +145,14 @@ function UserBusinessScreen({ business, category, products }) {
                             ))
                         }
                     </div>
+                        <div className='flex justify-center mt-3 space-x-4 bg-gray-200 p-3 rounded-xl items-center'>             
+                        <div><Link className='bg-white p-2 text-black rounded-md hover:bg-primary hover:text-white text-xs font-bold' href={products.first_page_url}>First</Link></div>
+                        <div><Link className='bg-white p-2 text-black rounded-md hover:bg-primary hover:text-white text-xs font-bold' href={products.previous_page_url}>Previous</Link></div>
+                        <div className='text-xs font-bold'> {'Page '+products.current_page + ' of ' + products.last_page}</div>
+                        <div><Link className='bg-white p-2 text-black rounded-md hover:bg-primary hover:text-white text-xs font-bold' href={products.next_page_url}>Next</Link></div>
+                        <div><Link className='bg-white p-2 text-black rounded-md hover:bg-primary hover:text-white text-xs font-bold' href={products.last_page_url}>Last</Link></div>
+                        </div>
+
 
                 </main>
                 <aside className="p-2 w-full md:w-1/5 flex flex-col items-center">

@@ -15,7 +15,7 @@ import 'react-toastify/dist/ReactToastify.css';
 function OnlineProductScreen({ company, products, product,category }) {
     console.log(products)
     const [search, setSearch] = useState('');
-    const [page, setPage] = useState(1);
+    const [page, setPage] = useState(products.current_page);
     const [inputVal, setInputVal] = useState('');
 
     const [selectedOption, setSelectedOption] = useState(null);
@@ -256,8 +256,8 @@ function OnlineProductScreen({ company, products, product,category }) {
                 highlightOnHover
                 pagination
                 paginationServer
-                paginationTotalRows={products}
-                paginationPerPage={products}
+                paginationTotalRows={products.total}
+                paginationPerPage={products.per_page}
                 onChangePage={handlePageChange}
                 paginationRowsPerPageOptions={[]}
 

@@ -10,7 +10,7 @@ function Layout({children,props}) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
     return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="font-oswald flex h-screen ">
 
         {/* Sidebar */}
         <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} props={props}/>
@@ -22,7 +22,7 @@ function Layout({children,props}) {
           <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} props={props}/>
 
             {/* Main content */}
-            <main>
+            <main className='h-screen w-full scrollbar-thumb-rounded overflow-y-scroll scrollbar-thin scrollbar-thumb-primary scrollbar-track-gray-200'>
                 <div className="w-full">
                     {children}
                 </div>

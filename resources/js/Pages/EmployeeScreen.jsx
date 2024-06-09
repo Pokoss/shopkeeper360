@@ -54,6 +54,44 @@ function EmployeeScreen({ company, employees }) {
     }
 
 
+    const postDelete = async (event) => {
+        event.preventDefault();
+
+        try {
+            router.post('/delete-employee', { editEmployeeId },
+                {
+                    onSuccess: () => {
+                        toast.success('Deleted Successfully');
+                        handleOpenEdit();
+                    }
+                }
+            )
+        } catch (error) {
+            toast.dismiss()
+            toast.error(error);             
+            console.log('Error checking username:', error);
+        }
+    }
+    const postEdit = async (event) => {
+        event.preventDefault();
+
+        try {
+            router.post('/edit-employee', { editEmployeeId, editPosition },
+                {
+                    onSuccess: () => {
+                        toast.success('Edited Successfully');
+                        handleOpenEdit();
+                    }
+                }
+            )
+        } catch (error) {
+            toast.dismiss()
+            toast.error(error);             
+            console.log('Error checking username:', error);
+        }
+
+        
+    }
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -139,7 +177,7 @@ function EmployeeScreen({ company, employees }) {
         ,
         {
             name: 'Added On',
-            selector: row => new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }),
+            selector: row => new Date(row.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }),
         },
         {
             selector: row => <button onClick={() => editEmployee(row.user.name, row.user.email, row.position, row.id)} className='bg-green-600 rounded-md p-1'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-5 h-5">
@@ -278,7 +316,7 @@ function EmployeeScreen({ company, employees }) {
                         </Typography>
                     </DialogHeader>
                     <form
-                        onSubmit={handleSubmit}
+                        onSubmit={postEdit}
                     >
                         <DialogBody divider className="grid place-items-center gap-4">
 
@@ -303,7 +341,7 @@ function EmployeeScreen({ company, employees }) {
                         </DialogBody>
                         <DialogFooter>
                             <div className='flex w-full justify-between'>
-                                <Button onClick={handleOpenEdit} variant="gradient" color="red">
+                                <Button onClick={postDelete} variant="gradient" color="red">
                                     Delete
                                 </Button>
                                 <div className="space-x-2">

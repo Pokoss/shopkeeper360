@@ -27,6 +27,9 @@ export default function ResetPassword({ token, email }) {
     };
 
     return (
+    <div className='font-oswald'>
+
+    
         <GuestLayout>
             <Head title="Reset Password" />
 
@@ -86,5 +89,6 @@ export default function ResetPassword({ token, email }) {
                 </div>
             </form>
         </GuestLayout>
+        </div>
     );
 }

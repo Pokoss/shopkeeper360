@@ -29,7 +29,7 @@ export default function Login({ status, canResetPassword }) {
     };
 
     return (
-        <div>
+        <div className='font-oswald'>
 
         
             <Navbar/> 

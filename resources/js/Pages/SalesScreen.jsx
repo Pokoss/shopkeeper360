@@ -136,7 +136,7 @@ function SalesScreen({ company, sales, sales_today,profit }) {
                 onChange={(e) => setEndDate(e.target.value)} 
                 className='md:w-full' />
               <Button type="submit" label='To'
-                className='md:w-full bg-primary'>
+                className='w-full bg-primary'>
                   Search
                 </Button>
             </div>

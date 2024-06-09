@@ -48,7 +48,7 @@ function UserHomeScreen({ businesses, products, business, categories }) {
 
 
     const handleError = (error) => {
-        fetchBusinesses(location.latitude,location.longtitude)
+        fetchBusinesses(location.latitude, location.longtitude)
         switch (error.code) {
             case error.PERMISSION_DENIED:
                 setError("User denied the request for Geolocation.");
@@ -83,7 +83,7 @@ function UserHomeScreen({ businesses, products, business, categories }) {
 
     console.log(products)
     return (
-        <div>
+        <div className='font-oswald h-screen w-full scrollbar-thumb-rounded overflow-y-scroll scrollbar-thin scrollbar-thumb-primary scrollbar-track-gray-200'>
             <Navbar />
             <section className="flex flex-col lg:flex-row lg:space-x-5 justify-center items-center bg-gray-100 p-2 lg:p-2">
                 <div className='w-full  lg:w-4/6'>
@@ -144,14 +144,34 @@ function UserHomeScreen({ businesses, products, business, categories }) {
 
             <div className='w-full fill'>
 
+
                 <div className='mt-3 container mx-auto flex flex-wrap  max-w-full'>
                     <main className="p-2 w-full md:w-4/5 flex flex-col items-center">
-                            {
-                                categories && categories.map((category) => (
-                                    <div className='flex w-full justify-center mb-8'>
+                        <div className='text-2xl mb-5'>
+                            Hey, how can we help you?
+                        </div>
+                        <div className='flex justify-center w-full mb-10'>
+
+                            <Link>
+                                <div className='bg-yellow-900 hover:bg-primary p-2 mr-4 flex rounded-lg items-center'>
+                                    <img className='w-10 h-10' src='/images/access/search-business.png' />
+                                    <p className='ml-2 text-gray-200'>Search Business</p>
+                                </div>
+                            </Link>
+
+                            <Link href='/products/nearby'>
+                                <div className='bg-yellow-900 hover:bg-primary p-2 ml-5 flex rounded-lg items-center'>
+                                    <img className='w-9 h-9' src='/images/access/search-product.png' />
+                                    <p className='ml-2 text-gray-200'>Search Product</p>
+                                </div>
+                            </Link>
+                        </div>
+                        {
+                            categories && categories.map((category) => (
+                                <div className='flex w-full justify-center mb-8'>
                                     <div className='w-full'>
 
-                                        <p className='text-lg w-full text-center text-primary font-semibold'>{category.name} nearby</p>
+                                        <p className='text-2xl w-full text-center text-primary font-semibold mb-5'>{category.name} nearby</p>
                                         <div className="w-full mt-3 grid grid-cols-2 gap-y-3 gap-x-2 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-3">
                                             {category.businesses && category.businesses.map((business) => (
                                                 <Link className='shadow-sm shadow-gray-400' href={`/business/${business.slug}`}>
@@ -190,11 +210,11 @@ function UserHomeScreen({ businesses, products, business, categories }) {
 
                                                             </div>
                                                             <div className='flex justify-start align-middle'>
-                                                                
+
 
                                                                 <p className="ml-2 text-red-700 text-xs mb-2 font-light">
-                                                                    
-                                                                    {business.distance!=null ? `${Intl.NumberFormat('en-US').format((business.distance/1000).toFixed(1))} km away` : 'Distance not available'}
+
+                                                                    {business.distance != null ? `${Intl.NumberFormat('en-US').format((business.distance / 1000).toFixed(1))} km away` : 'Distance not available'}
                                                                 </p>
 
                                                             </div>
@@ -206,13 +226,13 @@ function UserHomeScreen({ businesses, products, business, categories }) {
 
                                             }
                                         </div>
-                                        <Link href={'/business/category/'+ category.slug}>
-                                        <button className='bg-primary p-3 text-white shadow-md shadow-gray-300 rounded mt-4'>{'More '+category.name + ' nearby'} </button>
+                                        <Link href={'/business/category/' + category.slug}>
+                                            <button className='bg-primary p-3 text-white shadow-md shadow-gray-300 rounded mt-4'>{'More ' + category.name + ' nearby'} </button>
                                         </Link>
                                     </div>
-                        </div>
-                                ))
-                            }
+                                </div>
+                            ))
+                        }
                         {/* <div className="w-full mt-3 grid grid-cols-1 gap-y-3 gap-x-2 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-3">
                             {
                                 businesses.data && businesses.data.map(m => (

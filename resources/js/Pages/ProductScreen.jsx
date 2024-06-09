@@ -210,13 +210,17 @@ function ProductScreen({ company, products, measurements}) {
             selector: row => `${row.available}`,
         },
         {
-            name: 'Measurement',
-            selector: row => `${row.measurement.name} (${row.measurement.abbriviation})`,
+            name: 'Retail Price (UGX)',
+            selector: row => `${Intl.NumberFormat('en-US').format(row.retail_price) } / ${row.measurement.abbriviation}`,
         },
+        // {
+        //     name: 'Measurement',
+        //     selector: row => `${row.measurement.name} (${row.measurement.abbriviation})`,
+        // },
         ,
         {
             name: 'Added On',
-            selector: row => new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }),
+            selector: row => new Date(row.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }),
         },
         {
             selector: row => <div className='flex items-center'>
@@ -276,6 +280,7 @@ function ProductScreen({ company, products, measurements}) {
                             {/* <Input label='Wholesale Selling Price' type='number'
                                 value={wholeSaleSellingPrice} onChange={(event) => setWholeSaleSellingPrice(event.target.value)} size='sm'
                             /> */}
+                            <ToastContainer />
                         </DialogBody>
                         <DialogFooter className="space-x-2">
                             <Button onClick={handleOpen} variant="gradient" color="blue-gray">
@@ -381,12 +386,13 @@ function ProductScreen({ company, products, measurements}) {
                                         Edit
                                     </Button>
                                 </div>
+                                <ToastContainer />
                             </div>
                         </DialogFooter>
                     </form>
                 </Dialog>
             </Fragment>
-            <ToastContainer />
+            
         </div>
     )
 }

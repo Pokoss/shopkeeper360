@@ -2,6 +2,7 @@ import defaultTheme from 'tailwindcss/defaultTheme';
 import forms from '@tailwindcss/forms';
 
 /** @type {import('tailwindcss').Config} */
+
 const withMT = require("@material-tailwind/react/utils/withMT");
 module.exports = withMT({
     content: [
@@ -14,6 +15,7 @@ module.exports = withMT({
     theme: {
         extend: {
             fontFamily: {
+                oswald: ["Oswald", "sans-serif"],
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
             colors: {
@@ -25,6 +27,7 @@ module.exports = withMT({
     plugins: [
         forms,
         require('@tailwindcss/line-clamp'),
+        require('tailwind-scrollbar'),
     ],
 
 });

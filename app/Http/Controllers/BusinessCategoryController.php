@@ -31,7 +31,7 @@ class BusinessCategoryController extends Controller
             ])
             ->where('category_id', $business_category->id)
             ->orderBy('distance')
-            ->paginate(10);
+            ->paginate(12);
             return Response(['businesses' => $businesses,'latitude'=>$latitude,'longitude'=>$longitude]);
         // return Inertia::render('UserBusinessCategoryScreen',['category'=>$business_category,'businesses'=> $businesses]);
     }

@@ -39,13 +39,15 @@ function StockScreen({ company, stock_item, product }) {
 
     const [options, setOptions] = useState([]);
 
+    const [editId, setEditId] = useState('');
     const [editName, setEditName] = useState('');
     const [editBatch, setEditBatch] = useState('');
     const [editExpiry, setEditExpiry] = useState('');
     const [editQuantity, setEditQuantity] = useState('');
 
-    function editStock(name, quantity, batch, expiry) {
+    function editStock(id,name, quantity, batch, expiry) {
         handleOpenEdit("xl")
+        setEditId(id);
         setEditName(name);
         setEditQuantity(quantity);
         setEditBatch(batch);
@@ -130,7 +132,7 @@ function StockScreen({ company, stock_item, product }) {
         },
         {
             name: 'Batch',
-            selector: row => row.batch,
+            selector: row => row.batch == null? "No batch":row.batch,
         },
         {
             name: 'Expiry Date',
@@ -142,7 +144,7 @@ function StockScreen({ company, stock_item, product }) {
             selector: row => new Date(row.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }),
         },
         {
-            selector: row => <button onClick={() => editStock(row.product.name, row.quantity, row.batch, row.expiry_date)} className='bg-green-600 rounded-md p-1'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-5 h-5">
+            selector: row => <button onClick={() => editStock(row.id, row.product.name, row.quantity, row.batch, row.expiry_date)} className='bg-green-600 rounded-md p-1'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-5 h-5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
             </svg>
             </button>
@@ -171,12 +173,72 @@ function StockScreen({ company, stock_item, product }) {
         });
     }
 
+    const postDelete = (event) => {
+        event.preventDefault();
+        var stockId = editId;
+
+        try {
+            router.post('/delete-stock', { stockId },
+                {
+                    onSuccess: () => {
+                        toast.success('Product deleted');
+                        handleOpenEdit()
+                        // setSelectedOption(useState(null));
+                    }
+                }
+            )
+        } catch (error) {
+            toast.dismiss()
+            toast.error(error);
+        }
+
+
+    }
+    const postEdit = (event) => {
+        event.preventDefault();
+
+        var stockId = editId;
+        var quantity = editQuantity;
+        var batch = editBatch;
+        var expiry_date = editExpiry;
+
+        if (quantity == '') {
+            toast.dismiss()
+            toast.error('Write the quantity')
+        }
+        else if (quantity <= 0) {
+            toast.dismiss()
+            toast.error('Quantity cannot be 0 or less')
+        }
+        else{
+            try {
+                router.post('/edit-stock', { stockId, quantity, batch, expiry_date },
+                    {
+                        onSuccess: () => {
+                            toast.success('Product edited successfully');
+                            handleOpenEdit();
+                            // setSelectedOption(useState(null));
+                        }
+                    }
+                )
+            } catch (error) {
+                toast.dismiss()
+                toast.error(error);
+            }
+        }
+    }
+
     const postStock = async (event) => {
         event.preventDefault();
         toast.loading();
         var companyId = company.company_id;
         var product_id = selectedOption.value;
-        if (quantity == '') {
+
+        if (selectedOption == null) {
+            toast.dismiss()
+            toast.error('Item is required')
+        }
+        else if (quantity == '') {
             toast.dismiss()
             toast.error('Write the quantity')
         }
@@ -316,7 +378,7 @@ function StockScreen({ company, stock_item, product }) {
                         </Typography>
                     </DialogHeader>
                     <form
-                    // onSubmit={handleSubmit}
+                    onSubmit={postEdit}
                     >
                         <DialogBody divider className="grid place-items-center gap-4">                           
                             <Input label='Name' disabled
@@ -334,7 +396,7 @@ function StockScreen({ company, stock_item, product }) {
                         </DialogBody>
                         <DialogFooter>
                             <div className='flex w-full justify-between'>
-                                <Button onClick={handleOpenEdit} variant="gradient" color="red">
+                                <Button onClick={postDelete} variant="gradient" color="red">
                                     Delete
                                 </Button>
                                 <div className="space-x-2">
@@ -346,11 +408,12 @@ function StockScreen({ company, stock_item, product }) {
                                     </Button>
                                 </div>
                             </div>
+                            
                         </DialogFooter>
                     </form>
                 </Dialog>
             </Fragment>
-            <ToastContainer />
+            <ToastContainer/>
         </div>
     )
 }

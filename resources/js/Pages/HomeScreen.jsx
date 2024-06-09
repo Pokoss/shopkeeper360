@@ -63,7 +63,7 @@ function HomeScreen() {
 
     return (
 
-        <div className="space-y-12 dark:bg-gray-800 dark:text-gray-100">
+        <div className="font-oswald h-screen w-full scrollbar-thumb-rounded overflow-y-scroll scrollbar-thin scrollbar-thumb-primary scrollbar-track-gray-200 dark:bg-gray-800 dark:text-gray-100">
             <Navbar />
 
 
@@ -106,10 +106,10 @@ function HomeScreen() {
                         <p className="text-sm sm:text-base">Workshops</p>
                     </div>
 
-                    <p className='text-black font-bold text-lg'>latitude: {location.latitude}</p><br /><br />
+                    {/* <p className='text-black font-bold text-lg'>latitude: {location.latitude}</p><br /><br />
                     <p className='text-black font-bold text-lg'>longtitude: {location.longitude}</p>
                     <p className='text-black font-bold text-lg'>longtitude: {location.longitude}</p>
-                    <p className='text-black font-bold text-lg'>error: {error}</p>
+                    <p className='text-black font-bold text-lg'>error: {error}</p> */}
                 </div>
             </section>
             <section className="py-8">

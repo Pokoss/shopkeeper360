@@ -29,7 +29,7 @@ export default function Register() {
     };
 
     return (
-        <div>
+        <div className='font-oswald'>
 
         <Navbar/>
         <GuestLayout>

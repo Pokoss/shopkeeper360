@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Employee;
 use App\Models\OnlineCategory;
+use App\Models\OnlineProduct;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -61,9 +62,12 @@ class OnlineCategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(OnlineCategory $onlineCategory)
+    public function show($company, $category, Request $request)
     {
         //
+        $products = OnlineProduct::where('category_id', $category)->with('product')->paginate(10);
+
+        return Inertia::render('UserBusinessProductCategoryScreen',['products'=>$products]);
     }
 
     /**

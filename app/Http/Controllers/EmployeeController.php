@@ -71,9 +71,18 @@ class EmployeeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Employee $employee)
+    public function edit(Request $request)
     {
         //
+        $employee = Employee::where('id',$request->editEmployeeId)->first();
+
+        if($employee->position == 'owner'){
+            return;
+        }
+
+        $employee->update([
+            'position'=> $request->editPosition
+        ]);
     }
 
     /**
@@ -82,11 +91,11 @@ class EmployeeController extends Controller
     public function update(Request $request)
     {
         //
-        $employee = Employee::where('id',$request->employee_id)->where('company_id',$request->company_id)->first();
+        // $employee = Employee::where('id',$request->employee_id)->where('company_id',$request->company_id)->first();
 
-        $update = $employee->update([
-            'position'=> $request->position
-        ]);
+        // $update = $employee->update([
+        //     'position'=> $request->position
+        // ]);
     }
 
     /**
@@ -95,6 +104,11 @@ class EmployeeController extends Controller
     public function destroy(Request $request)
     {
         //
-        $employee = Employee::where('id', $request->employee_id)->delete();
+        $employee = Employee::where('id', $request->editEmployeeId)->first();
+        if($employee->position == 'owner'){
+            return;
+        }
+
+        $employee->delete();
     }
 }

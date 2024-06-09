@@ -30,7 +30,6 @@ class CompanyController extends Controller
     public function business()
     {
         //
-
         $category = BusinessCategory::all();
 
         
@@ -148,7 +147,7 @@ class CompanyController extends Controller
 
         $category = OnlineCategory::where('company_id',$business->id)->get();
 
-        $products = OnlineProduct::with('product','category')->where('company_id',$business->id)->latest()->paginate(12);
+        $products = OnlineProduct::with('product','category')->where('company_id',$business->id)->latest()->paginate(10);
 
         return Inertia::render('UserBusinessScreen', ['business' => $business, 'category'=> $category, 'products' => $products]);
         

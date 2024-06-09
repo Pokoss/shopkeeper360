@@ -9,7 +9,7 @@ import Footer from '@/Layouts/components/Footer'
 function CompanyScreen({companies}) {
 console.log(companies)
     return (
-        <div>
+        <div className='font-oswald'>
             <Navbar/>
          
             <section className="max-w-4xl p-6 mx-auto bg-gray-100 rounded-md shadow-md dark:bg-gray-800 my-10">

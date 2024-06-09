@@ -56,6 +56,8 @@ const Receipt = forwardRef(( {company, props} ) => {
                         {/* {moment(props.receiptData.date).format('MM/DD/YYYY hh:mm A')} */}
                         {new Date(props.receipts.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' })}
                         </div>
+
+                        <div className="font-bold mt-1">CUSTOMER RECEIPT</div>
                 </div>
             </div>
 

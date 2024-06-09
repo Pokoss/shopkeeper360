@@ -6,7 +6,7 @@ import { Typography } from '@material-tailwind/react';
 Chart.register(...registerables);
 import { Chart, registerables } from 'chart.js';
 
-function DashboardHomeScreen({ company, sales_today, customer_visits, out_of_stock, top_products, sales_data }) {
+function DashboardHomeScreen({ company, sales_today, customer_visits, out_of_stock, top_products, sales_data,orders }) {
   console.log(sales_data)
   const options = {
     responsive: true,
@@ -60,7 +60,7 @@ function DashboardHomeScreen({ company, sales_today, customer_visits, out_of_sto
     ],
   };
   return (
-    <div>
+    <div className='font-oswald'>
       <div className='px-3 md:px-5 py-5 overflow-y-auto'>
         <div className="grid gap-3 md:gap-6 mb-8 grid-cols-2 lg:grid-cols-4">
           <div className="flex items-center justify-between py-2 px-4 bg-white rounded shadow-xs dark:bg-gray-800">
@@ -68,7 +68,7 @@ function DashboardHomeScreen({ company, sales_today, customer_visits, out_of_sto
               <p className="text-xl font-bold text-gray-700 dark:text-gray-200">
                 UGX {Intl.NumberFormat('en-US').format(sales_today)}
               </p>
-              <p className="text-lg font-semibold text-red-700 dark:text-gray-400">
+              <p className="text-lg font-semibold text-primary dark:text-gray-400">
                 Today's Sales
               </p>
             </div>
@@ -84,7 +84,7 @@ function DashboardHomeScreen({ company, sales_today, customer_visits, out_of_sto
               <p className="text-xl font-bold text-gray-700 dark:text-gray-200">
                 {Intl.NumberFormat('en-US').format(customer_visits)}
               </p>
-              <p className="text-lg font-semibold text-red-700 dark:text-gray-400">
+              <p className="text-lg font-semibold text-primary dark:text-gray-400">
                 Customers today
               </p>
             </div>
@@ -100,24 +100,24 @@ function DashboardHomeScreen({ company, sales_today, customer_visits, out_of_sto
               <p className="text-xl font-bold text-gray-700 dark:text-gray-200">
                 {Intl.NumberFormat('en-US').format(out_of_stock)}
               </p>
-              <p className="text-lg font-semibold text-red-700 dark:text-gray-400">
+              <p className="text-lg font-semibold text-primary dark:text-gray-400">
                 Out of Stock
               </p>
             </div>
-            <div className="p-3 hidden md:block text-red-500 bg-red-100 rounded-full dark:text-orange-100 dark:bg-orange-500">
+            <div className="p-3 hidden md:block text-red-200 bg-red-100 rounded-full dark:text-orange-100 dark:bg-orange-500">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
               </svg>
               
             </div>
           </Link>
-          <Link href={`/inventory/stock/expired/?expiryDate`} as='button' className="flex items-center text-left justify-between py-2 px-4 bg-white rounded shadow-xs dark:bg-gray-800">
+          <Link href={`/dashboard/${company.company.slug}/online-portal/orders`} as='button' className="flex items-center text-left justify-between py-2 px-4 bg-white rounded shadow-xs dark:bg-gray-800">
             <div>
               <p className="text-xl font-bold text-gray-700 dark:text-gray-200">
-                0
-                {/* {Intl.NumberFormat('en-US').format(company.company.account_balance)} */}
+                
+                {Intl.NumberFormat('en-US').format(orders)}
               </p>
-              <p className="text-lg font-semibold text-red-700 dark:text-gray-400">
+              <p className="text-lg font-semibold text-primary dark:text-gray-400">
                 Online Orders
               </p>
             </div>
@@ -170,7 +170,7 @@ function DashboardHomeScreen({ company, sales_today, customer_visits, out_of_sto
         </div>
         <div className='container mx-auto flex flex-wrap justify-evenly  sm:h-full'>
           <main className="w-full p-1 md:w-2/4 flex flex-col items-center h-full">
-            <Typography className='bg-red-300 w-full text-center text-white' variant='h5'>Weekly Sales</Typography>
+            <Typography className='bg-purple-800 w-full text-center text-white' variant='h5'>Weekly Sales</Typography>
             <div className='mt-3 w-full'>
               <Line className='w-full' options={options} data={data} />
             </div>

@@ -14,7 +14,7 @@ function Navbar() {
     console.log(auth);
 
     return (
-        <nav className="w-full bg-primary shadow sticky top-0 z-50">
+        <nav className="font-oswald w-full bg-primary shadow sticky top-0 z-50">
             <div className="justify-between px-2 mx-auto lg:max-w-7xl md:items-center md:flex md:px-4">
                 <div>
                     <div className="flex items-center justify-between py-3 md:py-4 md:block">
@@ -69,6 +69,12 @@ function Navbar() {
                     >
                         <ul className="items-center justify-center space-y-8 md:flex md:space-x-6 md:space-y-0">
                             <li className="text-white hover:text-yellow-500">
+                                <Link href={'/home'}>
+                                    <p>Home</p>
+                                </Link>
+
+                            </li>
+                            <li className="text-white hover:text-yellow-500">
                                 <Link href={'/'}>
                                     <p>About</p>
                                 </Link>
@@ -80,24 +86,72 @@ function Navbar() {
                             <li className="text-white hover:text-yellow-500">
                                 <a href="">Locations</a>
                             </li> */}
-                            {/* <li className="text-white hover:text-yellow-500">
-                                <Link href={'/favourite'} ><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7">
+                            
+            
+                            <li className="text-white hover:text-yellow-500">
+                                <Menu
+                                    animate={{
+                                        mount: { y: 0 },
+                                        unmount: { y: 25 },
+                                    }}
+                                >
+                                    <MenuHandler>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
                                 </svg>
-                                </Link>
-                                
 
-                            </li> */}
-                            
-                            {/* <li className="text-white hover:text-yellow-500">
-                                <Link href={'/search'}>
+                                        {/* <Button variant="gradient" color='white'>{name}</Button> */}
+                                    </MenuHandler>
+                                    <MenuList>
+                                        {
+                                         <Link href={'/company'}><MenuItem>Favourite Businesses</MenuItem></Link>
+                                                                         
+                                        }
+                                        {
+                                           <Link href={'/company'}><MenuItem>Favourite Products</MenuItem></Link>
+                                      
+
+                                        }
+                                        
+                                        
+                                        
+                                    </MenuList>
+
+                                </Menu>
+
+                            </li>
+                            <li className="text-white hover:text-yellow-500">
+                                <Menu
+                                    animate={{
+                                        mount: { y: 0 },
+                                        unmount: { y: 25 },
+                                    }}
+                                >
+                                    <MenuHandler>
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
                                     </svg>
 
-                                </Link>
+                                        {/* <Button variant="gradient" color='white'>{name}</Button> */}
+                                    </MenuHandler>
+                                    <MenuList>
+                                        {
+                                         <Link href={'/company'}><MenuItem>Search Business</MenuItem></Link>
+                                                                         
+                                        }
+                                        {
+                                           <Link href={'/products/nearby'}><MenuItem>Search Product</MenuItem></Link>
+                                      
 
-                            </li> */}
+                                        }
+                                        
+                                        
+                                        
+                                    </MenuList>
+
+                                </Menu>
+
+                            </li>
                             <li className="text-white hover:text-yellow-500">
                                 <Menu
                                     animate={{

@@ -92,7 +92,7 @@ function UserBusinessCategoryScreen({businesses,category}) {
     }
 
   return (
-    <div>
+    <div className='font-oswald h-screen w-full scrollbar-thumb-rounded overflow-y-scroll scrollbar-thin scrollbar-thumb-primary scrollbar-track-gray-200'>
         <Navbar/>
         <div>
         <div className='container mx-auto flex flex-wrap  max-w-full'>
