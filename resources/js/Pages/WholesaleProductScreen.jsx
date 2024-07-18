@@ -10,9 +10,8 @@ import DataTable from 'react-data-table-component'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+function WholesaleProductScreen({ company, products, product,category }) {
 
-
-function OnlineProductScreen({ company, products, product,category }) {
     console.log(products)
     const [search, setSearch] = useState('');
     const [page, setPage] = useState(products.current_page);
@@ -48,7 +47,7 @@ function OnlineProductScreen({ company, products, product,category }) {
 
 
     const fetchData = (page) => {
-        router.get(`/dashboard/${company.company.slug}/online-portal/product`, { page, search }, { preserveState: true });
+        router.get(`/dashboard/${company.company.slug}/wholesale/products`, { page, search }, { preserveState: true });
     };
 
     const handlePageChange = (page) => {
@@ -61,7 +60,7 @@ function OnlineProductScreen({ company, products, product,category }) {
         setSearch(e.target.value)
         setPage(1)
         var search = e.target.value
-        router.get(`/dashboard/${company.company.slug}/online-portal/product`, {
+        router.get(`/dashboard/${company.company.slug}/wholesale/products`, {
             search, page: 1
         }, {
             preserveState: true, preserveScroll: true, onSuccess: () => {
@@ -94,7 +93,7 @@ function OnlineProductScreen({ company, products, product,category }) {
         else {
             toast.success('success')
             try {
-                router.post('/add-online-product', { companyId, productId, categoryId, image, description, productName },
+                router.post('/add-wholesale-product', { companyId, productId, categoryId, image, description, productName },
                     {
                         onSuccess: () => {
                             toast.success('Product added successfully');
@@ -117,50 +116,8 @@ function OnlineProductScreen({ company, products, product,category }) {
 
     const [options, setOptions] = useState([]);
 
-    useEffect(() => {
-        var initialOptions = product.data.map((prod) => ({
-            value: prod.id,
-            label: String(prod.name),
-            product: prod.name 
-        }));
-        setOptions(initialOptions);
-    }, [product]);
-
-    const filterOptions = async (inputValue) => {
-        setInputVal(inputValue)
-        if (!inputValue) {
-            var initialOptions = product.data.map((prod) => ({
-                value: prod.id,
-                label: String(prod.name),
-                product: prod.name 
-            }));
-            setOptions(initialOptions);
-            return;
-        }
-        try {
-            var company_id = company.company_id;
-            const response = await axios.get(`/search_stock?q=${inputValue}&company_id=${company_id}`);
-            console.log('full response', response.data)
-            if (response.data.product.data && response.data.product.data) {
-                console.log('pro data:', response.data.product.data);
-                const productss = response.data.product.data;
-                var filteredOptions = productss.map((prod) => ({
-                    value: prod.id,
-                    label: String(prod.name),
-                    product: prod.name
-
-                }));
-                setOptions(filteredOptions);
-            }
-            else {
-                console.error('unexpected')
-                setOptions([]);
-            }
-        } catch (error) {
-            console.error('Error fetching products:', error);
-            setOptions([]);
-        }
-    };
+   
+    
 
 
     const [size, setSize] = useState(null);
@@ -222,12 +179,15 @@ function OnlineProductScreen({ company, products, product,category }) {
             </svg>
             </button>
         },]
-    return (
-        <div>
-            <DataTable
-                title={'Online Products' &&
+
+
+  return (
+
+    <div>
+          <DataTable
+                title={'Wholesale Product' &&
                     <div className='flex flex-col md:flex-row space-x-0 md:space-x-5 space-y-5 md:space-y-0 whitespace-nowrap items-start md:items-center justify-between w-full border-b-2 border-primary pb-3 pt-2'>
-                        <span>{'Online Products'}</span>
+                        <span>{'Wholesale Product'}</span>
                         <div className='flex space-x-3 items-center md:space-x-5 w-full md:w-1/2 md:justify-end print:hidden'>
 
                             <Input type='text' label='Search'
@@ -285,7 +245,7 @@ function OnlineProductScreen({ company, products, product,category }) {
                     >
                         <DialogBody divider className="h-[28rem] overflow-scroll grid place-items-center gap-4">
                             <Input label='Company Logo' accept=".jpg,.jpeg,.png" size='md' type='file' onChange={handleImageChange} />
-                            <Select className='w-full'
+                            {/* <Select className='w-full'
                                 value={selectedOption} // Set the value prop to the selected option state
                                 onChange={handleSelectChange} // Call handleSelectChange when an option is selected
                                 options={options}
@@ -299,7 +259,7 @@ function OnlineProductScreen({ company, products, product,category }) {
                                         ...baseStyles,
                                         borderColor: state.isFocused ? 'brown' : 'brown',
                                     }),
-                                }} />
+                                }} /> */}
 
                             <select className='w-full' value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
                                 <option  value={0} className='bg-gray-200'> Select the category.......</option>
@@ -325,11 +285,9 @@ function OnlineProductScreen({ company, products, product,category }) {
                 </Dialog>
             </Fragment>
             <ToastContainer />
-        </div>
-    )
-
+    </div>
+  )
 }
 
-OnlineProductScreen.layout = page => <Layout children={page} props={page.props.company} />
-
-export default OnlineProductScreen
+WholesaleProductScreen.layout = page => <Layout children={page} props={page.props.company} />
+export default WholesaleProductScreen

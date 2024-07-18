@@ -1,12 +1,41 @@
 import Footer from '@/Layouts/components/Footer'
 import Navbar from '@/Layouts/components/Navbar'
-import { Link } from '@inertiajs/react'
+import { Link, router } from '@inertiajs/react'
 import { Avatar } from '@material-tailwind/react'
 import React from 'react'
+import { useState } from 'react'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-function UserBusinessScreen({ business, category, products }) {
-    console.log(products)
-    var mapping = [1, 2, 3, 4, 5, 6, 7, 8]
+function UserBusinessScreen({ business, category, products, favourite }) {
+    console.log(favourite)
+    // const [likeChecker,setLikeChecker] = useState{false}
+
+    const favouriteAction = (event) => {
+        event.preventDefault();
+
+        var company_id = business.id;
+
+        try {
+
+            router.post('/favourite-business', {company_id,},{
+                onSuccess: ()=>{
+               
+                    toast.success(favourite == 0 ? `${business.name} added to favourite` : `${business.name} removed from favourite`)
+                }
+            })
+        
+            }
+            catch (error) {
+                toast.dismiss()
+                toast.error(error);
+            }
+        
+
+        }
+       
+
+
     return (
         <div className='h-screen w-full scrollbar-thumb-rounded overflow-y-scroll scrollbar-thin scrollbar-thumb-primary scrollbar-track-gray-200'>
             <Navbar />
@@ -52,7 +81,9 @@ function UserBusinessScreen({ business, category, products }) {
                         <div className="mt-6 grid grid-cols-2 gap-4">
                             <Link to={`/businesscart`} className="w-full rounded-xl border-2 border-blue-500 bg-white px-3 py-2 font-semibold text-blue-500 hover:bg-blue-500 hover:text-white" ><p className='w-full text-center'>My Cart</p></Link>
 
-                            <button className="w-full rounded-xl border-2 border-red-500 bg-white px-3 py-2 font-semibold text-red-500 hover:bg-red-500 hover:text-white" >Add Favorite</button>
+                            <button
+                            onClick={favouriteAction}
+                            className="w-full rounded-xl border-2 border-red-500 bg-white px-3 py-2 font-semibold text-red-500 hover:bg-red-500 hover:text-white" >{favourite == 0 ? 'Add Favourite' : 'Remove Favourite' }</button>
                         </div>
                     </div>
                 </div>
@@ -159,6 +190,7 @@ function UserBusinessScreen({ business, category, products }) {
                     <a className="uppercase mt-5" href="">Promoted</a>
                 </aside>
             </div>
+            <ToastContainer/>s
             <Footer />
         </div>
     )

@@ -7,7 +7,6 @@ Chart.register(...registerables);
 import { Chart, registerables } from 'chart.js';
 
 function DashboardHomeScreen({ company, sales_today, customer_visits, out_of_stock, top_products, sales_data,orders }) {
-  console.log(sales_data)
   const options = {
     responsive: true,
     
@@ -134,38 +133,75 @@ function DashboardHomeScreen({ company, sales_today, customer_visits, out_of_sto
             Shortcuts
           </div>
           <div className='grid grid-cols-3 md:grid-cols-4 lg:grid-cols-8 p-2'>
+          {
+            company.position == 'dispenser' || company.position == 'admin' || company.position == 'owner' ?
+
             <Link href={`/dashboard/${company.company.slug}/pos`} className='w-full bg-white rounded m-1 flex flex-col items-center space-y-3 py-3 border-b-4 border-transparent hover:border-tertiary cursor-pointer'>
               <img src='/images/access/cart.png' alt="" className='w-14' />
               <span className='text-base'>Point of Sale</span>
             </Link>
+            :<></>
+          }
+          {
+            company.position == 'admin' || company.position == 'owner' ||company.position == 'accountant' ?
+
             <Link href={`/dashboard/${company.company.slug}/sales`} className='w-full  rounded m-1 flex flex-col items-center space-y-3 py-3 border-b-4 border-transparent hover:border-tertiary cursor-pointer'>
               <img src='/images/access/pay.png' alt="" className='w-14' />
               <span className='text-base'>Sales</span>
             </Link>
-            <Link href={`/dashboard/${company.company.slug}/inventory/stock`} className='w-full bg-white rounded m-1 flex flex-col items-center space-y-3 py-3 border-b-4 border-transparent hover:border-tertiary cursor-pointer'>
-              <img src='/images/access/todo.png' alt="" className='w-14' />
-              <span className='text-base'>Stock Items</span>
-            </Link>
+            :
+            <></>
+          }
+          {
+            company.position == 'admin' || company.position == 'owner'?
+          <Link href={`/dashboard/${company.company.slug}/inventory/stock`} className='w-full bg-white rounded m-1 flex flex-col items-center space-y-3 py-3 border-b-4 border-transparent hover:border-tertiary cursor-pointer'>
+            <img src='/images/access/todo.png' alt="" className='w-14' />
+            <span className='text-base'>Stock Items</span>
+          </Link>
+          :
+          <></>
+          }
+          {
+            company.position == 'admin' || company.position == 'owner'?
             <Link href={`/dashboard/${company.company.slug}/inventory/product`} className='w-full  rounded m-1 flex flex-col items-center space-y-3 py-3 border-b-4 border-transparent hover:border-tertiary cursor-pointer'>
               <img src='/images/access/product.png' alt="" className='w-14' />
               <span className='text-base'>Products</span>
             </Link>
+            :<></>
+          }
+          {
+            company.position == 'admin' || company.position == 'owner' || company.position=='hr'?
             <Link href={`/dashboard/${company.company.slug}/hr/employee`} className='w-full bg-white rounded m-1 flex flex-col items-center space-y-3 py-3 border-b-4 border-transparent hover:border-tertiary cursor-pointer'>
               <img src='/images/access/company.png' alt="" className='w-14' />
               <span className='text-base'>Employees</span>
             </Link>
+            :
+            <></>
+          }
             <Link className='w-full  rounded m-1 flex flex-col items-center space-y-3 py-3 border-b-4 border-transparent hover:border-tertiary cursor-pointer'>
               <img src='/images/access/department.png' alt="" className='w-14' />
               <span className='text-base'>Customers</span>
             </Link>
+
+            {
+            company.position == 'admin' || company.position == 'owner' || company.position == 'cashier' || company.position == 'dispenser'?
             <Link href={`/dashboard/${company.company.slug}/accounting/receipts`} className='w-full bg-white rounded m-1 flex flex-col items-center space-y-3 py-3 border-b-4 border-transparent hover:border-tertiary cursor-pointer'>
               <img src='/images/access/income.png' alt="" className='w-14' />
               <span className='text-base'>Receipts</span>
             </Link>
+            :
+            <></>
+          }
+          {
+            company.position == 'admin' || company.position == 'owner' || company.position == 'accountant'?
+
             <Link href={`/dashboard/${company.company.slug}/accounting/expenses`} className='w-full  rounded m-1 flex flex-col items-center space-y-3 py-3 border-b-4 border-transparent hover:border-tertiary cursor-pointer'>
               <img src='/images/access/expense.png' alt="" className='w-14' />
               <span className='text-base'>Expenses</span>
             </Link>
+            :
+            <></>
+          }
           </div>
         </div>
         <div className='container mx-auto flex flex-wrap justify-evenly  sm:h-full'>

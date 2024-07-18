@@ -6,6 +6,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DashboardHomeController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\FavouriteBusinessController;
 use App\Http\Controllers\OnlineCategoryController;
 use App\Http\Controllers\OnlineProductController;
 use App\Http\Controllers\OrderController;
@@ -17,6 +18,11 @@ use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SalePointController;
 use App\Http\Controllers\StockItemController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\WholesaleCategoryController;
+use App\Http\Controllers\WholesaleHomeController;
+use App\Http\Controllers\WholesaleProductController;
+use App\Http\Controllers\WholesaleSupplierController;
+use App\Models\FavouriteBusiness;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -53,13 +59,6 @@ Route::get('/product/{slug}',[OnlineProductController::class, 'show']);
 
 Route::get('/products/nearby',[ProductController::class, 'products']);
 
-// Route::get('/business-home', function () {
-//     return Inertia::render('UserBusinessScreen');
-// });
-// Route::get('/product-details', function () {
-//     return Inertia::render('UserProductDetailsScreen');
-// });
-
 Route::get('/dashboard/pos', function () {
     return Inertia::render('PointOfSaleScreen');
 });
@@ -80,6 +79,8 @@ Route::get('/business/category/{category}', [BusinessCategoryController::class, 
 Route::post('/business/category/{category}', [BusinessCategoryController::class, 'business']);
 
 Route::post('/home', [CompanyController::class, 'getNearbyBusinesses']);
+
+Route::get('/wholesale', [WholesaleHomeController::class, 'index']);
 
 // Route::get('/products', [BusinessCategoryController::class, 'index']);
 
@@ -136,11 +137,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard/{company}/accounting/receipts', [ReceiptController::class, 'index']);
     Route::get('/dashboard/{company}/accounting/expenses', [ExpenseController::class, 'index']);
     Route::get('/dashboard/{company}/accounting/purchases', [PurchaseController::class, 'index']);
+    
+    
+    Route::get('/dashboard/{company}/wholesale/supplier', [WholesaleSupplierController::class, 'index']);
+    Route::get('/dashboard/{company}/wholesale/category', [WholesaleCategoryController::class, 'index']);
+    Route::get('/dashboard/{company}/wholesale/products', [WholesaleProductController::class, 'index']);
 
     Route::get('/dashboard/{company}/sales', [SaleController::class, 'index']);
 
     Route::get('/getlastsale', [ReceiptController::class, 'sale']);
-    
 
     Route::get('/dashboard/{company}/online-portal/category', [OnlineCategoryController::class, 'index']);
     Route::post('/add-online-category', [OnlineCategoryController::class, 'store']);
@@ -150,6 +155,14 @@ Route::middleware('auth')->group(function () {
     Route::post('/record_sale', [SalePointController::class, 'record_sale']);
     
     Route::post('/order-item', [OrderController::class, 'single']);
+
+    Route::post('/favourite-business', [FavouriteBusinessController::class, 'store']);
+    
+    Route::get('/favourite-business', [FavouriteBusinessController::class, 'index']);
+    
+    Route::post('/wholesale/addsupplier', [WholesaleSupplierController::class, 'store']);
+
+    Route::post('/wholesale/addcategory', [WholesaleCategoryController::class, 'store']);
 });
 
 require __DIR__.'/auth.php';

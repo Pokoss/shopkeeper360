@@ -26,20 +26,46 @@ class DashboardHomeController extends Controller
             $query->where('slug', $company);
         })->with('company', 'user')->where('user_id', Auth::user()->id)->first();
         $salesData = [];
+        
+        $sales_today = 0;
         // Loop through the last 7 days
-        for ($i = 6; $i >= 0; $i--) {
-            $date = Carbon::now()->subDays($i);
-            $dayLabel = $date->format('l'); // Get the day name (e.g., Monday)
-            $totalSales = Receipt::where('company_id',$comp->company->id)->whereDate('created_at', $date->toDateString())
-                ->sum('sale_total');
-            $salesData[] = [
-                'day' => $dayLabel,
-                'total_sales' => $totalSales
-            ];
+        if ($comp->position == 'admin' || $comp->position == 'owner' || $comp->position == 'accountant') {
+
+            for ($i = 6; $i >= 0; $i--) {
+                $date = Carbon::now()->subDays($i);
+                $dayLabel = $date->format('l'); // Get the day name (e.g., Monday)
+                $totalSales = Receipt::where('company_id', $comp->company->id)->whereDate('created_at', $date->toDateString())
+                    ->sum('sale_total');
+                $salesData[] = [
+                    'day' => $dayLabel,
+                    'total_sales' => $totalSales
+                ];
+            }
+            
+            $sales = Receipt::whereDate('created_at', Carbon::today())->where('company_id', $comp->company->id)->get();
+            foreach ($sales as $sale) {
+                $sales_today = $sales_today + ($sale->sale_total - $sale->discount);
+            }
+        } else {
+            for ($i = 6; $i >= 0; $i--) {
+                $date = Carbon::now()->subDays($i);
+                $dayLabel = $date->format('l'); // Get the day name (e.g., Monday)
+                $totalSales = Receipt::where('company_id', $comp->company->id)->whereDate('created_at', $date->toDateString())->where('sold_by', $comp->user_id)
+                    ->sum('sale_total');
+                $salesData[] = [
+                    'day' => $dayLabel,
+                    'total_sales' => $totalSales
+                ];
+            }
+            $sales = Receipt::whereDate('created_at', Carbon::today())->where('company_id', $comp->company->id)->where('sold_by',$comp->user_id)->get();
+            foreach ($sales as $sale) {
+                $sales_today = $sales_today + ($sale->sale_total - $sale->discount);
+            }
         }
-        $onlineOrders = Order::where('status','pending')->where('company_id', $comp->company->id)->count();
+        $onlineOrders = Order::where('status', 'pending')->where('company_id', $comp->company->id)->count();
         //Get the date 1 months ago from today. It was supposed to be 3 months but because of the resources this query was chewing
         //we reduced it to 1 month hence the variable threeMonthsAgo 
+
         $threeMonthsAgo = Carbon::now()->subMonths(1);
         // Query to get the top 5 most sold products in the past 1 months
         $topProducts = Sale::select('product_id', DB::raw('SUM(quantity) as total_quantity'))
@@ -50,15 +76,11 @@ class DashboardHomeController extends Controller
             ->with('product') // Eager load the related products
             ->take(5)
             ->get();
-        $sales = Receipt::whereDate('created_at', Carbon::today())->where('company_id', $comp->company->id)->get();
-        $sales_today = 0;
-        foreach ($sales as $sale) {
-            $sales_today = $sales_today + ($sale->sale_total - $sale->discount);
-        }
+       
         $out = Product::where('company_id', $comp->company_id)->where('available', '<', 1)->get();
         $out_of_stock = $out->count();
         $customer_visits = $sales->count();
-        return Inertia::render('DashboardHomeScreen', ['company' => $comp, 'sales_today' => $sales_today, 'customer_visits' => $customer_visits, 'out_of_stock' => $out_of_stock, 'top_products' => $topProducts, 'sales_data' => $salesData,'orders'=>$onlineOrders]);
+        return Inertia::render('DashboardHomeScreen', ['company' => $comp, 'sales_today' => $sales_today, 'customer_visits' => $customer_visits, 'out_of_stock' => $out_of_stock, 'top_products' => $topProducts, 'sales_data' => $salesData, 'orders' => $onlineOrders]);
     }
 
     /**

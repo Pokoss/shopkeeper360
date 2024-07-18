@@ -1,7 +1,6 @@
 import Layout from '@/Layouts/components/Layout'
 import { router } from '@inertiajs/react';
 import { Button, Input, Option, Select } from '@material-tailwind/react';
-
 import React,{useState} from 'react'
 import DataTable from 'react-data-table-component';
 import { toast, ToastContainer } from 'react-toastify';

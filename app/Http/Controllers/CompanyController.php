@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\BusinessCategory;
 use App\Models\Company;
 use App\Models\Employee;
+use App\Models\FavouriteBusiness;
 use App\Models\OnlineCategory;
 use App\Models\OnlineProduct;
 use Carbon\Carbon;
@@ -149,7 +150,18 @@ class CompanyController extends Controller
 
         $products = OnlineProduct::with('product','category')->where('company_id',$business->id)->latest()->paginate(10);
 
-        return Inertia::render('UserBusinessScreen', ['business' => $business, 'category'=> $category, 'products' => $products]);
+        $favourite = 0;
+
+        $get_favourite = FavouriteBusiness::where('company_id', $business->id)->where('company_id', Auth::user()->id)->get();
+        
+        if ($get_favourite->isEmpty()){
+            $favourite = 0;
+        }
+        else{
+            $favourite = 1;
+        }
+
+        return Inertia::render('UserBusinessScreen', ['business' => $business, 'category'=> $category, 'products' => $products, 'favourite'=> $favourite]);
         
         
     }

@@ -75,6 +75,12 @@ function Navbar() {
 
                             </li>
                             <li className="text-white hover:text-yellow-500">
+                                <Link href={'/wholesale'}>
+                                    <p>Wholesale</p>
+                                </Link>
+
+                            </li>
+                            <li className="text-white hover:text-yellow-500">
                                 <Link href={'/'}>
                                     <p>About</p>
                                 </Link>
@@ -104,7 +110,7 @@ function Navbar() {
                                     </MenuHandler>
                                     <MenuList>
                                         {
-                                         <Link href={'/company'}><MenuItem>Favourite Businesses</MenuItem></Link>
+                                         <Link href={'/favourite-business'}><MenuItem>Favourite Businesses</MenuItem></Link>
                                                                          
                                         }
                                         {
