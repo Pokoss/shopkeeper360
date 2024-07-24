@@ -18,22 +18,22 @@ function UserBusinessScreen({ business, category, products, favourite }) {
 
         try {
 
-            router.post('/favourite-business', {company_id,},{
-                onSuccess: ()=>{
-               
+            router.post('/favourite-business', { company_id, }, {
+                onSuccess: () => {
+
                     toast.success(favourite == 0 ? `${business.name} added to favourite` : `${business.name} removed from favourite`)
                 }
             })
-        
-            }
-            catch (error) {
-                toast.dismiss()
-                toast.error(error);
-            }
-        
 
         }
-       
+        catch (error) {
+            toast.dismiss()
+            toast.error(error);
+        }
+
+
+    }
+
 
 
     return (
@@ -82,8 +82,8 @@ function UserBusinessScreen({ business, category, products, favourite }) {
                             <Link to={`/businesscart`} className="w-full rounded-xl border-2 border-blue-500 bg-white px-3 py-2 font-semibold text-blue-500 hover:bg-blue-500 hover:text-white" ><p className='w-full text-center'>My Cart</p></Link>
 
                             <button
-                            onClick={favouriteAction}
-                            className="w-full rounded-xl border-2 border-red-500 bg-white px-3 py-2 font-semibold text-red-500 hover:bg-red-500 hover:text-white" >{favourite == 0 ? 'Add Favourite' : 'Remove Favourite' }</button>
+                                onClick={favouriteAction}
+                                className="w-full rounded-xl border-2 border-red-500 bg-white px-3 py-2 font-semibold text-red-500 hover:bg-red-500 hover:text-white" >{favourite == 0 ? 'Add Favourite' : 'Remove Favourite'}</button>
                         </div>
                     </div>
                 </div>
@@ -93,20 +93,26 @@ function UserBusinessScreen({ business, category, products, favourite }) {
             <div className='container mx-auto flex flex-wrap  max-w-full'>
                 <main className="p-2 w-full md:w-4/5 flex flex-col items-center">
 
-                    <div className="w-full mt-3 grid grid-cols-2 gap-y-3 gap-x-2 sm:grid-cols-3 lg:grid-cols-4 xl:gap-x-3">
-                        {
-                            category.map(m => (
-                                <Link href={`/business/${business.slug}/category/${m.id}`}>
-                                <div className='rounded-xl bg-primary p-5'>
-                                    <p className='text-white font-semibold text-center'>{m.name}</p>
-                                </div>
-                                </Link>
-                            ))
+                    {category && category.length == 0 ?
+                        <></>
+                        :
+
+                        <div className="w-full mt-3 grid grid-cols-2 gap-y-3 gap-x-2 sm:grid-cols-3 lg:grid-cols-4 xl:gap-x-3">
+                            {
+                                category.map(m => (
+                                    <Link href={`/business/${business.slug}/category/${m.id}`}>
+                                        <div className='rounded-xl bg-primary p-5'>
+                                            <p className='text-white font-semibold text-center'>{m.name}</p>
+                                        </div>
+                                    </Link>
+                                ))
 
 
-                        }
-                        
-                    </div>
+                            }
+
+                        </div>
+                    }
+
                     {/* <div className='flex w-full justify-center mt-14'>
                         <p className='text-lg text-primary font-bold'>All Items</p>
                     </div> */}
@@ -129,60 +135,72 @@ function UserBusinessScreen({ business, category, products, favourite }) {
                         </div>
                     </form>
 
-                    <div className="w-full mt-3 grid grid-cols-2 gap-y-3 gap-x-2 sm:grid-cols-3 lg:grid-cols-4 xl:gap-x-3">
-                        {
-                            products.data && products.data.map(m => (
-                                <Link href={`/product/${m.slug}`}>
-                                    <div className='cursor-pointer w-full'
-                                    // to={`/escorts/${link}`}
-                                    //   state={{ id: '' }}
-                                    >
+                    {products.data && products.data.length == 0 ?
+                        <div className='flex items-center text-center font-semibold text-lg w-full bg-gray-100 p-10'>
+                        <span className='mx-auto'>
+            
+                          No products have been posted from this business
+                        </span>
+                      </div>
+                        :
+                        <div>
+                            <div className="w-full mt-3 grid grid-cols-2 gap-y-3 gap-x-2 sm:grid-cols-3 lg:grid-cols-4 xl:gap-x-3">
+                                {
+                                    products.data && products.data.map(m => (
+                                        <Link href={`/product/${m.slug}`}>
+                                            <div className='cursor-pointer w-full'
+                                            // to={`/escorts/${link}`}
+                                            //   state={{ id: '' }}
+                                            >
 
-                                        <img
-                                            src={`/${m.image}`}
-                                            className="object-cover w-full h-64 sm:h-90"
-                                            alt=""
-                                        />
-                                        <div className="p-2 border border-t-0" >
-
-
-                                            <div className='justify-between'>
-                                                <p
-
-                                                    aria-label="Category"
-                                                    title="Visit the East"
-                                                    className="inline-block mb-2 text-lg font-medium line-clamp-2  leading-5 transition-colors duration-200 hover:text-deep-purple-accent-700"
-                                                >
-                                                    {m.product.name}
-                                                </p>
-                                            </div>
+                                                <img
+                                                    src={`/${m.image}`}
+                                                    className="object-cover w-full h-64 sm:h-90"
+                                                    alt=""
+                                                />
+                                                <div className="p-2 border border-t-0" >
 
 
-                                            <div className='justify-start'>
-                                                {/* <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                                                    <div className='justify-between'>
+                                                        <p
+
+                                                            aria-label="Category"
+                                                            title="Visit the East"
+                                                            className="inline-block mb-2 text-lg font-medium line-clamp-2  leading-5 transition-colors duration-200 hover:text-deep-purple-accent-700"
+                                                        >
+                                                            {m.product.name}
+                                                        </p>
+                                                    </div>
+
+
+                                                    <div className='justify-start'>
+                                                        {/* <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
                                                         <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
                                                         <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
                                                     </svg> */}
 
-                                                <p className="text-red-700 mb-2 font-semibold line-clamp-1">
-                                                    {`UGX ${Intl.NumberFormat('en-US').format(m.product.retail_price)}`}
-                                                </p>
+                                                        <p className="text-red-700 mb-2 font-semibold line-clamp-1">
+                                                            {`UGX ${Intl.NumberFormat('en-US').format(m.product.retail_price)}`}
+                                                        </p>
 
+                                                    </div>
+
+                                                </div>
                                             </div>
-
-                                        </div>
-                                    </div>
-                                </Link>
-                            ))
-                        }
-                    </div>
-                        <div className='flex justify-center mt-3 space-x-4 bg-gray-200 p-3 rounded-xl items-center'>             
-                        <div><Link className='bg-white p-2 text-black rounded-md hover:bg-primary hover:text-white text-xs font-bold' href={products.first_page_url}>First</Link></div>
-                        <div><Link className='bg-white p-2 text-black rounded-md hover:bg-primary hover:text-white text-xs font-bold' href={products.previous_page_url}>Previous</Link></div>
-                        <div className='text-xs font-bold'> {'Page '+products.current_page + ' of ' + products.last_page}</div>
-                        <div><Link className='bg-white p-2 text-black rounded-md hover:bg-primary hover:text-white text-xs font-bold' href={products.next_page_url}>Next</Link></div>
-                        <div><Link className='bg-white p-2 text-black rounded-md hover:bg-primary hover:text-white text-xs font-bold' href={products.last_page_url}>Last</Link></div>
+                                        </Link>
+                                    ))
+                                }
+                            </div>
+                            <div className='flex justify-center mt-3 space-x-4 bg-gray-200 p-3 rounded-xl items-center'>
+                                <div><Link className='bg-white p-2 text-black rounded-md hover:bg-primary hover:text-white text-xs font-bold' href={products.first_page_url}>First</Link></div>
+                                <div><Link className='bg-white p-2 text-black rounded-md hover:bg-primary hover:text-white text-xs font-bold' href={products.previous_page_url}>Previous</Link></div>
+                                <div className='text-xs font-bold'> {'Page ' + products.current_page + ' of ' + products.last_page}</div>
+                                <div><Link className='bg-white p-2 text-black rounded-md hover:bg-primary hover:text-white text-xs font-bold' href={products.next_page_url}>Next</Link></div>
+                                <div><Link className='bg-white p-2 text-black rounded-md hover:bg-primary hover:text-white text-xs font-bold' href={products.last_page_url}>Last</Link></div>
+                            </div>
                         </div>
+                    }
+
 
 
                 </main>
@@ -190,7 +208,7 @@ function UserBusinessScreen({ business, category, products, favourite }) {
                     <a className="uppercase mt-5" href="">Promoted</a>
                 </aside>
             </div>
-            <ToastContainer/>s
+            <ToastContainer />
             <Footer />
         </div>
     )

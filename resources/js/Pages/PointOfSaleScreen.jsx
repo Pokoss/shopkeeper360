@@ -14,6 +14,8 @@ function PointOfSaleScreen({ company, products, cart_items }) {
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
     });
+
+    
     useEffect(() => {
         var initialOptions = products.data.map((prod) => ({
             value: prod.id,
@@ -31,6 +33,7 @@ function PointOfSaleScreen({ company, products, cart_items }) {
     const [cartTotal, setCartTotal] = useState(0);
     const [profit, setProfit] = useState(0);
     const [change, setChange] = useState(0);
+    const [discountAmount, setDiscountAmount] = useState(0);
     const [received, setReceived] = useState();
 
     const getChange = e => {
@@ -40,6 +43,18 @@ function PointOfSaleScreen({ company, products, cart_items }) {
         var total = e.target.value - cartTotal
 
         setChange(total)
+
+
+    }
+    const getDiscountAmount = e => {
+        e.preventDefault();
+        setDiscountAmount(e.target.value)
+
+        var dis = parseFloat(e.target.value) + (parseFloat(received)-parseFloat(cartTotal))
+
+        setChange(dis)
+
+      
 
 
     }
@@ -73,21 +88,21 @@ function PointOfSaleScreen({ company, products, cart_items }) {
     };
     const [inputVal, setInputVal] = useState('');
 
-    const formatOptionLabel = ({ value, label, available,price }) => (
+    const formatOptionLabel = ({ value, label, available, price }) => (
         <div style={{ display: "" }}>
             <div className='text-normal font-semibold'>{label}</div>
             <div className='flex justify-between'>
 
-            <div className='text-red-700 text-xs font-semibold'>
-            {price } 
-            </div>
-            <div className='text-gray-400 text-xs font-semibold'>
-            Expiry: Not specified 
-            </div>
-            <div className='text-green-700 text-xs'>
+                <div className='text-red-700 text-xs font-semibold'>
+                    {price}
+                </div>
+                <div className='text-gray-400 text-xs font-semibold'>
+                    Expiry: Not specified
+                </div>
+                <div className='text-green-700 text-xs'>
 
-            {available + ' remaining'}
-            </div>
+                    {available + ' remaining'}
+                </div>
             </div>
         </div>
     );
@@ -179,7 +194,7 @@ function PointOfSaleScreen({ company, products, cart_items }) {
         }
         else {
             var sale_total = cartTotal;
-            var discount = 0;
+            var discount = discountAmount;
             router.post('/register_pay', { company_id, sale_total, discount }, {
                 preserveScroll: true,
                 onSuccess: async () => {
@@ -231,8 +246,8 @@ function PointOfSaleScreen({ company, products, cart_items }) {
                 preserveScroll: true,
                 onSuccess: () => {
                     toast.success(selectedOption.label + ' added to cart')
-                    setSelectedOption(useState(null));
-                    setNumber('');
+                    setSelectedOption(null);
+                    setNumber(0);
                     setInputVal('');
                 }
             })
@@ -246,21 +261,30 @@ function PointOfSaleScreen({ company, products, cart_items }) {
         <div>
             <div className='px-5 pt-1'>
 
-                <div className='p-2 w-full grid grid-cols-1 gap-3 sm:grid-cols-3 place-items-center class justify-center'>
 
-                </div>
 
                 <div className="w-full grid grid-cols-1 gap-3 sm:grid-cols-3 place-items-center class justify-center">
-                    <Input type='number' label='Amount received' value={received} onChange={getChange}></Input>
-                    <div className='font-bold text-xl'>
+                    <div className='w-full space-y-2 mt-2'>
 
-                        <span className='text-base font-semibold'>
-                            Change: UGX {Intl.NumberFormat('en-US').format(change)}
-                        </span>
+                    <Input type='number' label='Amount received' value={received} onChange={getChange}></Input>
+                    {cart_items && cart_items.length == 0 ?<></>:
+                    
+                    <Input type='number' label='Discount Amount' value={discountAmount} onChange={getDiscountAmount}></Input>
+                }
+                    </div>
+                    <div className='font-bold text-xl'>
+                        {cart_items && cart_items.length == 0 ?
+                            <></>
+                            :
+
+                            <span className='text-base font-semibold'>
+                                Change: UGX {Intl.NumberFormat('en-US').format(change)}
+                            </span>
+                        }
                     </div>
                     <div>
                         <div className='font-bold text-xl mb-1'>
-                            UGX {Intl.NumberFormat('en-US').format(cartTotal)}<br /> 
+                            UGX {Intl.NumberFormat('en-US').format(cartTotal)}<br />
 
                         </div>
                         <button onClick={() => registerPay()} className='py-2 px-10 rounded-md font-semibold text-base text-gray-100 bg-primary hover:bg-red-700'>Record Sale</button>
@@ -302,48 +326,56 @@ function PointOfSaleScreen({ company, products, cart_items }) {
                     </svg> Add</button>
                 </div>
 
-                <div className="flex justify-between items-center bg-tertiary px-5 py-2 mt-5">
-                    <span className='font-semibold text-base'>Cart</span>
-                    <button onClick={() => emptyCart()} className='bg-red-400 py-1 px-5 rounded-md text-white hover:bg-primary md:mr-28'>Clear all</button>
-                </div>
+                {cart_items && cart_items.length == 0 ?
+                    <></>
+                    :
+                    <div>
+                        <div className="flex justify-between items-center bg-tertiary px-5 py-2 mt-5">
+                            <span className='font-semibold text-base'>Cart</span>
+                            <button onClick={() => emptyCart()} className='bg-red-400 py-1 px-5 rounded-md text-white hover:bg-primary md:mr-28'>Clear all</button>
+                        </div>
 
-                <table className="w-full text-left">
-                    <thead>
-                        <tr>
-                            <th className='w-2/6'>Product</th>
-                            <th className='w-1/6'>Price (UGX)</th>
-                            <th className='w-1/6'>Qty</th>
-                            <th className='w-1/6 print:hidden'>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody className="text-gray-600 dark:text-gray-100 ">
-                        {
-
-                            cart_items && cart_items.map((item => (
-
-                                <tr key={item.id} className='w-full justify-end'>
-                                    <td onClick={() => toast.success(item.product.name)} className="cursor-pointer sm:px-3 py-2 px-1 border-b border-gray-200 dark:border-gray-800 w-1/3">
-                                        {item.product.name}
-                                    </td>
-                                    <td className="sm:px-3 py-2 px-1 border-b border-gray-200 dark:border-gray-800 ">
-                                        {Intl.NumberFormat('en-US').format(item.product.retail_price)}
-                                    </td>
-                                    <td className="sm:px-3 py-2 px-1 border-b border-gray-200 dark:border-gray-800">
-                                        {item.quantity}
-                                    </td>
-                                    <td className="sm:px-3 py-2 px-1 border-b border-gray-200 dark:border-gray-800">
-                                        <button onClick={() => removeItem(item.id, item.product.name)} className='bg-red-400 rounded-md p-2'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-5 h-5">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                                        </svg>
-                                        </button>
-                                    </td>
+                        <table className="w-full text-left">
+                            <thead>
+                                <tr>
+                                    <th className='w-2/6'>Product</th>
+                                    <th className='w-1/6'>Price (UGX)</th>
+                                    <th className='w-1/6'>Qty</th>
+                                    <th className='w-1/6 print:hidden'>Action</th>
                                 </tr>
+                            </thead>
+                            <tbody className="text-gray-600 dark:text-gray-100 ">
+                                {
+
+                                    cart_items && cart_items.map((item => (
+
+                                        <tr key={item.id} className='w-full justify-end'>
+                                            <td onClick={() => toast.success(item.product.name)} className="cursor-pointer sm:px-3 py-2 px-1 border-b border-gray-200 dark:border-gray-800 w-1/3">
+                                                {item.product.name}
+                                            </td>
+                                            <td className="sm:px-3 py-2 px-1 border-b border-gray-200 dark:border-gray-800 ">
+                                                {Intl.NumberFormat('en-US').format(item.product.retail_price)}
+                                            </td>
+                                            <td className="sm:px-3 py-2 px-1 border-b border-gray-200 dark:border-gray-800">
+                                                {item.quantity}
+                                            </td>
+                                            <td className="sm:px-3 py-2 px-1 border-b border-gray-200 dark:border-gray-800">
+                                                <button onClick={() => removeItem(item.id, item.product.name)} className='bg-red-400 rounded-md p-2'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-5 h-5">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                                </svg>
+                                                </button>
+                                            </td>
+                                        </tr>
 
 
-                            )))
-                        }
-                    </tbody>
-                </table>
+                                    )))
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+
+
             </div>
 
             <Fragment>

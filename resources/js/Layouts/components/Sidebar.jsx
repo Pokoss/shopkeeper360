@@ -72,9 +72,11 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
         {/* Sidebar header */}
         <div className="flex justify-between pr-3 mb-10 sm:px-2">
           {/* Close button */}
+          <div className='lg:hidden bg-blue-gray-700 flex justify-center p-5 rounded-full h-5 w-5 items-center sticky top-0 z-50'>
+
           <button
             ref={trigger}
-            className="text-gray-500 lg:hidden hover:text-gray-400"
+            className="text-white hover:text-primary"
             onClick={() => setSidebarOpen(false)}
             aria-controls="sidebar"
             aria-expanded={sidebarOpen}
@@ -84,6 +86,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
               <path d="M10.7 18.7l1.4-1.4L7.8 13H20v-2H7.8l4.3-4.3-1.4-1.4L4 12z" />
             </svg>
           </button>
+          </div>
           {/* Logo */}
           <Link href="/" className="block">
             <img className='w-20 h-20 rounded-full' src={props.company.logo != '' ? '/' + props.company.logo : '/images/user/user.png'} />
@@ -114,7 +117,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
                         <path strokeLinecap="round" strokeLinejoin="round" d="M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25m6-12V15a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 15V5.25m18 0A2.25 2.25 0 0 0 18.75 3H5.25A2.25 2.25 0 0 0 3 5.25m18 0V12a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 12V5.25" />
                       </svg>
 
-                      <span className="text-sm font-medium"> Point of Sale</span>
+                      <span className="text-sm font-medium">Point of Sale</span>
                     </div>
                   </Link>
                 </li>
@@ -372,21 +375,17 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
                 :
                 <li></li>
             }
-
-
             {
               props.user.admin == 0 ?
                 <li></li>
                 :
                 <li className="rounded-sm mb-0.5">
-                  <Accordion open={open === 5} icon={<Icon id={5} open={open} />}>
+                  {/* <Accordion open={open === 5} icon={<Icon id={5} open={open} />}>
                     <AccordionHeader onClick={() => handleOpen(5)}>
                       <div className="pl-2 text-gray-200 flex items-center flex-grow">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 mr-3">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M8.288 15.038a5.25 5.25 0 0 1 7.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12.53 18.22l-.53.53-.53-.53a.75.75 0 0 1 1.06 0Z" />
                         </svg>
-
-
                         <span className="text-sm font-medium font-oswald">Wholesale</span>
                       </div>
                     </AccordionHeader>
@@ -438,12 +437,9 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
                         </li>
                       </ul>
                     </AccordionBody>
-                  </Accordion>
+                  </Accordion> */}
                 </li>
             }
-
-
-
             {/* <li className="rounded-sm mb-0.5">
               <Link href={`/dashboard/${props.company.slug}/sales`} className="block text-gray-200 hover:bg-brown-500 p-2">
                 <div className="flex items-center flex-grow">
@@ -469,14 +465,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
                 </div>
               </Link>
             </li> */}
-
-
-
           </ul >
-
-
         </div>
-
       </div>
     </div>
   )

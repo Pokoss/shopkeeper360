@@ -71,11 +71,27 @@ const Receipt = forwardRef(( {company, props} ) => {
             <table className="w-full mt-2 bg-transparent">
                 <tbody>
                     <tr>
-                        <td className="font-semibold text-start pl-5 py-2">TOTAL</td>
+                        <td className="font-semibold text-start pl-5 py-2">Total</td>
                         <td className="text-end pr-5">
                             {/* {facility.currency ?? 'UGX'} 
                             {props.receiptData.total.toLocaleString()} */}
                             {"UGX "+Intl.NumberFormat('en-US').format(props.receipts.sale_total)}
+                            </td>
+                    </tr>
+                    <tr>
+                        <td className="font-semibold text-start pl-5 py-2">Discount</td>
+                        <td className="text-end pr-5">
+                            {/* {facility.currency ?? 'UGX'} 
+                            {props.receiptData.total.toLocaleString()} */}
+                            {"UGX "+Intl.NumberFormat('en-US').format(props.receipts.discount)}
+                            </td>
+                    </tr>
+                    <tr>
+                        <td className="font-semibold text-start pl-5 py-2">TOTAL PAID</td>
+                        <td className="text-end pr-5 font-semibold py-2">
+                            {/* {facility.currency ?? 'UGX'} 
+                            {props.receiptData.total.toLocaleString()} */}
+                            {"UGX "+Intl.NumberFormat('en-US').format(parseFloat(props.receipts.sale_total) - parseFloat(props.receipts.discount))}
                             </td>
                     </tr>
                         {/* <tr>

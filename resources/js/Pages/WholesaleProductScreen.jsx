@@ -10,7 +10,7 @@ import DataTable from 'react-data-table-component'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-function WholesaleProductScreen({ company, products, product,category }) {
+function WholesaleProductScreen({ company, products, product, category, measurements }) {
 
     console.log(products)
     const [search, setSearch] = useState('');
@@ -29,6 +29,7 @@ function WholesaleProductScreen({ company, products, product,category }) {
     const [categoryId, setCategoryId] = useState('');
     const [description, setDescription] = useState('');
     const [productName, setProductName] = useState('');
+    const [measurement, setMeasurement] = useState(''); 
     const [image, setImage] = useState(null);
 
     const handleImageChange = (event) => {
@@ -80,7 +81,7 @@ function WholesaleProductScreen({ company, products, product,category }) {
             toast.dismiss()
             toast.error('Select the product')
         }
-        else if (categoryId == '0'|| categoryId == '') {
+        else if (categoryId == '0' || categoryId == '') {
             toast.dismiss()
             toast.error('Select the category')
         }
@@ -88,8 +89,8 @@ function WholesaleProductScreen({ company, products, product,category }) {
             toast.dismiss()
             toast.error('Select the category')
         }
-        
-        
+
+
         else {
             toast.success('success')
             try {
@@ -116,8 +117,8 @@ function WholesaleProductScreen({ company, products, product,category }) {
 
     const [options, setOptions] = useState([]);
 
-   
-    
+
+
 
 
     const [size, setSize] = useState(null);
@@ -153,9 +154,9 @@ function WholesaleProductScreen({ company, products, product,category }) {
 
     const columns = [
         {
-            
-            selector: row =><img className='h-28 w-28 object-cover rounded-md' src={'/'+row.image}/>,
-        },  
+
+            selector: row => <img className='h-28 w-28 object-cover rounded-md' src={'/' + row.image} />,
+        },
         {
             name: 'Name',
             selector: row => row.product.name,
@@ -181,10 +182,10 @@ function WholesaleProductScreen({ company, products, product,category }) {
         },]
 
 
-  return (
+    return (
 
-    <div>
-          <DataTable
+        <div>
+            <DataTable
                 title={'Wholesale Product' &&
                     <div className='flex flex-col md:flex-row space-x-0 md:space-x-5 space-y-5 md:space-y-0 whitespace-nowrap items-start md:items-center justify-between w-full border-b-2 border-primary pb-3 pt-2'>
                         <span>{'Wholesale Product'}</span>
@@ -262,16 +263,25 @@ function WholesaleProductScreen({ company, products, product,category }) {
                                 }} /> */}
 
                             <select className='w-full' value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
-                                <option  value={0} className='bg-gray-200'> Select the category.......</option>
+                                <option value={0} className='bg-gray-200'> Select the category.......</option>
                                 {category && category.map((m, index) =>
                                     <option value={m.id} > {m.name}</option>
                                 )}
                             </select>
 
                             <Input label='Description'
-                            value={description} onChange={(event) => setDescription(event.target.value)} size='sm'
+                                value={description} onChange={(event) => setDescription(event.target.value)} size='sm'
                             />
-                            
+
+                            <Select color='deep-orange' label="Measurement"
+                                value={measurement} onChange={(e) => setMeasurement(e)}
+                            >
+                                {measurements && measurements.map((m, index) =>
+                                    <Option value={m.id}> {m.name} ({m.abbriviation})</Option>
+                                )}
+
+                            </Select>
+
                         </DialogBody>
                         <DialogFooter className="space-x-2">
                             <Button onClick={handleOpen} variant="gradient" color="blue-gray">
@@ -285,8 +295,8 @@ function WholesaleProductScreen({ company, products, product,category }) {
                 </Dialog>
             </Fragment>
             <ToastContainer />
-    </div>
-  )
+        </div>
+    )
 }
 
 WholesaleProductScreen.layout = page => <Layout children={page} props={page.props.company} />

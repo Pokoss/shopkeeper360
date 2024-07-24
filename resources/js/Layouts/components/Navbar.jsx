@@ -67,19 +67,19 @@ function Navbar() {
                         className={`flex-1 justify-self-center mt-8 md:block md:pb-0 md:mt-0 ${navbar ? "block" : "hidden"
                             }`}
                     >
-                        <ul className="items-center justify-center space-y-8 md:flex md:space-x-6 md:space-y-0">
+                        <ul className="flex flex-col md:flex-row items-center justify-center space-y-8 md:flex md:space-x-6 md:space-y-0">
                             <li className="text-white hover:text-yellow-500">
                                 <Link href={'/home'}>
                                     <p>Home</p>
                                 </Link>
 
                             </li>
-                            <li className="text-white hover:text-yellow-500">
+                            {/* <li className="text-white hover:text-yellow-500">
                                 <Link href={'/wholesale'}>
                                     <p>Wholesale</p>
                                 </Link>
 
-                            </li>
+                            </li> */}
                             <li className="text-white hover:text-yellow-500">
                                 <Link href={'/'}>
                                     <p>About</p>
