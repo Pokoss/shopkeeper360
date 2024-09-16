@@ -1,0 +1,1 @@
+import{j as s}from"./app-cYYah45n.js";import{L as o}from"./Layout-C17My6Ld.js";import"./index-DOnEnX8Z.js";function n({company:r}){return s.jsx("div",{children:"BusinessQrScreen"})}n.layout=r=>s.jsx(o,{children:r,props:r.props.company});export{n as default};

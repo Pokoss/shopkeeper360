@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BusinessAccountController;
 use App\Http\Controllers\BusinessCategoryController;
 use App\Http\Controllers\CartItemController;
 use App\Http\Controllers\CompanyController;
@@ -161,8 +162,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/favourite-business', [FavouriteBusinessController::class, 'index']);
     
     Route::post('/wholesale/addsupplier', [WholesaleSupplierController::class, 'store']);
-
+    
     Route::post('/wholesale/addcategory', [WholesaleCategoryController::class, 'store']);
+    
+    Route::get('/dashboard/{company}/business-account/profile', [BusinessAccountController::class, 'index']);
+    Route::get('/dashboard/{company}/business-account/subscription', [BusinessAccountController::class, 'subscription']);
+    Route::get('/dashboard/{company}/business-account/qr', [BusinessAccountController::class, 'qr_code']);
 });
 
 require __DIR__.'/auth.php';

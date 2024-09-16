@@ -30,7 +30,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
   const [open, setOpen] = React.useState(0);
   const handleOpen = (value) => setOpen(open === value ? 0 : value);
 
-  const { auth } = usePage().props
+  const { auth  } = usePage().props
 
   const trigger = useRef(null);
   const sidebar = useRef(null);
@@ -40,21 +40,15 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
     const clickHandler = ({ target }) => {
       if (!sidebar.current || !trigger.current) return;
       if (!sidebarOpen || sidebar.current.contains(target) || trigger.current.contains(target)) return;
-      setSidebarOpen(true);
-    };
-    document.addEventListener('click', clickHandler);
-    return () => document.removeEventListener('click', clickHandler);
-  }, [sidebarOpen]);
-
-  // close if the esc key is pressed
-  useEffect(() => {
-    const keyHandler = ({ keyCode }) => {
-      if (!sidebarOpen || keyCode !== 27) return;
       setSidebarOpen(false);
     };
-    document.addEventListener('keydown', keyHandler);
-    return () => document.removeEventListener('keydown', keyHandler);
+    document.addEventListener('mousedown', clickHandler);
+    return () => document.removeEventListener('mousedown', clickHandler);
   }, [sidebarOpen]);
+
+
+  
+ 
 
   return (
     <div className="lg:w-64 ">
@@ -74,18 +68,18 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
           {/* Close button */}
           <div className='lg:hidden bg-blue-gray-700 flex justify-center p-5 rounded-full h-5 w-5 items-center sticky top-0 z-50'>
 
-          <button
-            ref={trigger}
-            className="text-white hover:text-primary"
-            onClick={() => setSidebarOpen(false)}
-            aria-controls="sidebar"
-            aria-expanded={sidebarOpen}
-          >
-            <span className="sr-only">Close sidebar</span>
-            <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path d="M10.7 18.7l1.4-1.4L7.8 13H20v-2H7.8l4.3-4.3-1.4-1.4L4 12z" />
-            </svg>
-          </button>
+            <button
+              ref={trigger}
+              className="text-white hover:text-primary"
+              onClick={() => setSidebarOpen(false)}
+              aria-controls="sidebar"
+              aria-expanded={sidebarOpen}
+            >
+              <span className="sr-only">Close sidebar</span>
+              <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10.7 18.7l1.4-1.4L7.8 13H20v-2H7.8l4.3-4.3-1.4-1.4L4 12z" />
+              </svg>
+            </button>
           </div>
           {/* Logo */}
           <Link href="/" className="block">
@@ -225,22 +219,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
                             </div>
                           </Link>
                         </li>
-                        {/* <li className="rounded-sm mb-0.5">
-                      <Link href={`/dashboard/${props.company.slug}/hr/salary`} className="block text-gray-200 hover:bg-brown-500 p-2">
-                        <div className="flex items-center flex-grow">
-                          <svg className="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" /></svg>
-                          <span className="text-sm font-medium">Salary</span>
-                        </div>
-                      </Link>
-                    </li> */}
-                        {/* <li className="rounded-sm mb-0.5">
-                      <Link href={`/dashboard/${props.company.slug}/hr/allowance`} className="block text-gray-200 hover:bg-brown-500 p-2">
-                        <div className="flex items-center flex-grow">
-                          <svg className="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" /></svg>
-                          <span className="text-sm font-medium">Allowances</span>
-                        </div>
-                      </Link>
-                    </li> */}
+                     
                       </ul>
                     </AccordionBody>
                   </Accordion>
@@ -300,17 +279,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
                             </div>
                           </Link>
                         </li>
-                        {/* <li className="rounded-sm mb-0.5">
-                      <Link href={`/dashboard/${props.company.slug}/accounting/income`} className="block text-gray-200 hover:bg-brown-500 p-2">
-                        <div className="flex items-center flex-grow">
-                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 mr-3">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 00.75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 00-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0112 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 01-.673-.38m0 0A2.18 2.18 0 013 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 013.413-.387m7.5 0V5.25A2.25 2.25 0 0013.5 3h-3a2.25 2.25 0 00-2.25 2.25v.894m7.5 0a48.667 48.667 0 00-7.5 0M12 12.75h.008v.008H12v-.008z" />
-                          </svg>
-
-                          <span className="text-sm font-medium">Income</span>
-                        </div>
-                      </Link>
-                    </li> */}
+                       
                       </ul>
                     </AccordionBody>
                   </Accordion>
@@ -376,95 +345,64 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
                 <li></li>
             }
             {
-              props.user.admin == 0 ?
-                <li></li>
-                :
+              props.position == 'owner' || props.position == 'admin' || props.position == 'accountant' ?
                 <li className="rounded-sm mb-0.5">
-                  {/* <Accordion open={open === 5} icon={<Icon id={5} open={open} />}>
+                  <Accordion open={open === 5} icon={<Icon id={5} open={open} />}>
                     <AccordionHeader onClick={() => handleOpen(5)}>
                       <div className="pl-2 text-gray-200 flex items-center flex-grow">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 mr-3">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M8.288 15.038a5.25 5.25 0 0 1 7.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12.53 18.22l-.53.53-.53-.53a.75.75 0 0 1 1.06 0Z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
                         </svg>
-                        <span className="text-sm font-medium font-oswald">Wholesale</span>
+
+                        <span className="text-sm font-medium font-oswald">Business Account</span>
                       </div>
                     </AccordionHeader>
                     <AccordionBody>
                       <ul>
                         <li className="rounded-sm mb-0.5">
-                          <Link href={`/dashboard/${props.company.slug}/wholesale/supplier`} className="block text-gray-200 hover:bg-brown-500 p-2">
+                          <Link href={`/dashboard/${props.company.slug}/business-account/profile`} className="block text-gray-200 hover:bg-brown-500 p-2">
                             <div className="flex items-center flex-grow">
                               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 mr-3">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 10.5v6m3-3H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
                               </svg>
 
-                              <span className="text-sm font-medium font-oswald">Wholesale Supplier</span>
+                              <span className="text-sm font-medium font-oswald">Business Profile</span>
                             </div>
                           </Link>
                         </li>
                         <li className="rounded-sm mb-0.5">
-                          <Link href={`/dashboard/${props.company.slug}/wholesale/category`} className="block text-gray-200 hover:bg-brown-500 p-2">
+                          <Link href={`/dashboard/${props.company.slug}/business-account/subscription`} className="block text-gray-200 hover:bg-brown-500 p-2">
                             <div className="flex items-center flex-grow">
                               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 mr-3">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 10.5v6m3-3H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
                               </svg>
 
-                              <span className="text-sm font-medium font-oswald">Wholesale Categories</span>
+                              <span className="text-sm font-medium font-oswald">Subscription</span>
                             </div>
                           </Link>
                         </li>
-                        <li className="rounded-sm mb-0.5">
-                          <Link href={`/dashboard/${props.company.slug}/wholesale/products`} className="block text-gray-200 hover:bg-brown-500 p-2">
-                            <div className="flex items-center flex-grow">
-                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 mr-3">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 10.5v6m3-3H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
-                              </svg>
 
-                              <span className="text-sm font-medium font-oswald">Wholesale Products</span>
-                            </div>
-                          </Link>
-                        </li>
                         <li className="rounded-sm mb-0.5">
-                          <Link href={`/dashboard/${props.company.slug}/wholesale/orders`} className="block text-gray-200 hover:bg-brown-500 p-2">
+                          <Link href={`/dashboard/${props.company.slug}/business-account/qr`} className="block text-gray-200 hover:bg-brown-500 p-2">
                             <div className="flex items-center flex-grow">
                               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 mr-3">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM3.75 12h.007v.008H3.75V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm-.375 5.25h.007v.008H3.75v-.008Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
                               </svg>
-
-                              <span className="text-sm font-medium font-oswald">View Whole Orders</span>
+                              <span className="text-sm font-medium font-oswald">QR Code</span>
                             </div>
                           </Link>
                         </li>
                       </ul>
                     </AccordionBody>
-                  </Accordion> */}
+                  </Accordion>
                 </li>
+                :
+                <li></li>
             }
-            {/* <li className="rounded-sm mb-0.5">
-              <Link href={`/dashboard/${props.company.slug}/sales`} className="block text-gray-200 hover:bg-brown-500 p-2">
-                <div className="flex items-center flex-grow">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 mr-3">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0 0 20.25 18V6A2.25 2.25 0 0 0 18 3.75H6A2.25 2.25 0 0 0 3.75 6v12A2.25 2.25 0 0 0 6 20.25Z" />
-                  </svg>
+           
+            <li>
 
-
-
-                  <span className="text-sm font-medium">Analytics</span>
-                </div>
-              </Link>
-            </li> */}
-
-            {/* <li className="rounded-sm mb-0.5">
-              <Link href={`/dashboard/${props.company.slug}/`} className="block text-gray-200 hover:bg-brown-500 p-2">
-                <div className="flex items-center flex-grow">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 mr-3">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-                  </svg>
-
-                  <span className="text-sm font-medium">Customers</span>
-                </div>
-              </Link>
-            </li> */}
+            </li>
           </ul >
         </div>
       </div>

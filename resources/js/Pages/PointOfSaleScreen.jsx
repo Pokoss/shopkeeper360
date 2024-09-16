@@ -14,8 +14,6 @@ function PointOfSaleScreen({ company, products, cart_items }) {
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
     });
-
-    
     useEffect(() => {
         var initialOptions = products.data.map((prod) => ({
             value: prod.id,

@@ -43,6 +43,7 @@ class SaleController extends Controller
         $sales_total = 0;
         $profit = 0;
         $discount =0;
+   
 
         if ($startDate && $endDate) {
             // If both dates are provided, filter between the dates
@@ -55,11 +56,11 @@ class SaleController extends Controller
 
             $query2->where('company_id', $comp->company_id)->whereDate('created_at', $startDate);
         }
-        $sales = $query->paginate(10);
         $sales_profit = $query->get();
         foreach ($sales_profit as $p) {
-                $profit = $profit + ($p->sale_price - ($p->cost_price * $p->quantity));
-            }  
+            $profit = $profit + ($p->sale_price - ($p->cost_price * $p->quantity));
+        }  
+        $sales = $query->paginate(10);
         $the_total = $query2->get();
         foreach ($the_total as $sale) {
                 $sales_total = $sales_total + ($sale->sale_total - $sale->discount);

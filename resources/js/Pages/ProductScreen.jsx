@@ -17,11 +17,13 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useCallback } from 'react';
 import { usePage } from '@inertiajs/react';
+import { BarcodeScanner } from 'react-barcode-scanner';
+import "react-barcode-scanner/polyfill"
 
 function ProductScreen({ company, products, measurements}) {
     const [product, setProduct] = useState('');
     const [measurement, setMeasurement] = useState('');
-    const [barcode, setBarcode] = useState('');
+    const [barcode, setBarcode] = useState('No barcode scanned');
     const [sellingPrice, setSellingPrice] = useState('');
     const [wholeSaleSellingPrice, setWholeSaleSellingPrice] = useState('');
     const [costPrice, setCostPrice] = useState('');
@@ -36,6 +38,7 @@ function ProductScreen({ company, products, measurements}) {
     const [editWholeSaleSellingPrice, setEditWholeSaleSellingPrice] = useState('');
     const [editCostPrice, setEditCostPrice] = useState('');
     const [productId, setProductId] = useState('');
+    
 
     function openEditProduct(id, name, available, barcode, emeasurement, retail_price, cost_price, wholesale_price) {
         handleOpenEdit("xl")
@@ -268,9 +271,9 @@ function ProductScreen({ company, products, measurements}) {
                                 )}
 
                             </Select>
-                            {/* <Input label='Barcode'
+                            <Input label='Barcode'
                                 value={barcode} onChange={(event) => setBarcode(event.target.value)} size='sm'
-                            /> */}
+                            />
                             <Input label='Cost Price' type='number'
                                 value={costPrice} onChange={(event) => setCostPrice(event.target.value)} size='sm'
                             />
@@ -392,6 +395,8 @@ function ProductScreen({ company, products, measurements}) {
                     </form>
                 </Dialog>
             </Fragment>
+
+            
             
         </div>
     )

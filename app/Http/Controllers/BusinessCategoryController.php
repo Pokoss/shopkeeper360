@@ -35,6 +35,7 @@ class BusinessCategoryController extends Controller
             return Response(['businesses' => $businesses,'latitude'=>$latitude,'longitude'=>$longitude]);
         // return Inertia::render('UserBusinessCategoryScreen',['category'=>$business_category,'businesses'=> $businesses]);
     }
+    //the
 
     /**
      * Show the form for creating a new resource.

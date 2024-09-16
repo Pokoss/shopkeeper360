@@ -72,10 +72,11 @@ function HomeScreen() {
                     <h1 className="text-4xl font-bold leadi sm:text-5xl">Shopkeeper 360
 
                     </h1>
-                    <p className="px-8 mt-8 mb-12 text-lg">A system designed to help your retail store keep track of all activities income and expenses</p>
+                    <p className="px-8 mt-8 mb-12 text-lg">A system designed to help your retail store keep track of all activities, income and expenses</p>
                     <div className="flex flex-wrap justify-center">
                         <Link href='/company' className="px-8 py-3 m-2 text-lg font-semibold rounded bg-white shadow-sm shadow-primary  text-gray-900">Get started</Link>
                         <Link href='/home' className="px-8 py-3 m-2 text-lg border bg-primary text-white rounded ">Shop Online</Link>
+                        <Link href='/register' className="px-8 py-3 m-2 text-lg border bg-primary text-white rounded ">Be a marketeer</Link>
                     </div>
                 </div>
             </section>
@@ -115,10 +116,10 @@ function HomeScreen() {
             <section className="py-8">
                 <div className="container mx-auto">
                     <div className="p-4 mx-auto text-center md:px-10 lg:px-32 xl:max-w-3xl">
-                        <h2 className="text-2xl font-bold leadi sm:text-4xl">What can we offer to you?</h2>
-                        <p className="px-8 my-4">We offer a high end affordable system that will help manage you business by helping you manage finances and keeping you upto date
-                            with business transations and reports like daily sales, weekly sales or sales for a specific peroid of time, your profits and losses. The system also tracks your inventory
-                            has a sale point for sellinging products and many more features. So basically youll be missing out if you dont join us so please scale your business by joing us today and watch your business
+                        <h2 className="text-2xl font-bold leadi sm:text-4xl">What can we offer your business?</h2>
+                        <p className="px-8 my-4">We offer a highend affordable system that will help manage your business, keeping track of your finances,
+                            business transations and reports like daily sales, weekly sales or sales for a specific peroid of time, in addition to your profits and losses. The system also tracks your inventory levels and will include
+                            a sale point for selling products among other features. So basically youll be missing out if you dont join us so please scale your business by joing us today and watch your business
                             start growing massively
                         </p>
                     </div>
@@ -147,7 +148,7 @@ function HomeScreen() {
                             <h2 className="font-display font-bold text-2xl md:text-3xl lg:text-4xl mb-6">Retail Business System</h2>
                             {/* <p className="font-light text-gray-600 text-sm md:text-base mb-6 leading-relaxed"> */}
                             <Typography>
-                                We offer businesses a system to manage their daily business activities and also an online platform like a website for business to show products people
+                                We offer businesses a system to manage their daily business activities and also an online platform like a website for business to showcase products to customers
 
                             </Typography>
                             {/* </p> */}

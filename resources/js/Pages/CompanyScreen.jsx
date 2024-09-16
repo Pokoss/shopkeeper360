@@ -25,8 +25,10 @@ console.log(companies)
 
                 {companies && companies.map((company =>(
 
-                <CompanyCard props={company}/>
+                <CompanyCard props={company}/>  
                 )))}
+
+
                 
             </section>
             <Footer/>
