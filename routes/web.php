@@ -168,6 +168,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard/{company}/business-account/profile', [BusinessAccountController::class, 'index']);
     Route::get('/dashboard/{company}/business-account/subscription', [BusinessAccountController::class, 'subscription']);
     Route::get('/dashboard/{company}/business-account/qr', [BusinessAccountController::class, 'qr_code']);
+    
+    Route::post('/accounting/expense', [ExpenseController::class, 'store']);
 });
 
 require __DIR__.'/auth.php';

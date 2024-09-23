@@ -152,14 +152,17 @@ class CompanyController extends Controller
 
         $favourite = 0;
 
-        $get_favourite = FavouriteBusiness::where('company_id', $business->id)->where('company_id', Auth::user()->id)->get();
+        if(Auth::user()){
+
+            $get_favourite = FavouriteBusiness::where('company_id', $business->id)->where('company_id', Auth::user()->id)->get();
+            if ($get_favourite->isEmpty()){
+                $favourite = 0;
+            }
+            else{
+                $favourite = 1;
+            }
+        }
         
-        if ($get_favourite->isEmpty()){
-            $favourite = 0;
-        }
-        else{
-            $favourite = 1;
-        }
 
         return Inertia::render('UserBusinessScreen', ['business' => $business, 'category'=> $category, 'products' => $products, 'favourite'=> $favourite]);
         

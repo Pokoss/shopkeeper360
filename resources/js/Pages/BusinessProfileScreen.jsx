@@ -2,9 +2,40 @@ import Layout from '@/Layouts/components/Layout'
 import React from 'react'
 import { Input, Button } from '@material-tailwind/react';
 import QRCode, { QRCodeSVG } from 'qrcode.react';
+import { FlutterWaveButton, closePaymentModal } from 'flutterwave-react-v3';
 
 function BusinessProfileScreen({ company }) {
   const currentUrl = location.hostname;
+
+  const config = {
+    public_key: 'FLWPUBK_TEST-dcc65cf1c7e549240c7a97b4a913307c-X',
+    tx_ref: Date.now(),
+    amount: 38500,
+    currency: 'UGX',
+    payment_options: 'card,mobilemoney',
+    customer: {
+      email: 'pokos333@gmail.com',
+      phone_number: '0765974111',
+      name: 'john doe',
+    },
+    customizations: {
+      title: 'My store',
+      description: 'Payment for items in cart',
+      logo: 'https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg',
+    },
+  };
+
+  const fwConfig = {
+    ...config,
+    text: 'Pay subscription',
+    callback: (response) => {
+       console.log(response);
+      closePaymentModal() // this will close the modal programmatically
+    },
+    onClose: () => {},
+  };
+
+
   return (
     <div className='font-oswald p-5'>
       <p className='w-full font-semibold text-lg'>Business Details</p>
@@ -40,9 +71,11 @@ function BusinessProfileScreen({ company }) {
           />
         </div>
 
-        <Button type='submit' className='bg-primary'>
+
+        <FlutterWaveButton {...fwConfig} className='rounded-md bg-primary text-white px-5 py-2'/>
+        {/* <Button type='submit' className='bg-primary'>
           Pay subscription
-        </Button>
+        </Button> */}
       </div>
 
       <p className='w-full font-semibold text-lg mt-5'>Business Link Code</p>

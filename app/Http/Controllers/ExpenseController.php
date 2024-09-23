@@ -22,7 +22,9 @@ class ExpenseController extends Controller
             $query->where('slug', $company);
         })->with('company', 'user')->where('user_id', Auth::user()->id)->first();
 
-        return Inertia::render('ExpenseScreen', ['company' => $comp]);
+        $expenses = Expense::where('company_id',$comp->company_id)->where('name', 'LIKE', "%{$search_text}%")->latest()->paginate(10);
+
+        return Inertia::render('ExpenseScreen', ['company' => $comp, 'expenses'=> $expenses]);
     }
 
     /**
@@ -38,7 +40,25 @@ class ExpenseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string',
+            'amount' => 'required',
+            'description' => 'string',
+            'date' => 'string',
+            'company_id' => 'required',
+        ]);
+
+        Expense::create([
+
+            'name' => $request->name,
+            'amount' => $request->amount,
+            'description' => $request->description,
+            'date' => $request->date,
+            'company_id' => $request->company_id,
+            'created_by' => Auth::user()->id
+        ]);
+    
+        
     }
 
     /**
