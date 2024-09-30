@@ -92,6 +92,7 @@ function UserBusinessScreen({ business, category, products, favourite }) {
             </div>
             <div className='container mx-auto flex flex-wrap  max-w-full'>
                 <main className="p-2 w-full md:w-4/5 flex flex-col items-center">
+<div className='align-middle items-center justify-center w-full'>
 
                     {category && category.length == 0 ?
                         <></>
@@ -100,8 +101,8 @@ function UserBusinessScreen({ business, category, products, favourite }) {
                         <div className="w-full mt-3 grid grid-cols-2 gap-y-3 gap-x-2 sm:grid-cols-3 lg:grid-cols-4 xl:gap-x-3">
                             {
                                 category.map(m => (
-                                    <Link href={`/business/${business.slug}/category/${m.id}`}>
-                                        <div className='rounded-xl bg-primary p-5'>
+                                    <Link className=' ' href={`/business/${business.slug}/category/${m.id}`}>
+                                        <div className='rounded-xl bg-primary p-5 hover:shadow-primary hover:shadow-lg'>
                                             <p className='text-white font-semibold text-center'>{m.name}</p>
                                         </div>
                                     </Link>
@@ -112,6 +113,7 @@ function UserBusinessScreen({ business, category, products, favourite }) {
 
                         </div>
                     }
+</div>
 
                     {/* <div className='flex w-full justify-center mt-14'>
                         <p className='text-lg text-primary font-bold'>All Items</p>
@@ -127,7 +129,7 @@ function UserBusinessScreen({ business, category, products, favourite }) {
                             //   value={data.search_text ?? ''}
                             //   onChange={(event) => setData('search_text', event.target.value)}
                             />
-                            <button type='submit' className='bg-primary px-4 rounded-r-md shadow text-white'>
+                            <button type='submit' className='bg-primary px-4 rounded-r-md shadow text-white hover:shadow-primary hover:shadow-lg'>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
                                 </svg>
@@ -147,10 +149,8 @@ function UserBusinessScreen({ business, category, products, favourite }) {
                             <div className="w-full mt-3 grid grid-cols-2 gap-y-3 gap-x-2 sm:grid-cols-3 lg:grid-cols-4 xl:gap-x-3">
                                 {
                                     products.data && products.data.map(m => (
-                                        <Link href={`/product/${m.slug}`}>
-                                            <div className='cursor-pointer w-full'
-                                            // to={`/escorts/${link}`}
-                                            //   state={{ id: '' }}
+                                        <Link  href={`/product/${m.slug}`}>
+                                            <div className='cursor-pointer w-full shadow-sm shadow-gray-400 hover:shadow-primary hover:shadow-lg text-gray-800 hover:text-primary'
                                             >
 
                                                 <img
@@ -166,7 +166,7 @@ function UserBusinessScreen({ business, category, products, favourite }) {
 
                                                             aria-label="Category"
                                                             title="Visit the East"
-                                                            className="inline-block mb-2 text-lg font-medium line-clamp-2  leading-5 transition-colors duration-200 hover:text-deep-purple-accent-700"
+                                                            className="inline-block mb-2 text-lg font-medium line-clamp-1  leading-5 transition-colors duration-200 hover:text-deep-purple-accent-700"
                                                         >
                                                             {m.product.name}
                                                         </p>

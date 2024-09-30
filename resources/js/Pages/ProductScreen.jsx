@@ -17,8 +17,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useCallback } from 'react';
 import { usePage } from '@inertiajs/react';
-import { BarcodeScanner } from 'react-barcode-scanner';
-import "react-barcode-scanner/polyfill"
+import * as ZXing from 'zxing'
 
 function ProductScreen({ company, products, measurements}) {
     const [product, setProduct] = useState('');
@@ -38,6 +37,7 @@ function ProductScreen({ company, products, measurements}) {
     const [editWholeSaleSellingPrice, setEditWholeSaleSellingPrice] = useState('');
     const [editCostPrice, setEditCostPrice] = useState('');
     const [productId, setProductId] = useState('');
+    
     
 
     function openEditProduct(id, name, available, barcode, emeasurement, retail_price, cost_price, wholesale_price) {

@@ -134,7 +134,7 @@ function UserBusinessCategoryScreen({ businesses, category }) {
                         <div className="w-full mt-3 grid grid-cols-2 gap-y-3 gap-x-2 sm:grid-cols-3 lg:grid-cols-4 xl:gap-x-3">
                             {
                                 business && business.map(business => (
-                                    <Link className='shadow-sm shadow-gray-400' href={`/business/${business.slug}`}>
+                                    <Link className='shadow-sm shadow-gray-400 hover:shadow-primary hover:shadow-lg hover:text-primary' href={`/business/${business.slug}`}>
                                         <div className='cursor-pointer w-full'
                                         >
 
@@ -164,7 +164,7 @@ function UserBusinessCategoryScreen({ businesses, category }) {
                                                         <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
                                                     </svg>
 
-                                                    <p className="ml-2 text-gray-700 text-xs mb-2 font-light">
+                                                    <p className="ml-2 text-xs mb-2 font-light">
                                                         {business.location}
                                                     </p>
 

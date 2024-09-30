@@ -26,7 +26,7 @@ class CompanyController extends Controller
 
         
 
-        return Inertia::render('CompanyScreen', ['companies' => $companies]);
+        return Inertia::render('CompanyScreen', props: ['companies' => $companies]);
     }
     public function business()
     {
@@ -69,6 +69,7 @@ class CompanyController extends Controller
 
         
 
+        return Response( ['businesses' => $businesses, 'business' => $business, 'products'=>$products, 'categories'=>$categoriesWithBusinesses]); 
         return Inertia::render('UserHomeScreen', ['businesses' => $businesses, 'business' => $business, 'products'=>$products, 'categories'=>$categoriesWithBusinesses]); 
     }
 

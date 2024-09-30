@@ -12,7 +12,7 @@ function UserBusinessProductCategoryScreen({products}) {
         toast.loading();
         
     
-        router.get('/', { search });
+        router.get('/business/', { search });
       };
 
     return (
@@ -57,7 +57,7 @@ function UserBusinessProductCategoryScreen({products}) {
                         <div className="font-oswald w-full mt-3 grid grid-cols-2 gap-y-3 gap-x-2 sm:grid-cols-3 lg:grid-cols-4 xl:gap-x-3">
                             {
                                 products.data && products.data.map(product => (
-                                    <Link className='shadow-sm shadow-gray-400' href={`/product/${product.slug}`}>
+                                    <Link className='shadow-sm shadow-gray-400 hover:shadow-primary hover:shadow-lg text-gray-800 hover:text-primary' href={`/product/${product.slug}`}>
                                         <div className='cursor-pointer w-full'
                                         >
 
