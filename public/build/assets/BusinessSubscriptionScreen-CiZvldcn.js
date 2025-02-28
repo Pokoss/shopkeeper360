@@ -1,0 +1,1 @@
+import{j as s}from"./app-B8uZndRD.js";import{L as o}from"./Layout-e0-bsLOH.js";import"./index-CE3Qag5a.js";function i({company:r}){return s.jsx("div",{children:"BusinessSubscriptionScreen"})}i.layout=r=>s.jsx(o,{children:r,props:r.props.company});export{i as default};

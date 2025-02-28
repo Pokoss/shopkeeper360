@@ -21,7 +21,7 @@ function Navbar() {
                         <Link className='flex items-center' href="/">
                             <img src='/images/user/shopwhite.png' className='h-10 cursor-pointer' />
                             <p className='ml-2 text-white text-lg font-semibold'>
-                                Shopkeeper360
+                                Biashari
                                 </p>
                         </Link>
                         <div className="md:hidden">

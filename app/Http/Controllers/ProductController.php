@@ -6,6 +6,8 @@ use App\Models\Employee;
 use App\Models\Measurement;
 use App\Models\OnlineProduct;
 use App\Models\Product;
+use App\Models\Sale;
+use App\Models\StockItem;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -147,7 +149,18 @@ class ProductController extends Controller
     {
         //
         // return Response(['oi']);
-        $product = Product::where('id', $request->productId)->first();
-        $product->delete();
+        $check1 = StockItem::where('product_id',$request->productId)->count(); 
+        $check2 = Sale::where('product_id',$request->productId)->count();
+        $check3 = OnlineProduct::where('product_id',$request->productId)->count();
+
+        if($check1>0 || $check2>0 ||$check3>0){
+            return Response('Operation not possible because this product as many attachments and it cant be deleted as it will damange the business statistics, please call Biashari team for assistance to safely delete it');
+        }
+        else{
+            $product = Product::where('id', $request->productId)->first();
+            $product->delete();
+        }
+        
+       
     }
 }

@@ -19,7 +19,7 @@ function BusinessProfileScreen({ company }) {
       name: 'john doe',
     },
     customizations: {
-      title: 'Shopkeeper360',
+      title: 'Biashari',
       description: 'Subscription',
       logo: 'https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg',
     },

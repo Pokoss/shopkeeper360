@@ -17,7 +17,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useCallback } from 'react';
 import { usePage } from '@inertiajs/react';
-import * as ZXing from 'zxing'
 
 function ProductScreen({ company, products, measurements}) {
     const [product, setProduct] = useState('');

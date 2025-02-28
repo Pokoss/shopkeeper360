@@ -27,38 +27,38 @@ function HomeScreen() {
 
     useEffect(() => {
         if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(
-            position => {
-              const { latitude, longitude } = position.coords;
-              setLocation({ latitude, longitude });
-            //   fetchBusinesses(latitude, longitude);
-            },
-            handleError
-          );
+            navigator.geolocation.getCurrentPosition(
+                position => {
+                    const { latitude, longitude } = position.coords;
+                    setLocation({ latitude, longitude });
+                    //   fetchBusinesses(latitude, longitude);
+                },
+                handleError
+            );
         } else {
-          setError("Geolocation is not supported by this browser.");
+            setError("Geolocation is not supported by this browser.");
         }
-      }, []);
+    }, []);
 
 
-      const handleError = (error) => {
-        switch(error.code) {
-          case error.PERMISSION_DENIED:
-            setError("User denied the request for Geolocation.");
-            break;
-          case error.POSITION_UNAVAILABLE:
-            setError("Location information is unavailable.");
-            break;
-          case error.TIMEOUT:
-            setError("The request to get user location timed out.");
-            break;
-          case error.UNKNOWN_ERROR:
-            setError("An unknown error occurred.");
-            break;
-          default:
-            setError("An error occurred.");
+    const handleError = (error) => {
+        switch (error.code) {
+            case error.PERMISSION_DENIED:
+                setError("User denied the request for Geolocation.");
+                break;
+            case error.POSITION_UNAVAILABLE:
+                setError("Location information is unavailable.");
+                break;
+            case error.TIMEOUT:
+                setError("The request to get user location timed out.");
+                break;
+            case error.UNKNOWN_ERROR:
+                setError("An unknown error occurred.");
+                break;
+            default:
+                setError("An error occurred.");
         }
-      };
+    };
 
 
     return (
@@ -69,14 +69,14 @@ function HomeScreen() {
 
             <section>
                 <div className="container flex flex-col items-center px-4 py-8 mx-auto text-center md:px-10 lg:px-32 xl:max-w-3xl">
-                    <h1 className="text-4xl font-bold leadi sm:text-5xl">Shopkeeper 360
+                    <h1 className="text-4xl font-bold leadi sm:text-5xl">Biashari
 
                     </h1>
                     <p className="px-8 mt-8 mb-12 text-lg">A system designed to help your retail store keep track of all activities, income and expenses</p>
                     <div className="flex flex-wrap justify-center">
                         <Link href='/company' className="px-8 py-3 m-2 text-lg font-semibold rounded bg-white shadow-sm shadow-primary  text-gray-900">Get started</Link>
                         <Link href='/home' className="px-8 py-3 m-2 text-lg border bg-primary text-white rounded ">Shop Online</Link>
-                        <Link href='/register' className="px-8 py-3 m-2 text-lg border bg-primary text-white rounded ">Be a marketeer</Link>
+                        {/* <Link href='/register' className="px-8 py-3 m-2 text-lg border bg-primary text-white rounded ">Be a marketeer</Link> */}
                     </div>
                 </div>
             </section>
@@ -219,7 +219,7 @@ function HomeScreen() {
                         </div>
 
                         <div class="w-full max-w-xs text-center">
-                            <img class="object-cover object-top w-full h-48 mx-auto rounded-lg" src="/images/team/olet.jpg" alt="Olet Robert" />
+                            <img class="object-cover object-top w-full h-48 mx-auto rounded-lg" src="/images/team/olet.JPG" alt="Olet Robert" />
 
                             <div class="mt-2">
                                 <h3 class="text-lg font-medium text-gray-700 ">Olet Robert</h3>
@@ -294,10 +294,10 @@ function HomeScreen() {
                             </div>
 
                             <div>
-                                <h1 className="text-xl font-semibold text-gray-700">What type of businesses can use the shopkeeper360 system</h1>
+                                <h1 className="text-xl font-semibold text-gray-700">What type of businesses can use the Biashari system</h1>
 
                                 <p className="mt-2 text-sm text-gray-500">
-                                    The shopkeeper360 system is designed for all retail type of businesses like shops, supermarkets hardware stores, electronic stores, pharmacies, restaurants and cosmetic stores and so many more. Has long has there is a product that can be sold to customers we are here to help you thrive and get reach more customers
+                                    The Biashari system is designed for all retail type of businesses like shops, supermarkets hardware stores, electronic stores, pharmacies, restaurants and cosmetic stores and so many more. Has long has there is a product that can be sold to customers we are here to help you thrive and get reach more customers
                                 </p>
                             </div>
                         </div>
@@ -378,7 +378,7 @@ function HomeScreen() {
                                 <h1 className="text-xl font-semibold text-gray-700">How can I contact Shopkeeper360 for further assistance or inquiries?</h1>
 
                                 <p className="mt-2 text-sm text-gray-500">
-                                    For further assistance or inquiries, you can reach our friendly team through various channels. You can fill out the contact form on our website, email us at info@lehub.dev, or call us at +256-765-974-111. We'll be more than happy to assist you and provide any additional information you may need.
+                                    For further assistance or inquiries, you can reach our friendly team through various channels. You can fill out the contact form on our website, email us at info@lehub.dev, or call us at +256-752-553-236. We'll be more than happy to assist you and provide any additional information you may need.
                                 </p>
                             </div>
                         </div>
@@ -444,7 +444,7 @@ function HomeScreen() {
                                         Phone number
                                     </dt>
                                     <dd className="mt-2 text-base text-gray-500">
-                                        +256 765 974 111
+                                        +256 752 553 236
                                     </dd>
                                 </div>
                             </div>

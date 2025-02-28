@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Shopkeeper360</title>
+        <title>Biashari</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">

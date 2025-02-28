@@ -9,7 +9,7 @@ import { useReactToPrint } from "react-to-print";
 import { Button, Dialog, DialogBody, DialogFooter, DialogHeader, Input, Typography } from '@material-tailwind/react';
 
 function PointOfSaleScreen({ company, products, cart_items }) {
-    console.log(cart_items)
+    console.log(products)
     const componentRef = useRef();
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
@@ -18,7 +18,7 @@ function PointOfSaleScreen({ company, products, cart_items }) {
         var initialOptions = products.data.map((prod) => ({
             value: prod.id,
             label: String(prod.name),
-            price: 'UGX ' + Intl.NumberFormat('en-US').format(prod.retail_price),
+            price: 'UGX ' + Intl.NumberFormat('en-US').format(prod.retail_price)+' / '+ prod.measurement.abbriviation,
             available: prod.available
         }));
         setOptions(initialOptions);
@@ -95,11 +95,11 @@ function PointOfSaleScreen({ company, products, cart_items }) {
                     {price}
                 </div>
                 <div className='text-gray-400 text-xs font-semibold'>
-                    Expiry: Not specified
+                    Ex: Not specified
                 </div>
                 <div className='text-green-700 text-xs'>
 
-                    {available + ' remaining'}
+                    {available + ' left'}
                 </div>
             </div>
         </div>
@@ -112,7 +112,7 @@ function PointOfSaleScreen({ company, products, cart_items }) {
             var initialOptions = products.data.map((prod) => ({
                 value: prod.id,
                 label: String(prod.name),
-                price: 'UGX ' + Intl.NumberFormat('en-US').format(prod.retail_price),
+                price: 'UGX ' + Intl.NumberFormat('en-US').format(prod.retail_price)+' / '+ prod.measurement.abbriviation,
                 available: prod.available
             }));
             setOptions(initialOptions);
@@ -126,7 +126,7 @@ function PointOfSaleScreen({ company, products, cart_items }) {
                 var filteredOptions = productss.map((prod) => ({
                     value: prod.id,
                     label: String(prod.name),
-                    price: 'UGX ' + Intl.NumberFormat('en-US').format(prod.retail_price),
+                    price: 'UGX ' + Intl.NumberFormat('en-US').format(prod.retail_price)+' / '+ prod.measurement.abbriviation,
                     available: prod.available
                 }));
                 setOptions(filteredOptions);

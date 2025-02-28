@@ -260,9 +260,9 @@ function EmployeeScreen({ company, employees }) {
                 </Dialog>
             </Fragment>
             <DataTable
-                title={'Employee' &&
+                title={'Project' &&
                     <div className='flex flex-col md:flex-row space-x-0 md:space-x-5 space-y-5 md:space-y-0 whitespace-nowrap items-start md:items-center justify-between w-full border-b-2 border-primary pb-3 pt-2'>
-                        <span>{'Employee'}</span>
+                        <span>{'Project'}</span>
                         <div className='flex space-x-3 items-center md:space-x-5 w-full md:w-1/2 md:justify-end print:hidden'>
 
                             <Input type='text' label='Search'

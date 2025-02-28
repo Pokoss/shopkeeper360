@@ -49,7 +49,7 @@ class StockItemController extends Controller
         
         $products = Product::where(function ($q) use ($query){
             $q->where('name', 'LIKE', "%{$query}%");
-        })->where('company_id',$company_id)->latest()->paginate(20);
+        })->where('company_id',$company_id)->with('measurement')->latest()->paginate(20);
 
         return Response(['product' => $products]);
     }

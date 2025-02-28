@@ -32,7 +32,7 @@ function Footer() {
                 title="Our phone"
                 className="transition-colors duration-300 text-gray-100 hover:text-deep-purple-800"
               >
-                +256 765 974 111
+                +256 752 553 236
               </a>
             </div>
             <div className="flex">
