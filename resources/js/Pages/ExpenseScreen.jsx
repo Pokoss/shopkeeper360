@@ -52,6 +52,7 @@ console.log(expenses)
               // toast.success('We have received you request, we shall contact you shortly')
               reset();
               setData({})
+              handleOpen()
             }
           });
 

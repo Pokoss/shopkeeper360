@@ -12,8 +12,9 @@ function Footer() {
               title="Company"
               className="inline-flex items-center"
             >
-            <img src='/images/user/shp.png' className='h-16'/>
+            <img src='images/user/shopwhite.png' className='h-16'/>
             </a>
+            <p className='text-white text-lg font-bold'>Biashari</p>
             <div className="mt-6 lg:max-w-sm">
               <p className="text-sm text-gray-100">
                 A system designed to manage businesses and connect customers to businesses
@@ -56,7 +57,7 @@ function Footer() {
                 title="Our address"
                 className="transition-colors duration-300 text-gray-100 hover:text-deep-purple-800"
               >
-                Kampala, Uganda
+                kati House Level 3 Kampala, Uganda
               </a>
             </div>
           </div>

@@ -28,6 +28,49 @@ class CompanyController extends Controller
 
         return Inertia::render('CompanyScreen', props: ['companies' => $companies]);
     }
+    public function trial(Request $request)
+    {
+        $request->validate([
+            'company_id' => 'required',
+        ]);
+
+        $expiry = Carbon::now()->addMonth();
+
+        $company = Company::where('id', $request->company_id)->first();
+        $company->update([
+            'status'=>'active',
+            'subscription_date'=> Carbon::now(),
+            'subscription_expiry'=> Carbon::now()->addMonth()
+        ]);
+
+        $companies = Employee::with('company')->where('user_id', Auth::user()->id)->get();
+        return Inertia::render('CompanyScreen', ['companies' => $companies]);
+
+        
+
+    }
+    public function renew_subscription(Request $request)
+    {
+        $request->validate([
+            'company_id' => 'required',
+        ]);
+
+
+        $expiry = Carbon::now();
+
+        $company = Company::where('id', $request->company_id)->first();
+        if ($company->subscription_expiry > Carbon::now()){
+            $expiry = $company->subscription_expiry;
+        };
+
+        $company->update([
+            'subscription_date'=> Carbon::now(),
+            'subscription_expiry'=> Carbon::parse($expiry)->addMonth()
+        ]);
+
+        $companies = Employee::with('company')->where('user_id', Auth::user()->id)->get();
+        return Inertia::render('CompanyScreen', ['companies' => $companies]);
+    }
     public function business()
     {
         //

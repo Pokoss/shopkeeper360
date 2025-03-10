@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\Receipt;
 use App\Models\Sale;
 use Carbon\Carbon;
+use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -25,6 +26,13 @@ class DashboardHomeController extends Controller
         $comp = Employee::whereHas('company', function ($query) use ($company) {
             $query->where('slug', $company);
         })->with('company', 'user')->where('user_id', Auth::user()->id)->first();
+
+        if(($comp->company->status== 'inactive')){
+            return Inertia::render('StartTrialScreen', ['company' => $comp,]);
+        }
+        if(($comp->company->status== 'active' && $comp->company->subscription_expiry < Carbon::now())){
+            return Inertia::render('SubscriptionExpiredScreen', ['company' => $comp,]);
+        }
         $salesData = [];
         
         $sales_today = 0;

@@ -94,9 +94,16 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
-    // Route::get('/company/register', function () {
-    //     return Inertia::render('RegisterCompanyScreen');
-    // });
+    Route::get('/start-trial', function () {
+        return Inertia::render('StartTrialScreen');
+    });
+    Route::get('/inactive', function () {
+        return Inertia::render('SubscriptionExpiredScreen');
+    });
+
+    Route::post('/start-free-trial', [CompanyController::class, 'trial']);
+    Route::post('/renew-subscription', [CompanyController::class, 'renew_subscription']);
+
     Route::get('/company', [CompanyController::class, 'index']);
 
     Route::get('/company/register', [CompanyController::class, 'business']);

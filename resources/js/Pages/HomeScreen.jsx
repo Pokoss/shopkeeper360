@@ -69,10 +69,11 @@ function HomeScreen() {
 
             <section>
                 <div className="container flex flex-col items-center px-4 py-8 mx-auto text-center md:px-10 lg:px-32 xl:max-w-3xl">
-                    <h1 className="text-4xl font-bold leadi sm:text-5xl">Biashari
+                    <h1 className="text-4xl font-bold leading sm:text-5xl">Biashari
 
                     </h1>
-                    <p className="px-8 mt-8 mb-12 text-lg">A system designed to help your retail store keep track of all activities, income and expenses</p>
+                    <p className="px-8 mt-8 mb-5 text-lg">A system designed to help your retail store keep track of all activities, income and expenses</p>
+                    <p className=" text-primary mb-3 font-bold text-lg">Register your business with us and start your <span className='text-red-700'>30 days free-trial</span></p>
                     <div className="flex flex-wrap justify-center">
                         <Link href='/company' className="px-8 py-3 m-2 text-lg font-semibold rounded bg-white shadow-sm shadow-primary  text-gray-900">Get started</Link>
                         <Link href='/home' className="px-8 py-3 m-2 text-lg border bg-primary text-white rounded ">Shop Online</Link>
@@ -362,7 +363,7 @@ function HomeScreen() {
                                 <h1 className="text-xl font-semibold text-gray-700">If my retail store has very many products, do you do data entry for us?</h1>
 
                                 <p className="mt-2 text-sm text-gray-500">
-                                    If you feel it will be difficult to enter the data first time, we can offer to get for you data entrants who you will compensate with shs.50 per product entered and stocked on the system. These are proffessionals and will ensure the data is entered  correctly.
+                                    If you feel it will be difficult to enter the data first time, we can offer to get for you data entrants who you will compensate with shs.70 per product entered and stocked on the system. These are proffessionals and will ensure the data is entered  correctly.
                                 </p>
                             </div>
                         </div>
@@ -375,7 +376,7 @@ function HomeScreen() {
                             </div>
 
                             <div>
-                                <h1 className="text-xl font-semibold text-gray-700">How can I contact Shopkeeper360 for further assistance or inquiries?</h1>
+                                <h1 className="text-xl font-semibold text-gray-700">How can I contact Biashari for further assistance or inquiries?</h1>
 
                                 <p className="mt-2 text-sm text-gray-500">
                                     For further assistance or inquiries, you can reach our friendly team through various channels. You can fill out the contact form on our website, email us at info@lehub.dev, or call us at +256-752-553-236. We'll be more than happy to assist you and provide any additional information you may need.
@@ -420,9 +421,8 @@ function HomeScreen() {
                                         Addresses
                                     </dt>
                                     <dd className="mt-2 text-base text-gray-500">
-                                        1. Wandegeya Kampala<br />
-                                        2. Munyonyo<br />
-                                        3. Namanve Exibition and Business Center (opening soon)
+                                        1. Kati House, Level 3, Kampala<br />
+                                        2. Namanve Exibition and Business Center (opening soon)
                                     </dd>
                                 </div>
                             </div>

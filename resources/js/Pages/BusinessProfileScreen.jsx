@@ -72,7 +72,7 @@ function BusinessProfileScreen({ company }) {
         </div>
 
 
-        <FlutterWaveButton {...fwConfig} className='rounded-md bg-primary text-white px-5 py-2'/>
+        {/* <FlutterWaveButton {...fwConfig} className='rounded-md bg-primary text-white px-5 py-2'/> */}
         {/* <Button type='submit' className='bg-primary'>
           Pay subscription
         </Button> */}
