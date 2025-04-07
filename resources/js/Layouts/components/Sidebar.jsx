@@ -119,6 +119,23 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
                 <li></li>
             }
             {
+              props.position == 'owner' || props.position == 'dispenser' || props.position == 'admin' ?
+
+                <li className="rounded-sm mb-0.5">
+                  <Link href={`/dashboard/${props.company.slug}/service/panel`} className="block text-gray-200 hover:bg-brown-500 p-2">
+                    <div className="flex items-center flex-grow">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 mr-3">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25m6-12V15a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 15V5.25m18 0A2.25 2.25 0 0 0 18.75 3H5.25A2.25 2.25 0 0 0 3 5.25m18 0V12a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 12V5.25" />
+                      </svg>
+
+                      <span className="text-sm font-medium">Service Panel</span>
+                    </div>
+                  </Link>
+                </li>
+                :
+                <li></li>
+            }
+            {
               props.position == 'owner' || props.position == 'cashier' || props.position == 'admin' || props.position == 'dispenser' ?
 
                 <li className="rounded-sm mb-0.5">
@@ -185,6 +202,52 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
                             </div>
                           </Link>
                         </li>
+                      </ul>
+                    </AccordionBody>
+                  </Accordion>
+                </li>
+                :
+                <li></li>
+            }
+            {
+              props.position == 'owner' || props.position == 'admin' ?
+
+                <li className="rounded-sm mb-0.5">
+                  <Accordion open={open === 6} icon={<Icon id={6} open={open} />}>
+                    <AccordionHeader onClick={() => handleOpen(6)}>
+                      <div className="pl-2 text-gray-200 flex items-center flex-grow">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 mr-3">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 0 1 0 3.75H5.625a1.875 1.875 0 0 1 0-3.75Z" />
+                        </svg>
+
+                        <span className="text-sm font-medium font-oswald">Service Tracking</span>
+                      </div>
+                    </AccordionHeader>
+                    <AccordionBody>
+                      <ul>
+                        <li className="rounded-sm mb-0.5">
+                          <Link href={`/dashboard/${props.company.slug}/inventory/supplier`} className="block text-gray-200 hover:bg-brown-500 p-2">
+                            <div className="flex items-center flex-grow">
+                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 mr-3">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 21v-7.5a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349M3.75 21V9.349m0 0a3.001 3.001 0 0 0 3.75-.615A2.993 2.993 0 0 0 9.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 0 0 2.25 1.016c.896 0 1.7-.393 2.25-1.015a3.001 3.001 0 0 0 3.75.614m-16.5 0a3.004 3.004 0 0 1-.621-4.72l1.189-1.19A1.5 1.5 0 0 1 5.378 3h13.243a1.5 1.5 0 0 1 1.06.44l1.19 1.189a3 3 0 0 1-.621 4.72M6.75 18h3.75a.75.75 0 0 0 .75-.75V13.5a.75.75 0 0 0-.75-.75H6.75a.75.75 0 0 0-.75.75v3.75c0 .414.336.75.75.75Z" />
+                              </svg>
+
+                              <span className="text-sm font-medium font-oswald">Bookings</span>
+                            </div>
+                          </Link>
+                        </li>
+                        <li className="rounded-sm mb-0.5">
+                          <Link href={`/dashboard/${props.company.slug}/inventory/services`} className="block text-gray-200 hover:bg-brown-500 p-2">
+                            <div className="flex items-center flex-grow">
+                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 mr-3">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
+                              </svg>
+
+                              <span className="text-sm font-medium font-oswald">Services</span>
+                            </div>
+                          </Link>
+                        </li>
+                        
                       </ul>
                     </AccordionBody>
                   </Accordion>
@@ -370,7 +433,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
                             </div>
                           </Link>
                         </li>
-                        <li className="rounded-sm mb-0.5">
+                        {/* <li className="rounded-sm mb-0.5">
                           <Link href={`/dashboard/${props.company.slug}/business-account/subscription`} className="block text-gray-200 hover:bg-brown-500 p-2">
                             <div className="flex items-center flex-grow">
                               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 mr-3">
@@ -380,7 +443,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
                               <span className="text-sm font-medium font-oswald">Subscription</span>
                             </div>
                           </Link>
-                        </li>
+                        </li> */}
 
                         
                       </ul>

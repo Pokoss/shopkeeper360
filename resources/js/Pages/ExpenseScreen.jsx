@@ -15,7 +15,7 @@ import {
 
 function ExpenseScreen({ expenses, company }) {
 console.log(expenses)
-    const { data, setData, processing, post, reset, errors } = useForm();
+    const { data, setData, editData, setEditData, processing, post, reset, errors } = useForm();
 
 
     const [search, setSearch] = useState('');
@@ -56,6 +56,15 @@ console.log(expenses)
             }
           });
 
+    }
+
+    function editExpense(name,amount,position, expense_id) {
+        handleOpenEdit("xl")
+        setEditData('name', name);
+        setEditData('amount', amount);
+        setEditData('position', position);
+        setEditData('expense_id', expense_id);
+        
     }
 
     const [size, setSize] = useState(null);
@@ -112,7 +121,7 @@ console.log(expenses)
             selector: row => new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }),
         },
         {
-            selector: row => <button onClick={() => editEmployee(row.user.name, row.user.email, row.position, row.id)} className='bg-green-600 rounded-md p-1'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-5 h-5">
+            selector: row => <button onClick={() => editExpense(row.name, row.amount, row.position, row.id)} className='bg-green-600 rounded-md p-1'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-5 h-5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
             </svg>
             </button>
@@ -143,6 +152,47 @@ console.log(expenses)
                             <Input label='Amount' size='sm' value={data.amount ?? ''} onChange={e => setData('amount', e.target.value)} error={errors.amount}/>
                             <Input label='Date' type='date' size='sm' value={data.date ?? ''} onChange={e => setData('date', e.target.value)} error={errors.date}/>
                             <Input label='Description' size='sm' value={data.description ?? ''} onChange={e => setData('description', e.target.value)} error={errors.description}/>
+                            {/* <Input label='Status' size='sm' value={data.status ?? ''} onChange={e => setData('status', e.target.value)} error={errors.status}/> */}
+
+                        </DialogBody>
+                        <DialogFooter className="space-x-2">
+                            <Button onClick={handleOpen} variant="gradient" color="blue-gray">
+                                Close
+                            </Button>
+
+
+                            <Button type='submit' className='bg-primary'>
+                                Add
+                            </Button>
+
+
+                        </DialogFooter>
+                    </form>
+                </Dialog>
+            </Fragment>
+
+            <Fragment>
+                <Dialog
+                    open={
+                        size === "xl"
+                    }
+                    size={size}
+                    handler={handleOpenEdit}
+                >
+                    <DialogHeader>
+                        <Typography variant="h5" color="blue-gray">
+                            Edit Expense
+                        </Typography>
+                    </DialogHeader>
+
+                    <form
+                        // onSubmit={}
+                    >
+                        <DialogBody divider className="grid place-items-center gap-4">
+                        {/* <Input label='Name' size='sm' value={editData.name ?? ''} onChange={e => setEditData('name', e.target.value)} error={errors.name}/>
+                            <Input label='Amount' size='sm' value={editData.amount ?? ''} onChange={e => setEditData('amount', e.target.value)} error={errors.amount}/>
+                            <Input label='Date' type='date' size='sm' value={data.date ?? ''} onChange={e => setEditData('date', e.target.value)} error={errors.date}/>
+                            <Input label='Description' size='sm' value={editData.description ?? ''} onChange={e => setEditData('description', e.target.value)} error={errors.description}/> */}
                             {/* <Input label='Status' size='sm' value={data.status ?? ''} onChange={e => setData('status', e.target.value)} error={errors.status}/> */}
 
                         </DialogBody>

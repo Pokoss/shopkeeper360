@@ -18,12 +18,10 @@ function SubscriptionExpiredScreen({ company }) {
             }
         })
     }
-    
 
-
-
+    // public_key: 'FLWPUBK_TEST-dcc65cf1c7e549240c7a97b4a913307c-X',
 const config = {
-    public_key: 'FLWPUBK_TEST-dcc65cf1c7e549240c7a97b4a913307c-X',
+    public_key: 'FLWPUBK-71fa6ae2aea4790922278ac847fe54f5-X',
     tx_ref: Date.now(),
     amount: 38500,
     currency: 'UGX',

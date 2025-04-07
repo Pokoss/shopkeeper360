@@ -3,9 +3,21 @@ import React from 'react'
 import { Input, Button } from '@material-tailwind/react';
 import { QRCodeSVG } from 'qrcode.react';
 import { FlutterWaveButton, closePaymentModal } from 'flutterwave-react-v3';
+import * as htmlToImage from 'html-to-image'
+import { useRef } from 'react';
 
 function BusinessProfileScreen({ company }) {
   const currentUrl = location.hostname;
+
+  const domEl = useRef(null);
+    const downloadImage = async ()=>{
+        const dataUrl = await htmlToImage.toPng(domEl.current);
+
+        const link = document.createElement('a');
+        link.download = `${company.company.name}.png`; 
+        link.href =dataUrl;
+        link.click();
+    }
 
   const config = {
     public_key: 'FLWPUBK_TEST-dcc65cf1c7e549240c7a97b4a913307c-X',
@@ -80,9 +92,9 @@ function BusinessProfileScreen({ company }) {
 
       <p className='w-full font-semibold text-lg mt-5'>Business Link Code</p>
       <div className='mt-3 ml-2'>
-        <QRCodeSVG value={'https://'+currentUrl+'/business/'+company.company.slug} />
+        <QRCodeSVG ref={domEl} value={'https://'+currentUrl+'/business/'+company.company.slug} />
       </div>
-      <Button type='submit' className='bg-primary mt-4'>
+      <Button onClick={downloadImage} type='submit' className='bg-primary mt-4'>
         Download Code
       </Button>
     </div>

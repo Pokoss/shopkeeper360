@@ -17,6 +17,7 @@ use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SalePointController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\StockItemController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\WholesaleCategoryController;
@@ -116,12 +117,21 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/dashboard/{company}/inventory/supplier', [SupplierController::class, 'index']);
     Route::get('/dashboard/{company}/inventory/product', [ProductController::class, 'index']);
+    Route::get('/dashboard/{company}/inventory/services', [ProductController::class, 'getServices']);
+    Route::get('/dashboard/{company}/service/panel', [ServiceController::class, 'index']);
+    Route::get('/dashboard/{company}/service/panel/{id}', [ServiceController::class, 'details']);
     Route::get('/dashboard/{company}/inventory/stock', [StockItemController::class, 'index']);
     Route::post('/add-supplier', [SupplierController::class, 'store']);
     
     Route::post('/add-product', [ProductController::class, 'store']);
+    Route::post('/add-service', [ProductController::class, 'storeService']);
     Route::post('/edit-product', [ProductController::class, 'edit']);
+    Route::post('/edit-service', [ProductController::class, 'editService']);
     Route::post('/delete-product', [ProductController::class, 'destroy']);
+    Route::post('/delete-service', [ProductController::class, 'destroyService']);
+    
+    Route::post('/add-running-service', [ServiceController::class, 'store']);
+
 
     Route::post('/add-stock', [StockItemController::class, 'store']);
     Route::get('/search_stock', [StockItemController::class, 'search']);
