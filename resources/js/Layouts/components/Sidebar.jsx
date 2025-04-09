@@ -118,7 +118,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
                 :
                 <li></li>
             }
-            {
+            {/* {
               props.position == 'owner' || props.position == 'dispenser' || props.position == 'admin' ?
 
                 <li className="rounded-sm mb-0.5">
@@ -134,7 +134,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
                 </li>
                 :
                 <li></li>
-            }
+            } */}
             {
               props.position == 'owner' || props.position == 'cashier' || props.position == 'admin' || props.position == 'dispenser' ?
 
@@ -209,7 +209,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
                 :
                 <li></li>
             }
-            {
+            {/* {
               props.position == 'owner' || props.position == 'admin' ?
 
                 <li className="rounded-sm mb-0.5">
@@ -254,7 +254,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
                 </li>
                 :
                 <li></li>
-            }
+            } */}
 
             {
               props.position == 'owner' || props.position == 'admin' || props.position == 'hr' ?
