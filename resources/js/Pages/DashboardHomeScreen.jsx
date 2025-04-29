@@ -136,7 +136,7 @@ function DashboardHomeScreen({ company, sales_today, customer_visits, out_of_sto
           {
             company.position == 'dispenser' || company.position == 'admin' || company.position == 'owner' ?
 
-            <Link href={`/dashboard/${company.company.slug}/pos`} className='w-full bg-white rounded m-1 flex flex-col items-center space-y-3 py-3 border-b-4 border-transparent hover:border-tertiary cursor-pointer'>
+            <Link href={`/dashboard/${company.company.slug}/pos`} className='w-full hover:shadow-lg hover:shadow-secondary bg-white rounded m-1 flex flex-col items-center space-y-3 py-3 border-b-4 border-transparent hover:border-tertiary cursor-pointer'>
               <img src='/images/access/cart.png' alt="" className='w-14' />
               <span className='text-base'>Point of Sale</span>
             </Link>
@@ -145,7 +145,7 @@ function DashboardHomeScreen({ company, sales_today, customer_visits, out_of_sto
           {
             company.position == 'admin' || company.position == 'owner' ||company.position == 'accountant' ?
 
-            <Link href={`/dashboard/${company.company.slug}/sales`} className='w-full  rounded m-1 flex flex-col items-center space-y-3 py-3 border-b-4 border-transparent hover:border-tertiary cursor-pointer'>
+            <Link href={`/dashboard/${company.company.slug}/sales`} className='w-full hover:shadow-lg hover:shadow-secondary rounded m-1 flex flex-col items-center space-y-3 py-3 border-b-4 border-transparent hover:border-tertiary cursor-pointer'>
               <img src='/images/access/pay.png' alt="" className='w-14' />
               <span className='text-base'>Sales</span>
             </Link>
@@ -154,7 +154,7 @@ function DashboardHomeScreen({ company, sales_today, customer_visits, out_of_sto
           }
           {
             company.position == 'admin' || company.position == 'owner'?
-          <Link href={`/dashboard/${company.company.slug}/inventory/stock`} className='w-full bg-white rounded m-1 flex flex-col items-center space-y-3 py-3 border-b-4 border-transparent hover:border-tertiary cursor-pointer'>
+          <Link href={`/dashboard/${company.company.slug}/inventory/stock`} className='w-full hover:shadow-lg hover:shadow-secondary bg-white rounded m-1 flex flex-col items-center space-y-3 py-3 border-b-4 border-transparent hover:border-tertiary cursor-pointer'>
             <img src='/images/access/todo.png' alt="" className='w-14' />
             <span className='text-base'>Stock Items</span>
           </Link>
@@ -163,7 +163,7 @@ function DashboardHomeScreen({ company, sales_today, customer_visits, out_of_sto
           }
           {
             company.position == 'admin' || company.position == 'owner'?
-            <Link href={`/dashboard/${company.company.slug}/inventory/product`} className='w-full  rounded m-1 flex flex-col items-center space-y-3 py-3 border-b-4 border-transparent hover:border-tertiary cursor-pointer'>
+            <Link href={`/dashboard/${company.company.slug}/inventory/product`} className='w-full hover:shadow-lg hover:shadow-secondary rounded m-1 flex flex-col items-center space-y-3 py-3 border-b-4 border-transparent hover:border-tertiary cursor-pointer'>
               <img src='/images/access/product.png' alt="" className='w-14' />
               <span className='text-base'>Products</span>
             </Link>
@@ -171,21 +171,21 @@ function DashboardHomeScreen({ company, sales_today, customer_visits, out_of_sto
           }
           {
             company.position == 'admin' || company.position == 'owner' || company.position=='hr'?
-            <Link href={`/dashboard/${company.company.slug}/hr/employee`} className='w-full bg-white rounded m-1 flex flex-col items-center space-y-3 py-3 border-b-4 border-transparent hover:border-tertiary cursor-pointer'>
+            <Link href={`/dashboard/${company.company.slug}/hr/employee`} className='w-full hover:shadow-lg hover:shadow-secondary bg-white rounded m-1 flex flex-col items-center space-y-3 py-3 border-b-4 border-transparent hover:border-tertiary cursor-pointer'>
               <img src='/images/access/company.png' alt="" className='w-14' />
               <span className='text-base'>Employees</span>
             </Link>
             :
             <></>
           }
-            <Link className='w-full  rounded m-1 flex flex-col items-center space-y-3 py-3 border-b-4 border-transparent hover:border-tertiary cursor-pointer'>
+            <Link className='w-full hover:shadow-lg hover:shadow-secondary rounded m-1 flex flex-col items-center space-y-3 py-3 border-b-4 border-transparent hover:border-tertiary cursor-pointer'>
               <img src='/images/access/department.png' alt="" className='w-14' />
               <span className='text-base'>Customers</span>
             </Link>
 
             {
             company.position == 'admin' || company.position == 'owner' || company.position == 'cashier' || company.position == 'dispenser'?
-            <Link href={`/dashboard/${company.company.slug}/accounting/receipts`} className='w-full bg-white rounded m-1 flex flex-col items-center space-y-3 py-3 border-b-4 border-transparent hover:border-tertiary cursor-pointer'>
+            <Link href={`/dashboard/${company.company.slug}/accounting/receipts`} className='w-full hover:shadow-lg hover:shadow-secondary bg-white rounded m-1 flex flex-col items-center space-y-3 py-3 border-b-4 border-transparent hover:border-tertiary cursor-pointer'>
               <img src='/images/access/income.png' alt="" className='w-14' />
               <span className='text-base'>Receipts</span>
             </Link>
@@ -195,7 +195,7 @@ function DashboardHomeScreen({ company, sales_today, customer_visits, out_of_sto
           {
             company.position == 'admin' || company.position == 'owner' || company.position == 'accountant'?
 
-            <Link href={`/dashboard/${company.company.slug}/accounting/expenses`} className='w-full  rounded m-1 flex flex-col items-center space-y-3 py-3 border-b-4 border-transparent hover:border-tertiary cursor-pointer'>
+            <Link href={`/dashboard/${company.company.slug}/accounting/expenses`} className='w-full hover:shadow-lg hover:shadow-secondary rounded m-1 flex flex-col items-center space-y-3 py-3 border-b-4 border-transparent hover:border-tertiary cursor-pointer'>
               <img src='/images/access/expense.png' alt="" className='w-14' />
               <span className='text-base'>Expenses</span>
             </Link>
@@ -206,13 +206,13 @@ function DashboardHomeScreen({ company, sales_today, customer_visits, out_of_sto
         </div>
         <div className='container mx-auto flex flex-wrap justify-evenly  sm:h-full'>
           <main className="w-full p-1 md:w-2/4 flex flex-col items-center h-full">
-            <Typography className='bg-purple-800 w-full text-center text-white' variant='h5'>Weekly Sales</Typography>
+            <Typography className='bg-green-500 w-full text-center text-white' variant='h5'>Weekly Sales</Typography>
             <div className='mt-3 w-full'>
               <Line className='w-full' options={options} data={data} />
             </div>
           </main>
           <aside className="p-1 w-full md:w-2/4 flex flex-col items-center">
-            <Typography className='bg-yellow-700 w-full text-center text-white' variant='h5'>Most Sold Product (UGX) Past Month</Typography>
+            <Typography className='bg-blue-500 w-full text-center text-white' variant='h5'>Most Sold Product (UGX) Past Month</Typography>
             <div className='mt-3'>
               <Pie data={data1} />
             </div>

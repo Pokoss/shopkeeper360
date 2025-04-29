@@ -18,6 +18,7 @@ use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SalePointController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\ServiceItemController;
 use App\Http\Controllers\StockItemController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\WholesaleCategoryController;
@@ -132,9 +133,14 @@ Route::middleware('auth')->group(function () {
     
     Route::post('/add-running-service', [ServiceController::class, 'store']);
 
+    Route::post('/addtoservice', [ServiceItemController::class, 'store']);
+    Route::post('/delete_service_item', [ServiceItemController::class, 'destroy']);
+    Route::post('/empty_service_items', [ServiceItemController::class, 'empty_service_items']);
+
 
     Route::post('/add-stock', [StockItemController::class, 'store']);
     Route::get('/search_stock', [StockItemController::class, 'search']);
+    Route::get('/search_services', [StockItemController::class, 'service']);
     Route::post('/edit-stock', [StockItemController::class, 'edit']);
     Route::post('/delete-stock', [StockItemController::class, 'destroy']);
     
@@ -151,6 +157,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/empty_cart_item', [CartItemController::class, 'empty_cart_item']);
     
     Route::post('/register_pay', [SalePointController::class, 'store']);
+    Route::post('/record_service_sale', [ServiceController::class, 'register']);
 
     Route::get('/dashboard/{company}/accounting/receipts', [ReceiptController::class, 'index']);
     Route::get('/dashboard/{company}/accounting/expenses', [ExpenseController::class, 'index']);
@@ -163,6 +170,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/dashboard/{company}/sales', [SaleController::class, 'index']);
 
+    Route::get('/service_id', [ServiceController::class, 'service_id']);
     Route::get('/getlastsale', [ReceiptController::class, 'sale']);
 
     Route::get('/dashboard/{company}/online-portal/category', [OnlineCategoryController::class, 'index']);

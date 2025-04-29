@@ -12,6 +12,7 @@ class ServiceItem extends Model
     protected $table = 'service_items';
 
     protected $fillable = [
+        'service_id',
         'product_id',
         'user_id',
         'company_id',

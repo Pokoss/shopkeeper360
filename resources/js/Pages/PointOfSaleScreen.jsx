@@ -9,7 +9,6 @@ import { useReactToPrint } from "react-to-print";
 import { Button, Dialog, DialogBody, DialogFooter, DialogHeader, Input, Typography } from '@material-tailwind/react';
 
 function PointOfSaleScreen({ company, products, cart_items }) {
-    console.log(products)
     const componentRef = useRef();
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
@@ -68,7 +67,6 @@ function PointOfSaleScreen({ company, products, cart_items }) {
 
     const handleSelectChange = (selectedOption) => {
         setSelectedOption(selectedOption); // Update selectedOption state when an option is selected
-        console.log(selectedOption.value)
     };
     const [inputVal, setInputVal] = useState('');
 
@@ -105,7 +103,6 @@ function PointOfSaleScreen({ company, products, cart_items }) {
         try {
             const response = await axios.get(`/search_stock?q=${inputValue}&company_id=${company_id}`);
             if (response.data.product.data && response.data.product.data) {
-                console.log('pro data:', response.data.product.data);
                 const productss = response.data.product.data;
                 var filteredOptions = productss.map((prod) => ({
                     value: prod.id,
@@ -178,9 +175,7 @@ function PointOfSaleScreen({ company, products, cart_items }) {
                     toast.success('Success');
                     try {
                         const response = await axios.get(`/getlastsale?company_id=${company_id}`);
-                        console.log(response);
                         if (response.data && response.data) {
-                            console.log('pro data:', response.data);
                             setReceiptProducts(response.data);
                             handleOpen("xl")
                         }
@@ -251,10 +246,10 @@ function PointOfSaleScreen({ company, products, cart_items }) {
                         <div className='font-bold text-xl mb-1'>
                             UGX {Intl.NumberFormat('en-US').format(cartTotal)}<br />
                         </div>
-                        <button onClick={() => registerPay()} className='py-2 px-10 rounded-md font-semibold text-base text-gray-100 bg-primary hover:bg-red-700'>Record Sale</button>
+                        <button onClick={() => registerPay()} className='py-2 hover:shadow-xl hover:gb-blue-500 px-10 rounded-md font-semibold text-base text-gray-100 bg-gradient-to-r from-green-500 to-blue-500 '>Record Sale</button>
                     </div>
                 </div>
-                <div className='bg-gray-400 p-2 mt-7 w-full grid grid-cols-1 gap-3 sm:grid-cols-3 place-items-center class justify-center'>
+                <div className='bg-gray-400 shadow-lg shadow-white rounded-lg p-2 mt-7 w-full grid grid-cols-1 gap-3 sm:grid-cols-3 place-items-center class justify-center'>
                     <Select
                         value={selectedOption} // Set the value prop to the selected option state
                         onChange={handleSelectChange} // Call handleSelectChange when an option is selected
@@ -273,24 +268,24 @@ function PointOfSaleScreen({ company, products, cart_items }) {
                         }} />
 
                     <div className='flex gap-1'>
-                        <button onClick={subtractNumber} className='bg-primary h-10 w-10 rounded-full flex justify-center items-center'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-6 h-6">
+                        <button onClick={subtractNumber} className='bg-green-500 shadow-md shadow-blue-500 hover:shadow-lg h-10 w-10 rounded-full flex justify-center items-center'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-6 h-6">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14" />
                         </svg>
                         </button>
                         <input type="number" required placeholder='' form='stock_item_form' className='rounded-md w-16 flex [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none' value={number} onChange={(event) => setNumber(event.target.value)} />
-                        <button onClick={addNumber} className='bg-primary h-10 w-10 rounded-full flex justify-center items-center'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="white" className="w-6 h-6">
+                        <button onClick={addNumber} className='bg-blue-500 shadow-md shadow-green-500 h-10 w-10 rounded-full flex justify-center items-center'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="white" className="w-6 h-6">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                         </svg>
                         </button>
                     </div>
-                    <button onClick={addToCart} className='rounded-md flex justify-center items bg-primary p-2 w-full sm:w-32'> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-6 h-6 mr-1">
+                    <button onClick={addToCart} className='rounded-md text-white flex justify-center shadow-sm hover:shadow-lg shadow-green-400 items bg-gradient-to-bl from-green-500 to-blue-500 p-2 w-full sm:w-32'> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-6 h-6 mr-1">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg> Add</button>
                 </div>
                 {cart_items && cart_items.length == 0 ?
                     <></>
                     :
-                    <div>
+                    <div className='bg-white shadow-md shadow-gray-800 p-1 mt-1 rounded-lg'>
                         <div className="flex justify-between items-center bg-tertiary px-5 py-2 mt-5">
                             <span className='font-semibold text-base'>Cart</span>
                             <button onClick={() => emptyCart()} className='bg-red-400 py-1 px-5 rounded-md text-white hover:bg-primary md:mr-28'>Clear all</button>

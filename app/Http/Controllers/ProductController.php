@@ -114,7 +114,7 @@ class ProductController extends Controller
             'measurement' => $request->measurement,
             'available' => 0,
             'retail_price' => $request->sellingPrice,
-            'type' => 'Service',
+            'type' => 'product',
             'cost_price' => $request->costPrice,
             'barcode' => $request->barcode,
             'company_id' => $request->companyId,

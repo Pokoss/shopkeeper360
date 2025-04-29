@@ -22,6 +22,18 @@ function ServicePanelScreen({ company, services }) {
 
     console.log(services)
 
+    function getTotal(price) {
+        var tot = 0;
+        var total = price && price.map((p) => {
+            // console.log(p.product.retail_price)
+            tot = parseFloat(tot) + (parseFloat(p.product.retail_price)*parseFloat(p.quantity))
+
+        })
+        console.log(tot)
+        return tot;
+
+    }
+
     const columns = [
         {
             name: 'Service Id',
@@ -37,7 +49,7 @@ function ServicePanelScreen({ company, services }) {
         },
         {
             name: 'Current Price (UGX)',
-            selector: row => `${Intl.NumberFormat('en-US').format(row.retail_price)}`,
+            selector: row => `${Intl.NumberFormat('en-US').format(getTotal(row.service_items))}`,
         },
         ,
         {
@@ -100,16 +112,31 @@ function ServicePanelScreen({ company, services }) {
 
         var companyId = company.company_id;
 
-        
+
         try {
             router.post('/add-running-service', { companyId, service },
-                
+
                 {
-                    onSuccess: () => {
+                    onSuccess: async () => {
                         toast.success('Service added successfully');
                         setService('');
+                        try {
+                            // const response = await axios.get(`/getlastsale?company_id=${company_id}`);
+                            const response = await axios.get(`/service_id?company_id=${companyId}`);
+                            console.log(response.data)
+                            if (response.data.service_id && response.data.service_id) {
+
+                                router.visit(`/dashboard/${company.company.slug}/service/panel/${response.data.service_id}`)
+                            }
+                            else {
+                                console.error('unexpected')
+                            }
+                        } catch (error) {
+                            console.error('Error fetching products:', error);
+
+                        }
                         handleOpen();
-                        router.visit(`/dasboard/${company.company.slug}/service/panel/oi`)
+
 
                     },
                     onError: (e) => {

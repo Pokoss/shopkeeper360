@@ -23,4 +23,7 @@ class Service extends Model
     public function employee(){
         return $this->belongsTo(User::class,'employee','id');
     }
+    public function service_items(){
+        return $this->hasMany(ServiceItem::class,'service_id','service_id');
+    }
 }

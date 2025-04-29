@@ -11,10 +11,10 @@ function Navbar() {
 
     const [navbar, setNavbar] = useState(false);
     const { auth } = usePage().props;
-    console.log(auth);
+ 
 
     return (
-        <nav className="font-oswald w-full bg-primary shadow sticky top-0 z-50">
+        <nav className="font-oswald w-full bg-gradient-to-b from-green-500 to-blue-500 shadow sticky top-0 z-50">
             <div className="justify-between px-2 mx-auto lg:max-w-7xl md:items-center md:flex md:px-4">
                 <div>
                     <div className="flex items-center justify-between py-3 md:py-4 md:block">

@@ -53,6 +53,20 @@ class StockItemController extends Controller
 
         return Response(['product' => $products]);
     }
+    public function service(Request $request)
+    {
+        $query = $request->input('q');
+        $company_id = $request->input('company_id');
+        
+
+        // $products = Product::where('company_id',$company_id)->where('name', 'LIKE', "%{$query}%")->latest()->paginate(20);
+        
+        $service_items = Product::where(function ($q) use ($query){
+            $q->where('name', 'LIKE', "%{$query}%");
+        })->where('company_id',$company_id)->latest()->paginate(20);
+
+        return Response(['service_items' => $service_items]);
+    }
 
     /**
      * Show the form for creating a new resource.

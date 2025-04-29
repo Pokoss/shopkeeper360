@@ -3,7 +3,7 @@ import React from 'react'
 function Footer() {
   return (
     <div className='w-full sticky bottom'>
-        <div className="bg-primary px-4 pt-16 mx-auto">
+        <div className="bg-gradient-to-t from-green-500 to-blue-500 px-4 pt-16 mx-auto">
         <div className="w-full grid gap-10 row-gap-6 mb-8 sm:grid-cols-2 lg:grid-cols-4">
           <div className="sm:col-span-2">
             <a
@@ -12,7 +12,7 @@ function Footer() {
               title="Company"
               className="inline-flex items-center"
             >
-            <img src='images/user/shopwhite.png' className='h-16'/>
+            <img src='/images/user/shopwhite.png' className='h-16'/>
             </a>
             <p className='text-white text-lg font-bold'>Biashari</p>
             <div className="mt-6 lg:max-w-sm">

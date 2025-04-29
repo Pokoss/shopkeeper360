@@ -19,6 +19,7 @@ import { useCallback } from 'react';
 import { usePage } from '@inertiajs/react';
 
 function ProductScreen({ company, products, measurements}) {
+    console.log(products)
     const [product, setProduct] = useState('');
     const [measurement, setMeasurement] = useState('');
     const [barcode, setBarcode] = useState('No barcode scanned');

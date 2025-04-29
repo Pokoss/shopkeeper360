@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('service_items', function (Blueprint $table) {
             $table->id();
+            $table->string('service_id');
             $table->bigInteger('product_id');
             $table->bigInteger('user_id');
             $table->bigInteger('company_id');
