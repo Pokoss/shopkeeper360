@@ -171,46 +171,7 @@ console.log(expenses)
                 </Dialog>
             </Fragment>
 
-            <Fragment>
-                <Dialog
-                    open={
-                        size === "xl"
-                    }
-                    size={size}
-                    handler={handleOpenEdit}
-                >
-                    <DialogHeader>
-                        <Typography variant="h5" color="blue-gray">
-                            Edit Expense
-                        </Typography>
-                    </DialogHeader>
-
-                    <form
-                        // onSubmit={}
-                    >
-                        <DialogBody divider className="grid place-items-center gap-4">
-                        {/* <Input label='Name' size='sm' value={editData.name ?? ''} onChange={e => setEditData('name', e.target.value)} error={errors.name}/>
-                            <Input label='Amount' size='sm' value={editData.amount ?? ''} onChange={e => setEditData('amount', e.target.value)} error={errors.amount}/>
-                            <Input label='Date' type='date' size='sm' value={data.date ?? ''} onChange={e => setEditData('date', e.target.value)} error={errors.date}/>
-                            <Input label='Description' size='sm' value={editData.description ?? ''} onChange={e => setEditData('description', e.target.value)} error={errors.description}/> */}
-                            {/* <Input label='Status' size='sm' value={data.status ?? ''} onChange={e => setData('status', e.target.value)} error={errors.status}/> */}
-
-                        </DialogBody>
-                        <DialogFooter className="space-x-2">
-                            <Button onClick={handleOpen} variant="gradient" color="blue-gray">
-                                Close
-                            </Button>
-
-
-                            <Button type='submit' className='bg-primary'>
-                                Add
-                            </Button>
-
-
-                        </DialogFooter>
-                    </form>
-                </Dialog>
-            </Fragment>
+           
 
             <DataTable
                 title={'Expenses' &&
