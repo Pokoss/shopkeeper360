@@ -28,7 +28,7 @@ class ServiceController extends Controller
             $query->where('slug', $company);
         })->with('company', 'user')->where('user_id', Auth::user()->id)->first();
 
-        $services = Service::where('company_id',$comp->company_id)->with('employee','service_items.product')->latest()->paginate();
+        $services = Service::where('service_id', 'LIKE', "%{$search_text}%")->where('company_id',$comp->company_id)->with('employee','service_items.product')->latest()->paginate();
 
 
         return Inertia::render('ServicePanelScreen', ['company' => $comp, 'services'=>$services]);

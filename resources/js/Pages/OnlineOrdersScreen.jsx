@@ -23,7 +23,7 @@ function OnlineOrdersScreen({ orders, company }) {
         },
         headCells: {
             style: {
-                color: '#997400',
+                color: '#4CAF50',
                 fontSize: '14px',
             },
         },

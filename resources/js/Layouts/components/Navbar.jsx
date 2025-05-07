@@ -14,7 +14,7 @@ function Navbar() {
  
 
     return (
-        <nav className="font-oswald w-full bg-gradient-to-b from-green-500 to-blue-500 shadow sticky top-0 z-50">
+        <nav className="font-oswald w-full bg-gradient-to-b from-primary to-secondary shadow sticky top-0 z-50">
             <div className="justify-between px-2 mx-auto lg:max-w-7xl md:items-center md:flex md:px-4">
                 <div>
                     <div className="flex items-center justify-between py-3 md:py-4 md:block">
@@ -69,9 +69,15 @@ function Navbar() {
                             }`}
                     >
                         <ul className="p-2 flex divide-y-1 flex-col md:flex-row items-center justify-center space-y-5 md:flex md:space-x-6 md:space-y-0">
-                            <li className="text-white hover:text-yellow-500">
-                                <Link href={'/home'}>
+                        <li className="text-white hover:text-yellow-500">
+                                <Link href={'/'}>
                                     <p>Home</p>
+                                </Link>
+
+                            </li>
+                            <li className="text-white hover:text-yellow-500">
+                                <Link href={'/pricing'}>
+                                    <p>Pricing</p>
                                 </Link>
 
                             </li>
@@ -81,12 +87,7 @@ function Navbar() {
                                 </Link>
 
                             </li> */}
-                            <li className="text-white hover:text-yellow-500">
-                                <Link href={'/'}>
-                                    <p>About</p>
-                                </Link>
-
-                            </li>
+                            
                             {/* <li className="text-white hover:text-yellow-500">
                                 <a href="">Massage</a>
                             </li>

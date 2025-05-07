@@ -12,6 +12,12 @@ function PointOfSaleScreen({ company, products, cart_items }) {
     const componentRef = useRef();
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
+        onAfterPrint: () => {
+            handleOpen();
+        },
+        onPrintError: () => {
+            handleOpen();
+        },
     });
     useEffect(() => {
         var initialOptions = products.data.map((prod) => ({
@@ -178,6 +184,7 @@ function PointOfSaleScreen({ company, products, cart_items }) {
                         if (response.data && response.data) {
                             setReceiptProducts(response.data);
                             handleOpen("xl")
+                            setReceived('');
                         }
                         else {
                             console.error('unexpected')
@@ -246,7 +253,7 @@ function PointOfSaleScreen({ company, products, cart_items }) {
                         <div className='font-bold text-xl mb-1'>
                             UGX {Intl.NumberFormat('en-US').format(cartTotal)}<br />
                         </div>
-                        <button onClick={() => registerPay()} className='py-2 hover:shadow-xl hover:gb-blue-500 px-10 rounded-md font-semibold text-base text-gray-100 bg-gradient-to-r from-green-500 to-blue-500 '>Record Sale</button>
+                        <button onClick={() => registerPay()} className='py-2 hover:shadow-xl hover:gb-primary px-10 rounded-md font-semibold text-base text-gray-100 bg-gradient-to-r from-primary to-secondary '>Record Sale</button>
                     </div>
                 </div>
                 <div className='bg-gray-400 shadow-lg shadow-white rounded-lg p-2 mt-7 w-full grid grid-cols-1 gap-3 sm:grid-cols-3 place-items-center class justify-center'>
@@ -263,17 +270,17 @@ function PointOfSaleScreen({ company, products, cart_items }) {
                         className='w-full' styles={{
                             control: (baseStyles, state) => ({
                                 ...baseStyles,
-                                borderColor: state.isFocused ? 'brown' : 'brown',
+                                borderColor: state.isFocused ? 'green' : 'blue',
                             }),
                         }} />
 
                     <div className='flex gap-1'>
-                        <button onClick={subtractNumber} className='bg-green-500 shadow-md shadow-blue-500 hover:shadow-lg h-10 w-10 rounded-full flex justify-center items-center'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-6 h-6">
+                        <button onClick={subtractNumber} className='bg-primary shadow-md shadow-secondary hover:shadow-lg h-10 w-10 rounded-full flex justify-center items-center'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-6 h-6">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14" />
                         </svg>
                         </button>
                         <input type="number" required placeholder='' form='stock_item_form' className='rounded-md w-16 flex [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none' value={number} onChange={(event) => setNumber(event.target.value)} />
-                        <button onClick={addNumber} className='bg-blue-500 shadow-md shadow-green-500 h-10 w-10 rounded-full flex justify-center items-center'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="white" className="w-6 h-6">
+                        <button onClick={addNumber} className='bg-blue-500 shadow-md shadow-primary h-10 w-10 rounded-full flex justify-center items-center'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="white" className="w-6 h-6">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                         </svg>
                         </button>

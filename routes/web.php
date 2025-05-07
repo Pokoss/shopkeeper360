@@ -85,6 +85,11 @@ Route::post('/home', [CompanyController::class, 'getNearbyBusinesses']);
 
 Route::get('/wholesale', [WholesaleHomeController::class, 'index']);
 
+Route::get('/pricing', function () {
+    return Inertia::render('PricingScreen');
+});
+
+
 // Route::get('/products', [BusinessCategoryController::class, 'index']);
 
 Route::get('/dashboard', function () {

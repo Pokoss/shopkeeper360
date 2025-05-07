@@ -26,7 +26,7 @@ function ServicePanelScreen({ company, services }) {
         var tot = 0;
         var total = price && price.map((p) => {
             // console.log(p.product.retail_price)
-            tot = parseFloat(tot) + (parseFloat(p.product.retail_price)*parseFloat(p.quantity))
+            tot = parseFloat(tot) + (parseFloat(p.product.retail_price) * parseFloat(p.quantity))
 
         })
         console.log(tot)
@@ -152,83 +152,121 @@ function ServicePanelScreen({ company, services }) {
 
     }
 
+    const [search, setSearch] = useState('');
 
-    return (
-        <div>
-            <Fragment>
-                <Dialog
-                    open={
-                        size === "xl"
-                    }
-                    size={size}
-                    handler={handleOpen}
-                >
-                    <DialogHeader>
-                        <Typography variant="h5" color="blue-gray">
-                            Add a Service
-                        </Typography>
-                    </DialogHeader>
-                    <form
-                        onSubmit={createService}
+    const handleSearch = e => {
+        e.preventDefault();
+        setSearch(e.target.value)
+        setPage(1)
+        var search = e.target.value
+        router.get(`/dashboard/${company.company.slug}/service/panel`, {
+            search, page: 1,
+        }, {
+            preserveState: true, preserveScroll: true, onSuccess: () => {
+            }
+        });
+    }
+
+        const [page, setPage] = useState(services.current_page);
+        const fetchData = (page) => {
+            router.get(`/dashboard/${company.company.slug}/service/panel`, { page, search }, { preserveState: true });
+        };
+
+        const handlePageChange = (page) => {
+            setPage(page);
+            fetchData(page)
+        };
+
+
+        return (
+            <div>
+                <Fragment>
+                    <Dialog
+                        open={
+                            size === "xl"
+                        }
+                        size={size}
+                        handler={handleOpen}
                     >
-                        <DialogBody divider className="h-[28rem] overflow-scroll grid place-items-center gap-4">
-                            <Input label='Name (Optional)'
-                                value={service} onChange={(event) => setService(event.target.value)} size='sm'
-                            />
+                        <DialogHeader>
+                            <Typography variant="h5" color="blue-gray">
+                                Add a Service
+                            </Typography>
+                        </DialogHeader>
+                        <form
+                            onSubmit={createService}
+                        >
+                            <DialogBody divider className="h-[28rem] overflow-scroll grid place-items-center gap-4">
+                                <Input label='Name (Optional)'
+                                    value={service} onChange={(event) => setService(event.target.value)} size='sm'
+                                />
 
-                            <ToastContainer />
-                        </DialogBody>
-                        <DialogFooter className="space-x-2">
-                            <Button onClick={handleOpen} variant="gradient" color="blue-gray">
-                                Close
-                            </Button>
-                            <Button type='submit' className='bg-primary'>
-                                Create New Service
-                            </Button>
-                        </DialogFooter>
-                    </form>
-                </Dialog>
-            </Fragment>
-
-            <DataTable
-                title={'Running Service' &&
-                    <div className='flex flex-col md:flex-row space-x-0 md:space-x-5 space-y-5 md:space-y-0 whitespace-nowrap items-start md:items-center justify-between w-full border-b-2 border-primary pb-3 pt-2'>
-                        <span>{'Running Services'}</span>
-                        <div className='flex space-x-3 items-center md:space-x-5 w-full md:w-1/2 md:justify-end print:hidden'>
-
-                            <Input type='text' label='Search'
-                                // value={search}
-                                // onChange={handleSearch}
-                                className='md:w-full' />
-                            <span>
-                                <Button size='sm' color='success' type='submit' className='flex h-10 items-center bg-primary'
-                                    onClick={() => handleOpen("xl")}
-                                >
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="mr-2 w-5 h-5">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                                    </svg>
-                                    Service
+                                <ToastContainer />
+                            </DialogBody>
+                            <DialogFooter className="space-x-2">
+                                <Button onClick={handleOpen} variant="gradient" color="blue-gray">
+                                    Close
                                 </Button>
-                            </span>
-                        </div>
-                    </div>
-                }
-                columns={columns}
-                data={services.data}
-                customStyles={customStyles}
-                pointerOnHover
-                onRowClicked={(row, event) => !children && ExpandableComponent ? null : editRow(row, event)}
-                highlightOnHover
-                pagination
-                paginationServer
-                paginationTotalRows={'oi'}
-                paginationPerPage={'oi'}
-                onChangePage={'oi'}
-                paginationRowsPerPageOptions={[]}
-            />
-        </div>
-    )
-}
+                                <Button type='submit' className='bg-primary'>
+                                    Create New Service
+                                </Button>
+                            </DialogFooter>
+                        </form>
+                    </Dialog>
+                </Fragment>
 
-ServicePanelScreen.layout = page => <Layout children={page} props={page.props.company} />
-export default ServicePanelScreen
+                <DataTable
+                    title={'Running Service' &&
+                        <div className='flex flex-col md:flex-row space-x-0 md:space-x-5 space-y-5 md:space-y-0 whitespace-nowrap items-start md:items-center justify-between w-full border-b-2 border-primary pb-3 pt-2'>
+                            <span>{'Running Services'}</span>
+                            <div className='flex space-x-3 items-center md:space-x-5 w-full md:w-1/2 md:justify-end print:hidden'>
+
+                                <Input type='text' label='Search'
+                                    value={search}
+                                    onChange={handleSearch}
+                                    className='md:w-full' />
+                                <span>
+                                    <Button size='sm' color='success' type='submit' className='flex h-10 items-center bg-primary'
+                                        onClick={() => handleOpen("xl")}
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="mr-2 w-5 h-5">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                        </svg>
+                                        Service
+                                    </Button>
+                                </span>
+                            </div>
+                        </div>
+                    }
+                    columns={columns}
+                    data={services.data}
+                    customStyles={customStyles}
+                    pointerOnHover
+                    onRowClicked={(row, event) => !children && ExpandableComponent ? null : editRow(row, event)}
+                    highlightOnHover
+                    pagination
+                    paginationServer
+                    paginationTotalRows={services.total}
+                    paginationPerPage={services.per_page}
+                    onChangePage={handlePageChange}
+                    paginationRowsPerPageOptions={[]}
+
+                // columns={columns}
+                // data={products.data}
+                // customStyles={customStyles}
+                // pointerOnHover
+                // onRowClicked={(row, event) => !children && ExpandableComponent ? null : editRow(row, event)}
+                // highlightOnHover
+                // pagination
+                // paginationServer
+                // paginationTotalRows={products.total}
+                // paginationPerPage={products.per_page}
+                // onChangePage={handlePageChange}
+                // paginationRowsPerPageOptions={[]}
+                />
+            </div>
+        )
+    }
+
+    ServicePanelScreen.layout = page => <Layout children={page} props={page.props.company} />
+    export default ServicePanelScreen

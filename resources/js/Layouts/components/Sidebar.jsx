@@ -28,7 +28,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
   const [open, setOpen] = React.useState(0);
   const handleOpen = (value) => setOpen(open === value ? 0 : value);
 
-  const { auth  } = usePage().props
+  const { auth } = usePage().props
 
   const trigger = useRef(null);
   const sidebar = useRef(null);
@@ -45,8 +45,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
   }, [sidebarOpen]);
 
 
-  
- 
+
+
 
   return (
     <div className="lg:w-64 bg-white ">
@@ -62,7 +62,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
       >
 
         {/* Sidebar header */}
-        <div className="flex justify-between pr-3 mb-10 sm:px-2">
+        <div className="flex justify-between pr-3 mb-2 sm:px-2">
           {/* Close button */}
           <div className='lg:hidden bg-blue-gray-700 flex justify-center p-5 rounded-full h-5 w-5 items-center sticky top-0 z-50'>
 
@@ -80,11 +80,12 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
             </button>
           </div>
           {/* Logo */}
-          <Link href="/" className="block">
-            <img className='w-20 h-20 rounded-full' src={props.company.logo != '' ? '/' + props.company.logo : '/images/user/user.png'} />
+          <Link href="/" className="block ">
+            <img className='w-20 h-20 rounded-full mb-2' src={props.company.logo != '' ? '/' + props.company.logo : '/images/user/user.png'} />
             <span className=" text-white font-bold text-md">{props.company.name}</span>
           </Link>
         </div>
+        <div className='bg-gray-100 p-[0.1px]'></div>
 
         {/* Links */}
         <div>
@@ -223,7 +224,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
                     </AccordionHeader>
                     <AccordionBody>
                       <ul>
-                        <li className="rounded-sm mb-0.5">
+                        {/* <li className="rounded-sm mb-0.5">
                           <Link href={`/dashboard/${props.company.slug}/inventory/supplier`} className="block rounded-full text-gray-200 hover:bg-secondary p-2">
                             <div className="flex items-center flex-grow">
                               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 mr-3">
@@ -233,7 +234,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
                               <span className="text-sm font-medium font-oswald">Bookings</span>
                             </div>
                           </Link>
-                        </li>
+                        </li> */}
                         <li className="rounded-sm mb-0.5">
                           <Link href={`/dashboard/${props.company.slug}/inventory/services`} className="block rounded-full text-gray-200 hover:bg-secondary p-2">
                             <div className="flex items-center flex-grow">
@@ -241,11 +242,11 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
                                 <path strokeLinecap="round" strokeLinejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
                               </svg>
 
-                              <span className="text-sm font-medium font-oswald">Services</span>
+                              <span className="text-sm font-medium font-oswald">Services List</span>
                             </div>
                           </Link>
                         </li>
-                        
+
                       </ul>
                     </AccordionBody>
                   </Accordion>
@@ -280,7 +281,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
                             </div>
                           </Link>
                         </li>
-                     
+
                       </ul>
                     </AccordionBody>
                   </Accordion>
@@ -329,7 +330,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
                             </div>
                           </Link>
                         </li>
-                        <li className="rounded-sm mb-0.5">
+                        {/* <li className="rounded-sm mb-0.5">
                           <Link href={`/dashboard/${props.company.slug}/accounting/purchases`} className="block rounded-full text-gray-200 hover:bg-secondary p-2">
                             <div className="flex items-center flex-grow">
                               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 mr-3">
@@ -339,8 +340,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
                               <span className="text-sm font-medium font-oswald">Purchases</span>
                             </div>
                           </Link>
-                        </li>
-                       
+                        </li> */}
+
                       </ul>
                     </AccordionBody>
                   </Accordion>
@@ -414,7 +415,6 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 mr-3">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
                         </svg>
-
                         <span className="text-sm font-medium font-oswald">Business Account</span>
                       </div>
                     </AccordionHeader>
@@ -443,7 +443,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
                           </Link>
                         </li> */}
 
-                        
+
                       </ul>
                     </AccordionBody>
                   </Accordion>
@@ -451,7 +451,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
                 :
                 <li></li>
             }
-           
+
             <li>
 
             </li>

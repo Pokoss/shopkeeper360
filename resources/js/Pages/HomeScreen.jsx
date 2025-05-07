@@ -72,11 +72,11 @@ function HomeScreen() {
                     <h1 className="text-4xl font-bold leading sm:text-5xl">Biashari
 
                     </h1>
-                    <p className="px-8 mt-8 mb-5 text-lg">A system designed to help your retail store keep track of all activities, income and expenses</p>
+                    <p className="px-8 mt-8 mb-5 text-lg">A system designed to help your retail store or service business keep track of all activities, income and expenses</p>
                     <p className=" text-primary mb-3 font-bold text-lg">Register your business with us and start your <span className='text-red-700'>30 days free-trial</span></p>
                     <div className="flex flex-wrap justify-center">
                         <Link href='/company' className="px-8 py-3 m-2 text-lg font-semibold rounded bg-white shadow-sm shadow-primary  text-gray-900">Get started</Link>
-                        <Link href='/home' className="px-8 py-3 m-2 text-lg border bg-primary text-white rounded ">Shop Online</Link>
+                        {/* <Link href='/home' className="px-8 py-3 m-2 text-lg border bg-primary text-white rounded ">Shop Online</Link> */}
                         {/* <Link href='/register' className="px-8 py-3 m-2 text-lg border bg-primary text-white rounded ">Be a marketeer</Link> */}
                     </div>
                 </div>
@@ -298,7 +298,7 @@ function HomeScreen() {
                                 <h1 className="text-xl font-semibold text-gray-700">What type of businesses can use the Biashari system</h1>
 
                                 <p className="mt-2 text-sm text-gray-500">
-                                    The Biashari system is designed for all retail type of businesses like shops, supermarkets hardware stores, electronic stores, pharmacies, restaurants and cosmetic stores and so many more. Has long has there is a product that can be sold to customers we are here to help you thrive and get reach more customers
+                                    The Biashari system is designed for all retail and service type of businesses like shops, supermarkets hardware stores, electronic stores, pharmacies, restaurants, hotels and so many more. Has long has there is a product that can be sold to customers we are here to help you thrive and get reach more customers
                                 </p>
                             </div>
                         </div>
@@ -347,7 +347,7 @@ function HomeScreen() {
                                 <h1 className="text-xl font-semibold text-gray-700">What is your cancellation policy?</h1>
 
                                 <p className="mt-2 text-sm text-gray-500">
-                                    Our cancellation policy may vary depending on the specific reason of the package. If you feel you wish to discontinue the use of the system. No pentalty will be given, just simply stop the use of the system. Or let the subcription expire. You thoroughly revise through our terms and contions and privacy policy, or you could contact our team on any of the provided platforms.
+                                    Our cancellation policy may vary depending on the specific reason of the package. If you feel you wish to discontinue the use of the system. No penalty will be given, just simply stop the use of the system. Or let the subcription expire. You thoroughly revise through our terms and contions and privacy policy, or you could contact our team on any of the provided platforms.
                                 </p>
                             </div>
                         </div>

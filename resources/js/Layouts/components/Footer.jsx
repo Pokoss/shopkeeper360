@@ -3,7 +3,7 @@ import React from 'react'
 function Footer() {
   return (
     <div className='w-full sticky bottom'>
-        <div className="bg-gradient-to-t from-green-500 to-blue-500 px-4 pt-16 mx-auto">
+        <div className="bg-gradient-to-t from-primary to-secondary px-4 pt-16 mx-auto">
         <div className="w-full grid gap-10 row-gap-6 mb-8 sm:grid-cols-2 lg:grid-cols-4">
           <div className="sm:col-span-2">
             <a

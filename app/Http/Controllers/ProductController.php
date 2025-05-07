@@ -7,6 +7,7 @@ use App\Models\Measurement;
 use App\Models\OnlineProduct;
 use App\Models\Product;
 use App\Models\Sale;
+use App\Models\ServiceItem;
 use App\Models\StockItem;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
@@ -218,7 +219,7 @@ class ProductController extends Controller
     {
         //
         // return Response(['oi']);
-        $check1 = StockItem::where('product_id',$request->serviceId)->count(); 
+        $check1 = ServiceItem::where('product_id',$request->serviceId)->count(); 
         $check2 = Sale::where('product_id',$request->serviceId)->count();
         $check3 = OnlineProduct::where('product_id',$request->serviceId)->count();
 

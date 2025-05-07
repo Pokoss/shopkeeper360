@@ -186,7 +186,7 @@ function ProductScreen({ company, products, measurements}) {
         },
         headCells: {
             style: {
-                color: '#997400',
+                color: '#4CAF50',
                 fontSize: '14px',
             },
         },
@@ -307,7 +307,7 @@ function ProductScreen({ company, products, measurements}) {
                                 onChange={handleSearch}
                                 className='md:w-full' />
                             <span>
-                                <Button size='sm' color='success' type='submit' className='flex h-10 items-center bg-primary'
+                                <Button size='sm' color='success' type='submit' className='flex h-10 items-center bg-gradient-to-r from-primary to-secondary'
                                     onClick={() => handleOpen("xl")}
                                 >
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="mr-2 w-5 h-5">

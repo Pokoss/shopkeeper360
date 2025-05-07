@@ -42,7 +42,7 @@ function SalesScreen({ company, sales, sales_today,profit }) {
     },
     headCells: {
       style: {
-        color: '#997400',
+        color: '#4CAF50',
         fontSize: '14px',
       },
     },
@@ -135,7 +135,7 @@ function SalesScreen({ company, sales, sales_today,profit }) {
                 onChange={(e) => setEndDate(e.target.value)} 
                 className='md:w-full' />
               <Button type="submit" label='To'
-                className='w-full bg-primary'>
+                className='w-full bg-gradient-to-r from-primary to-secondary'>
                   Search
                 </Button>
             </div>

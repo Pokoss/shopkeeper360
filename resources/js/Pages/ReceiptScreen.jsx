@@ -112,7 +112,7 @@ function ReceiptScreen({company, receipts}) {
         handleOpen("xl")
         var receipts ={ 'receipts': row}
         setReceiptProducts(receipts)
-        // console.log(receipts)
+        console.log(receipts)
       }
 
   return (

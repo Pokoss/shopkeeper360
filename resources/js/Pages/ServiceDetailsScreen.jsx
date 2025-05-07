@@ -7,6 +7,7 @@ import Select from 'react-select'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import { useReactToPrint } from "react-to-print";
+import CustomerBill from '@/Components/CustomerBill';
 
 function ServiceDetailsScreen({ company, service, service_id, service_items, cart_items }) {
 
@@ -17,13 +18,19 @@ function ServiceDetailsScreen({ company, service, service_id, service_items, car
     const [discountAmount, setDiscountAmount] = useState(0);
     const [receiptProducts, setReceiptProducts] = useState(null);
     const [size, setSize] = useState(null);
+    const [size1, setSize1] = useState(null);
     const componentRef = useRef();
+    const componentRef1 = useRef();
 
     const handleOpen = (value) => setSize(value);
+    const handleOpen1 = (value) => setSize1(value);
 
     function closeDialog() {
         handleOpen();
         router.visit(`/dashboard/${company.company.slug}/service/panel`);
+    }
+    function closeDialog1() {
+        handleOpen1();
     }
 
     const handlePrint = useReactToPrint({
@@ -31,6 +38,12 @@ function ServiceDetailsScreen({ company, service, service_id, service_items, car
         onAfterPrint: () => {
             handleOpen();
             router.visit(`/dashboard/${company.company.slug}/service/panel`)
+        },
+    });
+    const handlePrint1 = useReactToPrint({
+        content: () => componentRef1.current,
+        onAfterPrint: () => {
+            handleOpen1();
         },
     });
 
@@ -202,6 +215,19 @@ function ServiceDetailsScreen({ company, service, service_id, service_items, car
         })
     }
 
+    var theBill ={ 'receipts': {
+        'sale_id':service_id,
+        'sale_total':cartTotal,
+        'sales':cart_items,
+
+    }}
+
+
+    function viewReceipt() {
+        handleOpen1('xl')
+        
+        console.log('oi')
+    }
     function registerPay() {
         var company_id = company.company.id;
         if (cart_items.length == 0) {
@@ -210,7 +236,7 @@ function ServiceDetailsScreen({ company, service, service_id, service_items, car
         else {
             var sale_total = cartTotal;
             var discount = discountAmount;
-            
+
             router.post('/record_service_sale', { service_id, company_id, sale_total, discount }, {
                 preserveScroll: true,
                 onSuccess: async () => {
@@ -278,7 +304,7 @@ function ServiceDetailsScreen({ company, service, service_id, service_items, car
                         </div>
                         <button
                             onClick={() => registerPay()}
-                            className='py-2 px-10 rounded-md font-semibold text-base text-gray-100 bg-primary hover:bg-red-700'>Record Sale</button>
+                            className='py-2 px-10 rounded-md font-semibold text-base text-gray-100 bg-gradient-to-r from-primary to-secondary hover:bg-red-700'>Record Sale</button>
                     </div>
                 </div>
 
@@ -296,7 +322,7 @@ function ServiceDetailsScreen({ company, service, service_id, service_items, car
                         className='w-full' styles={{
                             control: (baseStyles, state) => ({
                                 ...baseStyles,
-                                borderColor: state.isFocused ? 'brown' : 'brown',
+                                borderColor: state.isFocused ? 'blue' : 'green',
                             }),
                         }}
                     />
@@ -321,7 +347,7 @@ function ServiceDetailsScreen({ company, service, service_id, service_items, car
 
                     <button
                         onClick={addToCart}
-                        className='rounded-md flex justify-center items bg-primary p-2 w-full sm:w-32'> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-6 h-6 mr-1">
+                        className='rounded-md text-white flex justify-center items bg-gradient-to-r from-primary to-secondary p-2 w-full sm:w-32'> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-6 h-6 mr-1">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg> Add</button>
                 </div>
@@ -329,10 +355,16 @@ function ServiceDetailsScreen({ company, service, service_id, service_items, car
                 {cart_items && cart_items.length == 0 ?
                     <></>
                     :
-                    <div>
-                        <div className="flex justify-between items-center bg-tertiary px-5 py-2 mt-5">
-                            <span className='font-semibold text-base'>Cart</span>
-                            <button onClick={() => emptyCart()} className='bg-red-400 py-1 px-5 rounded-md text-white hover:bg-primary md:mr-28'>Clear all</button>
+                    <div className='bg-white p-1 rounded-xl mt-1 shadow-md shadow-black'>
+                        <div className="flex justify-between items-center bg-tertiary px-5 py-2 my-3 ">
+                            <span className='font-semibold text-base'>Items</span>
+                            <button onClick={() => viewReceipt()} className='bg-primary flex py-1 px-2 rounded-md text-white hover:bg-secondary md:mr-28'>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 mr-1">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="m9 14.25 6-6m4.5-3.493V21.75l-3.75-1.5-3.75 1.5-3.75-1.5-3.75 1.5V4.757c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0c1.1.128 1.907 1.077 1.907 2.185ZM9.75 9h.008v.008H9.75V9Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm4.125 4.5h.008v.008h-.008V13.5Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                                </svg>
+                                Print Bill
+                            </button>
+
                         </div>
                         <table className="w-full text-left">
                             <thead>
@@ -367,6 +399,11 @@ function ServiceDetailsScreen({ company, service, service_id, service_items, car
                                 }
                             </tbody>
                         </table>
+
+                        <div className="flex justify-between items-center bg-tertiary px-5 py-2 mt-5 ">
+                            <button onClick={() => emptyCart()} className='bg-red-400 py-1 px-5 rounded-md text-white hover:bg-primary md:mr-28 p-2'>Clear and discard service</button>
+
+                        </div>
                     </div>
                 }
 
@@ -401,6 +438,45 @@ function ServiceDetailsScreen({ company, service, service_id, service_items, car
                             </Button>
                             <div className="space-x-2">
                                 <Button onClick={handlePrint} type='submit' className='bg-green-500'>
+                                    Print
+                                </Button>
+                            </div>
+                        </div>
+                    </DialogFooter>
+                </Dialog>
+            </Fragment>
+
+            <Fragment>
+                <Dialog
+                    open={
+                        size1 === "xl"
+                    }
+                    size={size1}
+                    handler={handleOpen1}
+                >
+                    <DialogHeader>
+                        <Typography variant="h5" color="blue-gray">
+                            Print Bill
+                        </Typography>
+                    </DialogHeader>
+                    <form
+                    >
+                        <DialogBody divider className="h-[29rem] overflow-scroll">
+                            <div ref={componentRef1}>
+
+                           
+                                <CustomerBill company={company} props={theBill} />
+                            </div>
+                        </DialogBody>
+                    </form>
+                    <DialogFooter>
+                        <div className='flex w-full justify-between'>
+
+                            <Button onClick={closeDialog1} variant="gradient" color="red">
+                                Ignore
+                            </Button>
+                            <div className="space-x-2">
+                                <Button onClick={handlePrint1} type='submit' className='bg-green-500'>
                                     Print
                                 </Button>
                             </div>
