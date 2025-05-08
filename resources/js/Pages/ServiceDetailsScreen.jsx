@@ -486,7 +486,7 @@ function ServiceDetailsScreen({ company, service, service_id, service_items, car
             </Fragment>
             <ToastContainer />
             {/* <Receipt/> */}
-            <ToastContainer />
+            
         </div>
     )
 }
