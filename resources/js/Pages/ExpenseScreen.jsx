@@ -15,9 +15,15 @@ import {
 
 function ExpenseScreen({ expenses, company }) {
 console.log(expenses)
-    const { data, setData, editData, setEditData, processing, post, reset, errors } = useForm();
-
-
+    const { data, setData,processing, post, reset, errors } = useForm();
+    const { editData, setEditData} = useForm();
+    
+    const [editName, setEditName] = useState('');
+    const [editAmount, setEditAmount] = useState('');
+    const [editDescription, setEditDescription] = useState('');
+    const [editDate, setEditDate] = useState('');
+    const [editId, setEditId] = useState('');
+    
     const [search, setSearch] = useState('');
 
     const [page, setPage] = useState(1);
@@ -58,12 +64,13 @@ console.log(expenses)
 
     }
 
-    function editExpense(name,amount,position, expense_id) {
+    function editExpense(name,amount,description,date, expense_id) {
         handleOpenEdit("xl")
-        setEditData('name', name);
-        setEditData('amount', amount);
-        setEditData('position', position);
-        setEditData('expense_id', expense_id);
+        setEditName(name);
+        setEditAmount( amount);
+        setEditDate( date);
+        setEditDescription(description);
+        setEditId(expense_id);
         
     }
 
@@ -121,7 +128,7 @@ console.log(expenses)
             selector: row => new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }),
         },
         {
-            selector: row => <button onClick={() => editExpense(row.name, row.amount, row.position, row.id)} className='bg-green-600 rounded-md p-1'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-5 h-5">
+            selector: row => <button onClick={() => editExpense(row.name, row.amount,row.description, row.date, row.id)} className='bg-green-600 rounded-md p-1'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-5 h-5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
             </svg>
             </button>
@@ -216,7 +223,66 @@ console.log(expenses)
             // expandableRowsComponent={ExpandableComponent}
             // expandableRowExpanded={row=>true}
             />
+
+<Fragment>
+                <Dialog
+                    open={
+                        sizeEdit === "xl"
+                    }
+                    size={sizeEdit}
+                    handler={handleOpenEdit}
+                >
+                    <DialogHeader>
+                        <Typography variant="h5" color="blue-gray">
+                            Edit Expense
+                        </Typography>
+                    </DialogHeader>
+                    <form
+                        // onSubmit={postEdit}
+                    >
+                        <DialogBody divider className="grid place-items-center gap-4">
+
+
+                            <Input color='deep-orange' label='Name' 
+                                value={editName}  onChange={(event) => setEditName(event.target.value)} size='sm'
+                            />
+                            <Input color='deep-orange' label='Amount' 
+                                value={editAmount} onChange={(event) => setEditAmount(event.target.value)} size='sm'
+                            />
+                             <Input color='deep-orange' label='Date'  type='date'
+                                value={editDate} onChange={(event) => setEditDate(event.target.value)} size='sm'
+                            />
+                            <Input color='deep-orange' label='Description'
+                                value={editDescription} onChange={(event) => setEditDescription(event.target.value)} size='sm'
+                            />
+                           
+                            
+                           
+
+                        </DialogBody>
+                        <DialogFooter>
+                            <div className='flex w-full justify-between'>
+                                <Button 
+                                // onClick={postDelete} 
+                                variant="gradient" color="red">
+                                    Delete
+                                </Button>
+                                <div className="space-x-2">
+                                    <Button onClick={handleOpenEdit} variant="gradient" color="blue-gray">
+                                        Close
+                                    </Button>
+                                    <Button type='submit' className='bg-primary'>
+                                        Edit
+                                    </Button>
+                                </div>
+                            </div>
+                        </DialogFooter>
+                    </form>
+                </Dialog>
+            </Fragment>
         </div>
+
+        
     )
 }
 ExpenseScreen.layout = page => <Layout children={page} props={page.props.company} />

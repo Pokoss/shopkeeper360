@@ -85,7 +85,7 @@ class DashboardHomeController extends Controller
             ->take(5)
             ->get();
        
-        $out = Product::where('company_id', $comp->company_id)->where('available', '<', 1)->get();
+        $out = Product::where('company_id', $comp->company_id)->where('type','product')->where('available', '<', 1)->get();
         $out_of_stock = $out->count();
         $customer_visits = $sales->count();
         return Inertia::render('DashboardHomeScreen', ['company' => $comp, 'sales_today' => $sales_today, 'customer_visits' => $customer_visits, 'out_of_stock' => $out_of_stock, 'top_products' => $topProducts, 'sales_data' => $salesData, 'orders' => $onlineOrders]);

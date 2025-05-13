@@ -161,7 +161,7 @@ class CompanyController extends Controller
             'email' => $request->email,
             'latitude' => $request->latitude,
             'longitude' => $request->longitude,
-            'slogan' => 'Thank you for supporing us!',
+            'slogan' => 'Thank you for supporting us!',
             'status' => 'inactive',
         ]);
 
