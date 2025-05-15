@@ -127,6 +127,26 @@ function HomeScreen() {
 
                 </div>
             </section>
+            <div className="grid grid-cols-1 md:grid-cols-2">
+                <div className="bg-white p-2 md:p-2 flex justify-start items-center">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/78P6Xblg_-g?si=Udf86fUqMAsmwPJC" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                </div>
+                <div className="md:order-second p-12 md:p-24 flex justify-end items-center">
+                    <div className="max-w-md" data-aos='fade-right'>
+                        <div className="w-24 h-2 bg-secondary mb-4"></div>
+                        <h2 className="font-display font-bold text-2xl md:text-3xl lg:text-4xl mb-6">How to use Biashari Retail module</h2>
+                        {/* <p className="font-light text-gray-600 text-sm md:text-base mb-6 leading-relaxed"> */}
+                        <Typography>
+                            This is a short video showing how to use the retail module of Biashari. You will see how to create an account,create a business, add and stock products and also how to sell products using the system.
+                        </Typography>
+
+                        {/* </p> */}
+                        {/* <a href="" className="inline-block border-2 border-primary font-light text-primary text-sm uppercase tracking-widest py-3 px-8 hover:bg-primary hover:text-white">Book Custom Package</a> */}
+
+                    </div>
+                </div>
+            </div>
             <section className="py-6 dark:bg-gray-800 dark:text-gray-50">
                 <div>
                     <h3 className="my-6 w-full text-center text-3xl sm:text-4xl leading-normal font-extrabold tracking-tight text-gray-900">
