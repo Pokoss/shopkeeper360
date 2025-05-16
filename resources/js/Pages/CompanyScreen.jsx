@@ -23,13 +23,25 @@ console.log(companies)
                     </Link>
                 </div>
 
-                {companies && companies.map((company =>(
+                {companies && companies.length == 0 ?
+                <div className='flex items-center text-center font-semibold text-lg w-full bg-gray-100 p-10'>
+                <span className='mx-auto'>
+    
+                 You are not yet attached to any business
+                </span>
+              </div>
 
-                <CompanyCard props={company}/>  
+              :
+              <div>
+
+                {companies && companies.map((company =>(
+                    
+                    <CompanyCard props={company}/>  
                 )))}
 
+                </div>
 
-                
+            } 
             </section>
             <Footer/>
         </div>

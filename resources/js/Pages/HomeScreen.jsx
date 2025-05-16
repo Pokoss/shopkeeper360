@@ -166,10 +166,10 @@ function HomeScreen() {
                     <div className="bg-gray-100 p-12 md:p-24 flex justify-start items-center">
                         <div className="max-w-md" data-aos='fade-left'>
                             <div className="w-24 h-2 bg-secondary mb-4"></div>
-                            <h2 className="font-display font-bold text-2xl md:text-3xl lg:text-4xl mb-6">Retail Business System</h2>
+                            <h2 className="font-display font-bold text-2xl md:text-3xl lg:text-4xl mb-6">Retail and Service Business System</h2>
                             {/* <p className="font-light text-gray-600 text-sm md:text-base mb-6 leading-relaxed"> */}
                             <Typography>
-                                We offer businesses a system to manage their daily business activities and also an online platform like a website for business to showcase products to customers
+                                We offer businesses a system to manage their daily business activities and also an online platform like a website for business easily accesible with a QR code to showcase products to customers
 
                             </Typography>
                             {/* </p> */}
@@ -189,10 +189,10 @@ function HomeScreen() {
                     <div className="md:order-first bg-gray-100 p-12 md:p-24 flex justify-end items-center">
                         <div className="max-w-md" data-aos='fade-right'>
                             <div className="w-24 h-2 bg-secondary mb-4"></div>
-                            <h2 className="font-display font-bold text-2xl md:text-3xl lg:text-4xl mb-6">Online Shopping Center</h2>
+                            <h2 className="font-display font-bold text-2xl md:text-3xl lg:text-4xl mb-6">View businesses Online</h2>
                             {/* <p className="font-light text-gray-600 text-sm md:text-base mb-6 leading-relaxed"> */}
                             <Typography>
-                                We offer users a place to find various businesses, make bookings from that business order different products from the business. Its a place where you find different type of retail stores view their products and order from them or visit them for what you want
+                                Every business has a QR code. We offer users a place to find various businesses, make bookings from that business order different products or services from the business. Its a place where you find different type of retail stores and service businesses view their products and services and order from them or visit them for what you want
                             </Typography>
                             <Link href="/home" className="mt-5 inline-block border-2 border-primary font-light text-primary text-sm uppercase tracking-widest py-3 px-8 hover:bg-primary hover:text-white">View Businesses</Link>
                             {/* </p> */}

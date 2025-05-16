@@ -28,7 +28,7 @@ function Footer() {
             <div className="flex">
               <p className="mr-1 text-gray-200">Phone:</p>
               <a
-                href="tel:+256765974111"
+                href="tel:+256752553236"
                 aria-label="Our phone"
                 title="Our phone"
                 className="transition-colors duration-300 text-gray-100 hover:text-deep-purple-800"
