@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
+        
          <!-- Primary Meta Tags -->
     <title inertia>@isset($title){{$title}}@else Biashari @endisset</title>
     <meta name="title" content="@isset($title){{$title}}@else Biashari System @endisset">
@@ -36,9 +37,6 @@
 
 
 
-        <title inertia>{{ config('app.name', 'Biashari | ERP') }}</title>
-
-        <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 

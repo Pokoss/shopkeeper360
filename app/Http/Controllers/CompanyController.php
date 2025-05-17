@@ -208,7 +208,11 @@ class CompanyController extends Controller
         }
         
 
-        return Inertia::render('UserBusinessScreen', ['business' => $business, 'category'=> $category, 'products' => $products, 'favourite'=> $favourite]);
+        return Inertia::render('UserBusinessScreen', ['business' => $business, 'category'=> $category, 'products' => $products, 'favourite'=> $favourite])
+        ->withViewData([
+            'title' => $business->name . ' | Biashari',
+            'image' => url($business->logo),
+        ]);;
         
         
     }
