@@ -1,4 +1,4 @@
-import { Link, router } from '@inertiajs/react'
+import { Head, Link, router } from '@inertiajs/react'
 import React from 'react'
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -34,6 +34,11 @@ function StartTrialScreen({ company }) {
 
     return (
         <div>
+            <Head>
+                <title>
+                    Start Trial
+                </title>
+            </Head>
             <section>
                 <div className="container flex flex-col items-center px-4 py-8 mx-auto text-center md:px-10 lg:px-32 xl:max-w-3xl">
                     <img className='w-28 h-28' src='/images/user/shopkeeper360.png' />

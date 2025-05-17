@@ -1,5 +1,5 @@
 import Layout from '@/Layouts/components/Layout'
-import { router, useForm } from '@inertiajs/react';
+import { Head, router, useForm } from '@inertiajs/react';
 import React, { Fragment } from 'react'
 import { useState } from 'react';
 import DataTable from 'react-data-table-component'
@@ -14,16 +14,16 @@ import {
 } from "@material-tailwind/react";
 
 function ExpenseScreen({ expenses, company }) {
-console.log(expenses)
-    const { data, setData,processing, post, reset, errors } = useForm();
-    const { editData, setEditData} = useForm();
-    
+    console.log(expenses)
+    const { data, setData, processing, post, reset, errors } = useForm();
+    const { editData, setEditData } = useForm();
+
     const [editName, setEditName] = useState('');
     const [editAmount, setEditAmount] = useState('');
     const [editDescription, setEditDescription] = useState('');
     const [editDate, setEditDate] = useState('');
     const [editId, setEditId] = useState('');
-    
+
     const [search, setSearch] = useState('');
 
     const [page, setPage] = useState(1);
@@ -55,23 +55,23 @@ console.log(expenses)
         post('/accounting/expense', {
             preserveScroll: true, preserveState: true,
             onSuccess: () => {
-              // toast.success('We have received you request, we shall contact you shortly')
-              reset();
-              setData({})
-              handleOpen()
+                // toast.success('We have received you request, we shall contact you shortly')
+                reset();
+                setData({})
+                handleOpen()
             }
-          });
+        });
 
     }
 
-    function editExpense(name,amount,description,date, expense_id) {
+    function editExpense(name, amount, description, date, expense_id) {
         handleOpenEdit("xl")
         setEditName(name);
-        setEditAmount( amount);
-        setEditDate( date);
+        setEditAmount(amount);
+        setEditDate(date);
         setEditDescription(description);
         setEditId(expense_id);
-        
+
     }
 
     const [size, setSize] = useState(null);
@@ -116,7 +116,7 @@ console.log(expenses)
         },
         {
             name: 'Date',
-            selector: row => new Date(row.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric',  }),
+            selector: row => new Date(row.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', }),
         },
         {
             name: 'Description',
@@ -128,7 +128,7 @@ console.log(expenses)
             selector: row => new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }),
         },
         {
-            selector: row => <button onClick={() => editExpense(row.name, row.amount,row.description, row.date, row.id)} className='bg-green-600 rounded-md p-1'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-5 h-5">
+            selector: row => <button onClick={() => editExpense(row.name, row.amount, row.description, row.date, row.id)} className='bg-green-600 rounded-md p-1'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-5 h-5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
             </svg>
             </button>
@@ -136,7 +136,11 @@ console.log(expenses)
 
     return (
         <div>
-
+            <Head>
+                <title>
+                    Expenses
+                </title>
+            </Head>
             <Fragment>
                 <Dialog
                     open={
@@ -155,10 +159,10 @@ console.log(expenses)
                         onSubmit={handleSubmit}
                     >
                         <DialogBody divider className="grid place-items-center gap-4">
-                            <Input label='Name' size='sm' value={data.name ?? ''} onChange={e => setData('name', e.target.value)} error={errors.name}/>
-                            <Input label='Amount' size='sm' value={data.amount ?? ''} onChange={e => setData('amount', e.target.value)} error={errors.amount}/>
-                            <Input label='Date' type='date' size='sm' value={data.date ?? ''} onChange={e => setData('date', e.target.value)} error={errors.date}/>
-                            <Input label='Description' size='sm' value={data.description ?? ''} onChange={e => setData('description', e.target.value)} error={errors.description}/>
+                            <Input label='Name' size='sm' value={data.name ?? ''} onChange={e => setData('name', e.target.value)} error={errors.name} />
+                            <Input label='Amount' size='sm' value={data.amount ?? ''} onChange={e => setData('amount', e.target.value)} error={errors.amount} />
+                            <Input label='Date' type='date' size='sm' value={data.date ?? ''} onChange={e => setData('date', e.target.value)} error={errors.date} />
+                            <Input label='Description' size='sm' value={data.description ?? ''} onChange={e => setData('description', e.target.value)} error={errors.description} />
                             {/* <Input label='Status' size='sm' value={data.status ?? ''} onChange={e => setData('status', e.target.value)} error={errors.status}/> */}
 
                         </DialogBody>
@@ -178,7 +182,7 @@ console.log(expenses)
                 </Dialog>
             </Fragment>
 
-           
+
 
             <DataTable
                 title={'Expenses' &&
@@ -224,7 +228,7 @@ console.log(expenses)
             // expandableRowExpanded={row=>true}
             />
 
-<Fragment>
+            <Fragment>
                 <Dialog
                     open={
                         sizeEdit === "xl"
@@ -238,33 +242,33 @@ console.log(expenses)
                         </Typography>
                     </DialogHeader>
                     <form
-                        // onSubmit={postEdit}
+                    // onSubmit={postEdit}
                     >
                         <DialogBody divider className="grid place-items-center gap-4">
 
 
-                            <Input color='deep-orange' label='Name' 
-                                value={editName}  onChange={(event) => setEditName(event.target.value)} size='sm'
+                            <Input color='deep-orange' label='Name'
+                                value={editName} onChange={(event) => setEditName(event.target.value)} size='sm'
                             />
-                            <Input color='deep-orange' label='Amount' 
+                            <Input color='deep-orange' label='Amount'
                                 value={editAmount} onChange={(event) => setEditAmount(event.target.value)} size='sm'
                             />
-                             <Input color='deep-orange' label='Date'  type='date'
+                            <Input color='deep-orange' label='Date' type='date'
                                 value={editDate} onChange={(event) => setEditDate(event.target.value)} size='sm'
                             />
                             <Input color='deep-orange' label='Description'
                                 value={editDescription} onChange={(event) => setEditDescription(event.target.value)} size='sm'
                             />
-                           
-                            
-                           
+
+
+
 
                         </DialogBody>
                         <DialogFooter>
                             <div className='flex w-full justify-between'>
-                                <Button 
-                                // onClick={postDelete} 
-                                variant="gradient" color="red">
+                                <Button
+                                    // onClick={postDelete} 
+                                    variant="gradient" color="red">
                                     Delete
                                 </Button>
                                 <div className="space-x-2">
@@ -282,7 +286,7 @@ console.log(expenses)
             </Fragment>
         </div>
 
-        
+
     )
 }
 ExpenseScreen.layout = page => <Layout children={page} props={page.props.company} />

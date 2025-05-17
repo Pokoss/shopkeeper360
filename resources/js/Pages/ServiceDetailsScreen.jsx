@@ -1,6 +1,6 @@
 import Receipt from '@/Components/Receipt';
 import Layout from '@/Layouts/components/Layout'
-import { router } from '@inertiajs/react'
+import { Head, router } from '@inertiajs/react'
 import { Button, Dialog, DialogBody, DialogFooter, DialogHeader, Input, Typography } from '@material-tailwind/react';
 import React, { useEffect, useState, Fragment, useRef } from 'react'
 import Select from 'react-select'
@@ -265,6 +265,11 @@ function ServiceDetailsScreen({ company, service, service_id, service_items, car
 
     return (
         <div>
+            <Head>
+                <title>
+                    Service Details
+                </title>
+            </Head>
             <div className='w-full'>
 
                 Service id <span className='text-red-800'>{service_id}</span>

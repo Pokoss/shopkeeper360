@@ -11,7 +11,7 @@ import {
 } from "@material-tailwind/react";
 import React, { useState, Fragment, useEffect } from 'react'
 import DataTable from 'react-data-table-component'
-import { Link, router } from '@inertiajs/react'
+import { Head, Link, router } from '@inertiajs/react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useCallback } from 'react';
@@ -180,6 +180,11 @@ function ServicePanelScreen({ company, services }) {
 
         return (
             <div>
+                <Head>
+                <title>
+                    Running services
+                </title>
+            </Head>
                 <Fragment>
                     <Dialog
                         open={

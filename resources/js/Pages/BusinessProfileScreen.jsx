@@ -5,6 +5,7 @@ import { QRCodeSVG } from 'qrcode.react';
 import { FlutterWaveButton, closePaymentModal } from 'flutterwave-react-v3';
 import * as htmlToImage from 'html-to-image'
 import { useRef } from 'react';
+import { Head } from '@inertiajs/react';
 
 function BusinessProfileScreen({ company }) {
   const currentUrl = location.hostname;
@@ -50,6 +51,11 @@ function BusinessProfileScreen({ company }) {
 
   return (
     <div className='font-oswald p-5'>
+      <Head>
+                <title>
+                     Profile
+                </title>
+            </Head>
       <p className='w-full font-semibold text-lg'>Business Details</p>
       <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
         <div>

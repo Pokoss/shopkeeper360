@@ -1,6 +1,6 @@
 import Footer from '@/Layouts/components/Footer'
 import Navbar from '@/Layouts/components/Navbar'
-import { Link, router } from '@inertiajs/react'
+import { Head, Link, router } from '@inertiajs/react'
 import { Avatar } from '@material-tailwind/react'
 import React from 'react'
 import { useState } from 'react'
@@ -38,6 +38,11 @@ function UserBusinessScreen({ business, category, products, favourite }) {
 
     return (
         <div className='h-screen w-full scrollbar-thumb-rounded overflow-y-scroll scrollbar-thin scrollbar-thumb-primary scrollbar-track-gray-200'>
+            <Head>
+                <title>
+                    {business.name}
+                </title>
+            </Head>
             <Navbar />
             <div className="font-oswald w-full  p-5 shadow-sm shadow-primary bg-white ">
                 <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">

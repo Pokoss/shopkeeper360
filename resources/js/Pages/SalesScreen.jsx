@@ -1,38 +1,38 @@
 import Layout from '@/Layouts/components/Layout'
-import { router } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
 import { Button, Input, Option, Select } from '@material-tailwind/react';
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 import DataTable from 'react-data-table-component';
 import { toast, ToastContainer } from 'react-toastify';
 
-function SalesScreen({ company, sales, sales_today,profit }) {
+function SalesScreen({ company, sales, sales_today, profit }) {
   console.log(profit)
 
   const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
-    const [page, setPage] = useState(sales.current_page);
+  const [endDate, setEndDate] = useState('');
+  const [page, setPage] = useState(sales.current_page);
 
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      if(startDate==''){
-        toast.error('The first date is required')
-      }
-      else if(endDate!='' && startDate>endDate){
-        toast.error('the First Date cannot be greater than the end date')
-      }
-      else{
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (startDate == '') {
+      toast.error('The first date is required')
+    }
+    else if (endDate != '' && startDate > endDate) {
+      toast.error('the First Date cannot be greater than the end date')
+    }
+    else {
 
-        router.get(`/dashboard/${company.company.slug}/sales`, {page ,start_date: startDate, end_date: endDate }, { preserveState: true });
-      }
+      router.get(`/dashboard/${company.company.slug}/sales`, { page, start_date: startDate, end_date: endDate }, { preserveState: true });
+    }
   };
 
-    const fetchData = (page) => {
-        router.get(`/dashboard/${company.company.slug}/sales`, { page,start_date: startDate, end_date: endDate }, { preserveState: true });
-    };
-    const handlePageChange = (page) => {
-        setPage(page);
-        fetchData(page)
-    };
+  const fetchData = (page) => {
+    router.get(`/dashboard/${company.company.slug}/sales`, { page, start_date: startDate, end_date: endDate }, { preserveState: true });
+  };
+  const handlePageChange = (page) => {
+    setPage(page);
+    fetchData(page)
+  };
 
   const customStyles = {
     headRow: {
@@ -59,7 +59,7 @@ function SalesScreen({ company, sales, sales_today,profit }) {
       },
     },
   };
-  
+
   const columns = [
     {
       name: 'Product Name',
@@ -96,21 +96,26 @@ function SalesScreen({ company, sales, sales_today,profit }) {
   ];
   return (
     <div>
+      <Head>
+        <title>
+          Sales
+        </title>
+      </Head>
       <DataTable
         title={'Sales' &&
           <div className='w-full border-b-2 border-primary pb-3 pt-2'>
             <div className='flex flex-col md:flex-row space-x-0 md:space-x-5 space-y-5 md:space-y-0 whitespace-nowrap items-start md:items-center justify-between mb-3'>
-              <span className='text-lg font-bold'>{'Sales: ' +'UGX ' + Intl.NumberFormat('en-US').format(sales_today)}</span>
+              <span className='text-lg font-bold'>{'Sales: ' + 'UGX ' + Intl.NumberFormat('en-US').format(sales_today)}</span>
 
               <div className='font-bold flex space-x-3 items-center md:space-x-5 w-full md:w-1/2 md:justify-end print:hidden text-lg'>
-                { 'Profit: UGX ' + Intl.NumberFormat('en-US').format(profit)}
+                {'Profit: UGX ' + Intl.NumberFormat('en-US').format(profit)}
 
               </div>
 
             </div>
             <form onSubmit={handleSubmit}>
-            <div className='w-full mt-2 grid grid-cols-1 gap-2 sm:grid-cols-3 md:grid-cols-3 place-items-center class justify-center'>
-              {/* <Select className='md:w-full' label="Employee"
+              <div className='w-full mt-2 grid grid-cols-1 gap-2 sm:grid-cols-3 md:grid-cols-3 place-items-center class justify-center'>
+                {/* <Select className='md:w-full' label="Employee"
                 // value={measurement} onChange={(e) => setMeasurement(e)}
               >
                
@@ -126,21 +131,21 @@ function SalesScreen({ company, sales, sales_today,profit }) {
 
               </Select> */}
 
-              <Input type='date' label='From'
-                value={startDate} 
-                onChange={(e) => setStartDate(e.target.value)} 
-                className='md:w-full' />
-              <Input type='date' label='To'
-                value={endDate} 
-                onChange={(e) => setEndDate(e.target.value)} 
-                className='md:w-full' />
-              <Button type="submit" label='To'
-                className='w-full bg-gradient-to-r from-primary to-secondary'>
+                <Input type='date' label='From'
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                  className='md:w-full' />
+                <Input type='date' label='To'
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+                  className='md:w-full' />
+                <Button type="submit" label='To'
+                  className='w-full bg-gradient-to-r from-primary to-secondary'>
                   Search
                 </Button>
-            </div>
+              </div>
             </form>
-            
+
           </div>
 
 
@@ -165,7 +170,7 @@ function SalesScreen({ company, sales, sales_today,profit }) {
       // expandableRowsComponent={ExpandableComponent}
       // expandableRowExpanded={row=>true}
       />
-      <ToastContainer/>
+      <ToastContainer />
     </div>
   )
 }

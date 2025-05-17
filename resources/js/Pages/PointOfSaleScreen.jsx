@@ -3,7 +3,7 @@ import React, { Fragment, useEffect, useState, useRef } from 'react'
 import Select from 'react-select'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { router, Link } from '@inertiajs/react';
+import { router, Link, Head } from '@inertiajs/react';
 import Receipt from '@/Components/Receipt';
 import { useReactToPrint } from "react-to-print";
 import { Button, Dialog, DialogBody, DialogFooter, DialogHeader, Input, Typography } from '@material-tailwind/react';
@@ -232,6 +232,11 @@ function PointOfSaleScreen({ company, products, cart_items }) {
 
     return (
         <div>
+            <Head>
+                <title>
+                    Point of sale
+                </title>
+            </Head>
             <div className='px-5 pt-1'>
                 <div className="w-full grid grid-cols-1 gap-3 sm:grid-cols-3 place-items-center class justify-center">
                     <div className='w-full space-y-2 mt-2'>

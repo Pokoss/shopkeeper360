@@ -1,5 +1,5 @@
 import Layout from '@/Layouts/components/Layout'
-import { router } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
 import { Button, Dialog, DialogBody, DialogFooter, DialogHeader, Input, Typography } from '@material-tailwind/react';
 import React from 'react'
 import { Fragment } from 'react';
@@ -156,6 +156,11 @@ function OnlineOrdersScreen({ orders, company }) {
 
     return (
         <div>
+            <Head>
+                <title>
+                    Online Orders
+                </title>
+            </Head>
             <DataTable
                 title={'Online Orders' &&
                     <div className='flex flex-col md:flex-row space-x-0 md:space-x-5 space-y-5 md:space-y-0 whitespace-nowrap items-start md:items-center justify-between w-full border-b-2 border-primary pb-3 pt-2'>

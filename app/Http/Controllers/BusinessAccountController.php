@@ -22,7 +22,10 @@ class BusinessAccountController extends Controller
             $query->where('slug', $company);
         })->with('company', 'user')->where('user_id', Auth::user()->id)->first();
 
-        return Inertia::render('BusinessProfileScreen', ['company' => $comp,]);
+        return Inertia::render('BusinessProfileScreen', ['company' => $comp,])->withViewData([
+            'title' => $comp->company->name,
+            'image' => url($comp->company->logo),
+        ]);;
     }
     public function subscription(Request $request, $company)
     {

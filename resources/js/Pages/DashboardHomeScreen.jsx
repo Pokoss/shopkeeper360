@@ -1,7 +1,7 @@
 import Layout from '@/Layouts/components/Layout'
 import React from 'react'
 import { Line, Pie } from 'react-chartjs-2';
-import { Link, router } from '@inertiajs/react'
+import { Head, Link, router } from '@inertiajs/react'
 import { Typography } from '@material-tailwind/react';
 Chart.register(...registerables);
 import { Chart, registerables } from 'chart.js';
@@ -60,6 +60,11 @@ function DashboardHomeScreen({ company, sales_today, customer_visits, out_of_sto
   };
   return (
     <div className='font-oswald'>
+      <Head>
+                <title>
+                    Dashboard
+                </title>
+            </Head>
       <div className='px-3 md:px-5 py-5 overflow-y-auto'>
         <div className="grid gap-3 md:gap-6 mb-8 grid-cols-2 lg:grid-cols-4">
           <div className="flex items-center justify-between py-2 px-4 bg-white rounded shadow-xs dark:bg-gray-800">

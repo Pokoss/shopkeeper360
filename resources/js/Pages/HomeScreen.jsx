@@ -1,7 +1,7 @@
 
 import Footer from '@/Layouts/components/Footer'
 import Navbar from '@/Layouts/components/Navbar'
-import { Link } from '@inertiajs/react'
+import { Head, Link } from '@inertiajs/react'
 import { Button, Typography } from '@material-tailwind/react'
 import React from 'react'
 import { useState } from 'react'
@@ -62,344 +62,349 @@ function HomeScreen() {
 
 
     return (
+        <div>
+            <Head>
+                <title>
+                    Biashari ERP System
+                </title>
+            </Head>
+            <div className="font-oswald h-screen w-full scrollbar-thumb-rounded overflow-y-scroll scrollbar-thin scrollbar-thumb-primary scrollbar-track-gray-200 dark:bg-gray-800 dark:text-gray-100">
+                <Navbar />
 
-        <div className="font-oswald h-screen w-full scrollbar-thumb-rounded overflow-y-scroll scrollbar-thin scrollbar-thumb-primary scrollbar-track-gray-200 dark:bg-gray-800 dark:text-gray-100">
-            <Navbar />
 
+                <section>
+                    <div className="container flex flex-col items-center px-4 py-8 mx-auto text-center md:px-10 lg:px-32 xl:max-w-3xl">
+                        <h1 className="text-4xl font-bold leading sm:text-5xl">Biashari
 
-            <section>
-                <div className="container flex flex-col items-center px-4 py-8 mx-auto text-center md:px-10 lg:px-32 xl:max-w-3xl">
-                    <h1 className="text-4xl font-bold leading sm:text-5xl">Biashari
+                        </h1>
+                        <p className="px-8 mt-8 mb-5 text-lg">A system designed to help your retail store or service business keep track of all activities, income and expenses</p>
+                        <p className=" text-primary mb-3 font-bold text-lg">Register your business with us and start your <span className='text-red-700'>30 days free-trial</span></p>
+                        <div className="flex flex-wrap justify-center">
+                            <Link href='/company' className="px-8 py-3 m-2 text-lg font-semibold rounded bg-white shadow-sm shadow-primary  text-gray-900">Get started</Link>
+                            {/* <Link href='/home' className="px-8 py-3 m-2 text-lg border bg-primary text-white rounded ">Shop Online</Link> */}
+                            {/* <Link href='/register' className="px-8 py-3 m-2 text-lg border bg-primary text-white rounded ">Be a marketeer</Link> */}
+                        </div>
+                    </div>
+                </section>
+                <section className="p-6 dark:bg-gray-800 dark:text-gray-100">
+                    <div className="container grid justify-center grid-cols-2 mx-auto text-center lg:grid-cols-3">
+                        <div className="flex flex-col justify-start m-2 lg:m-6">
+                            <p className="text-4xl font-bold leadi lg:text-6xl">30+</p>
+                            <p className="text-sm sm:text-base">Clients</p>
+                        </div>
+                        <div className="flex flex-col justify-start m-2 lg:m-6">
+                            <p className="text-4xl font-bold leadi lg:text-6xl">2.4K</p>
+                            <p className="text-sm sm:text-base">Daily transations</p>
+                        </div>
+                        <div className="flex flex-col justify-start m-2 lg:m-6">
+                            <p className="text-4xl font-bold leadi lg:text-6xl">100+</p>
+                            <p className="text-sm sm:text-base">Users</p>
+                        </div>
+                        <div className="flex flex-col justify-start m-2 lg:m-6">
+                            <p className="text-4xl font-bold leadi lg:text-6xl">13</p>
+                            <p className="text-sm sm:text-base">Employees</p>
+                        </div>
+                        <div className="flex flex-col justify-start m-2 lg:m-6">
+                            <p className="text-4xl font-bold leadi lg:text-6xl">4</p>
+                            <p className="text-sm sm:text-base">Years of experience</p>
+                        </div>
+                        <div className="flex flex-col justify-start m-2 lg:m-6">
+                            <p className="text-4xl font-bold leadi lg:text-6xl">5</p>
+                            <p className="text-sm sm:text-base">Workshops</p>
+                        </div>
 
-                    </h1>
-                    <p className="px-8 mt-8 mb-5 text-lg">A system designed to help your retail store or service business keep track of all activities, income and expenses</p>
-                    <p className=" text-primary mb-3 font-bold text-lg">Register your business with us and start your <span className='text-red-700'>30 days free-trial</span></p>
-                    <div className="flex flex-wrap justify-center">
-                        <Link href='/company' className="px-8 py-3 m-2 text-lg font-semibold rounded bg-white shadow-sm shadow-primary  text-gray-900">Get started</Link>
-                        {/* <Link href='/home' className="px-8 py-3 m-2 text-lg border bg-primary text-white rounded ">Shop Online</Link> */}
-                        {/* <Link href='/register' className="px-8 py-3 m-2 text-lg border bg-primary text-white rounded ">Be a marketeer</Link> */}
-                    </div>
-                </div>
-            </section>
-            <section className="p-6 dark:bg-gray-800 dark:text-gray-100">
-                <div className="container grid justify-center grid-cols-2 mx-auto text-center lg:grid-cols-3">
-                    <div className="flex flex-col justify-start m-2 lg:m-6">
-                        <p className="text-4xl font-bold leadi lg:text-6xl">30+</p>
-                        <p className="text-sm sm:text-base">Clients</p>
-                    </div>
-                    <div className="flex flex-col justify-start m-2 lg:m-6">
-                        <p className="text-4xl font-bold leadi lg:text-6xl">2.4K</p>
-                        <p className="text-sm sm:text-base">Daily transations</p>
-                    </div>
-                    <div className="flex flex-col justify-start m-2 lg:m-6">
-                        <p className="text-4xl font-bold leadi lg:text-6xl">100+</p>
-                        <p className="text-sm sm:text-base">Users</p>
-                    </div>
-                    <div className="flex flex-col justify-start m-2 lg:m-6">
-                        <p className="text-4xl font-bold leadi lg:text-6xl">13</p>
-                        <p className="text-sm sm:text-base">Employees</p>
-                    </div>
-                    <div className="flex flex-col justify-start m-2 lg:m-6">
-                        <p className="text-4xl font-bold leadi lg:text-6xl">4</p>
-                        <p className="text-sm sm:text-base">Years of experience</p>
-                    </div>
-                    <div className="flex flex-col justify-start m-2 lg:m-6">
-                        <p className="text-4xl font-bold leadi lg:text-6xl">5</p>
-                        <p className="text-sm sm:text-base">Workshops</p>
-                    </div>
-
-                    {/* <p className='text-black font-bold text-lg'>latitude: {location.latitude}</p><br /><br />
+                        {/* <p className='text-black font-bold text-lg'>latitude: {location.latitude}</p><br /><br />
                     <p className='text-black font-bold text-lg'>longtitude: {location.longitude}</p>
                     <p className='text-black font-bold text-lg'>longtitude: {location.longitude}</p>
                     <p className='text-black font-bold text-lg'>error: {error}</p> */}
-                </div>
-            </section>
-            <section className="py-8">
-                <div className="container mx-auto">
-                    <div className="p-4 mx-auto text-center md:px-10 lg:px-32 xl:max-w-3xl">
-                        <h2 className="text-2xl font-bold leadi sm:text-4xl">What can we offer your business?</h2>
-                        <p className="px-8 my-4">We offer a highend affordable system that will help manage your business, keeping track of your finances,
-                            business transations and reports like daily sales, weekly sales or sales for a specific peroid of time, in addition to your profits and losses. The system also tracks your inventory levels and will include
-                            a sale point for selling products among other features. So basically youll be missing out if you dont join us so please scale your business by joing us today and watch your business
-                            start growing massively
-                        </p>
                     </div>
-
-                </div>
-            </section>
-            <div className="grid grid-cols-1 md:grid-cols-2">
-                <div className="bg-white p-2 md:p-2 flex justify-start items-center">
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/78P6Xblg_-g?si=Udf86fUqMAsmwPJC" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
-                </div>
-                <div className="md:order-second p-12 md:p-24 flex justify-end items-center">
-                    <div className="max-w-md" data-aos='fade-right'>
-                        <div className="w-24 h-2 bg-secondary mb-4"></div>
-                        <h2 className="font-display font-bold text-2xl md:text-3xl lg:text-4xl mb-6">How to use Biashari Retail module</h2>
-                        {/* <p className="font-light text-gray-600 text-sm md:text-base mb-6 leading-relaxed"> */}
-                        <Typography>
-                            This is a short video showing how to use the retail module of Biashari. You will see how to create an account,create a business, add and stock products and also how to sell products using the system.
-                        </Typography>
-
-                        {/* </p> */}
-                        {/* <a href="" className="inline-block border-2 border-primary font-light text-primary text-sm uppercase tracking-widest py-3 px-8 hover:bg-primary hover:text-white">Book Custom Package</a> */}
-
-                    </div>
-                </div>
-            </div>
-            <section className="py-6 dark:bg-gray-800 dark:text-gray-50">
-                <div>
-                    <h3 className="my-6 w-full text-center text-3xl sm:text-4xl leading-normal font-extrabold tracking-tight text-gray-900">
-                        Our<span className="text-primary"> Services</span>
-                    </h3>
-
-
-
-                </div>
-                {/*Mission Section*/}
-                <div className="grid grid-cols-1 md:grid-cols-2">
-                    <div className="bg-white p-12 md:p-24 flex justify-end items-center">
-                        <a href="" data-aos='fade-right'>
-                            <img src="/images/user/dashboard.JPG" className="w-full max-w-md" />
-                        </a>
-                    </div>
-                    <div className="bg-gray-100 p-12 md:p-24 flex justify-start items-center">
-                        <div className="max-w-md" data-aos='fade-left'>
-                            <div className="w-24 h-2 bg-secondary mb-4"></div>
-                            <h2 className="font-display font-bold text-2xl md:text-3xl lg:text-4xl mb-6">Retail and Service Business System</h2>
-                            {/* <p className="font-light text-gray-600 text-sm md:text-base mb-6 leading-relaxed"> */}
-                            <Typography>
-                                We offer businesses a system to manage their daily business activities and also an online platform like a website for business easily accesible with a QR code to showcase products to customers
-
-                            </Typography>
-                            {/* </p> */}
-                            <Typography>
-                                <Link href="/company/register" className="mt-5 inline-block border-2 border-primary font-light text-primary text-sm uppercase tracking-widest item-left py-3 px-8 hover:bg-primary hover:text-white">Register</Link>
-                            </Typography>
+                </section>
+                <section className="py-8">
+                    <div className="container mx-auto">
+                        <div className="p-4 mx-auto text-center md:px-10 lg:px-32 xl:max-w-3xl">
+                            <h2 className="text-2xl font-bold leadi sm:text-4xl">What can we offer your business?</h2>
+                            <p className="px-8 my-4">We offer a highend affordable system that will help manage your business, keeping track of your finances,
+                                business transations and reports like daily sales, weekly sales or sales for a specific peroid of time, in addition to your profits and losses. The system also tracks your inventory levels and will include
+                                a sale point for selling products among other features. So basically youll be missing out if you dont join us so please scale your business by joing us today and watch your business
+                                start growing massively
+                            </p>
                         </div>
-                    </div>
-                </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2">
-                    <div className="bg-white p-12 md:p-24 flex justify-start items-center">
-                        <a href="" data-aos='fade-left'>
-                            <img src="/images/user/user-screen.JPG" className="w-full max-w-md" />
-                        </a>
                     </div>
-                    <div className="md:order-first bg-gray-100 p-12 md:p-24 flex justify-end items-center">
+                </section>
+                <div className="grid grid-cols-1 md:grid-cols-2">
+                    <div className="bg-white p-2 md:p-2 flex justify-start items-center">
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/78P6Xblg_-g?si=Udf86fUqMAsmwPJC" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                    </div>
+                    <div className="md:order-second p-12 md:p-24 flex justify-end items-center">
                         <div className="max-w-md" data-aos='fade-right'>
                             <div className="w-24 h-2 bg-secondary mb-4"></div>
-                            <h2 className="font-display font-bold text-2xl md:text-3xl lg:text-4xl mb-6">View businesses Online</h2>
+                            <h2 className="font-display font-bold text-2xl md:text-3xl lg:text-4xl mb-6">How to use Biashari Retail module</h2>
                             {/* <p className="font-light text-gray-600 text-sm md:text-base mb-6 leading-relaxed"> */}
                             <Typography>
-                                Every business has a QR code. We offer users a place to find various businesses, make bookings from that business order different products or services from the business. Its a place where you find different type of retail stores and service businesses view their products and services and order from them or visit them for what you want
+                                This is a short video showing how to use the retail module of Biashari. You will see how to create an account,create a business, add and stock products and also how to sell products using the system.
                             </Typography>
-                            <Link href="/home" className="mt-5 inline-block border-2 border-primary font-light text-primary text-sm uppercase tracking-widest py-3 px-8 hover:bg-primary hover:text-white">View Businesses</Link>
+
                             {/* </p> */}
                             {/* <a href="" className="inline-block border-2 border-primary font-light text-primary text-sm uppercase tracking-widest py-3 px-8 hover:bg-primary hover:text-white">Book Custom Package</a> */}
 
                         </div>
                     </div>
                 </div>
-
-
-            </section>
-
-            <section className="py-6 dark:bg-gray-800 dark:text-gray-50">
-
-                <div className='container mx-auto flex flex-wrap  max-w-full'>
-
-                    <div className="container px-4 mt-10 mx-auto">
-                        <div>
-                            <h3 className="my-6 w-full text-center text-3xl sm:text-4xl leading-normal font-extrabold tracking-tight text-gray-900">
-                                Our<span className="text-primary"> Pricing</span>
-                            </h3>
+                <section className="py-6 dark:bg-gray-800 dark:text-gray-50">
+                    <div>
+                        <h3 className="my-6 w-full text-center text-3xl sm:text-4xl leading-normal font-extrabold tracking-tight text-gray-900">
+                            Our<span className="text-primary"> Services</span>
+                        </h3>
 
 
 
+                    </div>
+                    {/*Mission Section*/}
+                    <div className="grid grid-cols-1 md:grid-cols-2">
+                        <div className="bg-white p-12 md:p-24 flex justify-end items-center">
+                            <a href="" data-aos='fade-right'>
+                                <img src="/images/user/dashboard.JPG" className="w-full max-w-md" />
+                            </a>
                         </div>
-                        <div className="max-w-7xl mx-auto">
-                            <div className="flex flex-wrap -mx-4">
-                                <div className="w-full lg:w-1/3 px-4 mb-10 lg:mb-0">
-                                    <div className="relative max-w-sm lg:max-w-none mx-auto bg-white rounded-6xl">
-                                        <div className="pt-2 px-2">
-                                            <div className="relative pt-12 pb-10 px-6 h-52 rounded-6xl bg-purple-50 overflow-hidden">
-                                                <img className="absolute bottom-0 left-0 w-full" src="saturn-assets/images/pricing/wave-bg1.svg" alt="" />
-                                                <div className="relative text-center">
-                                                    <span className="inline-block py-1.5 px-5 mb-6 font-semibold text-gray-50 bg-secondary rounded-full">Basic</span>
-                                                    <span className="block text-3xl font-bold">UGX 38,500</span>
-                                                    <span className="block text-sm font-medium">Per month</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="h-8 mb-7 relative">
-                                            <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-full">
-                                                <div className="w-full border-b-8 border-dotted border-orange-50"></div>
-                                            </div>
-                                            <div className="absolute top-0 left-0 transform -translate-x-1/2 w-8 h-8 bg-orange-50 rounded-full"></div>
-                                            <div className="absolute top-0 right-0 transform translate-x-1/2 w-8 h-8 bg-orange-50 rounded-full"></div>
-                                        </div>
-                                        <div className="px-6 pb-12">
-                                            <ul className="mb-12">
-                                                <li className="flex mb-5 items-center">
-                                                    <img src="saturn-assets/images/pricing/green-check.svg" alt="" />
-                                                    <span className="ml-3 text-gray-900">Retail functions only</span>
-                                                </li>
-                                                <li className="flex mb-5 items-center">
-                                                    <img src="saturn-assets/images/pricing/green-check.svg" alt="" />
-                                                    <span className="ml-3 text-gray-900">Point of sale</span>
-                                                </li>
-                                                <li className="flex mb-5 items-center">
-                                                    <img src="saturn-assets/images/pricing/red-check.svg" alt="" />
-                                                    <span className="ml-3 text-gray-900">Print receipts</span>
-                                                </li>
-                                                <li className="flex mb-5 items-center">
-                                                    <img src="saturn-assets/images/pricing/red-check.svg" alt="" />
-                                                    <span className="ml-3 text-gray-900">Limited to 3 employees</span>
-                                                </li>
-                                                <li className="flex mb-5 items-center">
-                                                    <img src="saturn-assets/images/pricing/red-check.svg" alt="" />
-                                                    <span className="ml-3 text-gray-900">Query only 1 month range</span>
-                                                </li>
+                        <div className="bg-gray-100 p-12 md:p-24 flex justify-start items-center">
+                            <div className="max-w-md" data-aos='fade-left'>
+                                <div className="w-24 h-2 bg-secondary mb-4"></div>
+                                <h2 className="font-display font-bold text-2xl md:text-3xl lg:text-4xl mb-6">Retail and Service Business System</h2>
+                                {/* <p className="font-light text-gray-600 text-sm md:text-base mb-6 leading-relaxed"> */}
+                                <Typography>
+                                    We offer businesses a system to manage their daily business activities and also an online platform like a website for business easily accesible with a QR code to showcase products to customers
 
-                                            </ul>
-                                            <div className="text-center">
-                                                <Link href='/company'>
-                                                    <Button className='bg-secondary' >Start Free Trial</Button>
-                                                </Link>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="w-full lg:w-1/3 px-4 mb-10 lg:mb-0">
-                                    <div className="relative max-w-sm lg:max-w-none mx-auto bg-orange-700 rounded-6xl">
-                                        <div className="pt-2 px-2">
-                                            <div className="relative pt-12 pb-10 px-6 h-52 rounded-6xl bg-orange-900 overflow-hidden">
-                                                <img className="absolute bottom-0 left-0 w-full" src="saturn-assets/images/pricing/wave-bg2.svg" alt="" />
-                                                <div className="relative text-center">
-                                                    <span className="inline-block py-1.5 px-5 mb-6 font-semibold text-white bg-primary rounded-full">Standard</span>
-                                                    <span className="block text-3xl font-bold text-white">UGX 54,000</span>
-                                                    <span className="block text-sm font-medium text-white">Per Month</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="h-8 mb-7 relative">
-                                            <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-full">
-                                                <div className="w-full border-b-8 border-dotted border-orange-50"></div>
-                                            </div>
-                                            <div className="absolute top-0 left-0 transform -translate-x-1/2 w-8 h-8 bg-orange-50 rounded-full"></div>
-                                            <div className="absolute top-0 right-0 transform translate-x-1/2 w-8 h-8 bg-orange-50 rounded-full"></div>
-                                        </div>
-                                        <div className="px-6 pb-12">
-                                            <ul className="mb-12">
-                                                <li className="flex mb-5 items-center">
-                                                    <img src="saturn-assets/images/pricing/orange-check.svg" alt="" />
-                                                    <span className="ml-3 text-gray-50">Both retail and service functions</span>
-                                                </li>
-                                                <li className="flex mb-5 items-center">
-                                                    <img src="saturn-assets/images/pricing/orange-check.svg" alt="" />
-                                                    <span className="ml-3 text-gray-50">Print receipts, bills and reports</span>
-                                                </li>
-                                                <li className="flex mb-5 items-center">
-                                                    <img src="saturn-assets/images/pricing/orange-check.svg" alt="" />
-                                                    <span className="ml-3 text-gray-50">QR code showing your products or services</span>
-                                                </li>
-                                                <li className="flex mb-5 items-center">
-                                                    <img src="saturn-assets/images/pricing/orange-check.svg" alt="" />
-                                                    <span className="ml-3 text-gray-50">Add upto 10 employees</span>
-                                                </li>
-                                                <li className="flex mb-5 items-center">
-                                                    <img src="saturn-assets/images/pricing/orange-check.svg" alt="" />
-                                                    <span className="ml-3 text-gray-50">Add customer bookings and appointments</span>
-                                                </li>
-                                            </ul>
-                                            <div className="text-center">
+                                </Typography>
+                                {/* </p> */}
+                                <Typography>
+                                    <Link href="/company/register" className="mt-5 inline-block border-2 border-primary font-light text-primary text-sm uppercase tracking-widest item-left py-3 px-8 hover:bg-primary hover:text-white">Register</Link>
+                                </Typography>
+                            </div>
+                        </div>
+                    </div>
 
-                                                <Link href='/company'>
-                                                    <Button className='bg-primary' >Start Free Trial</Button>
-                                                </Link>
+                    <div className="grid grid-cols-1 md:grid-cols-2">
+                        <div className="bg-white p-12 md:p-24 flex justify-start items-center">
+                            <a href="" data-aos='fade-left'>
+                                <img src="/images/user/user-screen.JPG" className="w-full max-w-md" />
+                            </a>
+                        </div>
+                        <div className="md:order-first bg-gray-100 p-12 md:p-24 flex justify-end items-center">
+                            <div className="max-w-md" data-aos='fade-right'>
+                                <div className="w-24 h-2 bg-secondary mb-4"></div>
+                                <h2 className="font-display font-bold text-2xl md:text-3xl lg:text-4xl mb-6">View businesses Online</h2>
+                                {/* <p className="font-light text-gray-600 text-sm md:text-base mb-6 leading-relaxed"> */}
+                                <Typography>
+                                    Every business has a QR code. We offer users a place to find various businesses, make bookings from that business order different products or services from the business. Its a place where you find different type of retail stores and service businesses view their products and services and order from them or visit them for what you want
+                                </Typography>
+                                <Link href="/home" className="mt-5 inline-block border-2 border-primary font-light text-primary text-sm uppercase tracking-widest py-3 px-8 hover:bg-primary hover:text-white">View Businesses</Link>
+                                {/* </p> */}
+                                {/* <a href="" className="inline-block border-2 border-primary font-light text-primary text-sm uppercase tracking-widest py-3 px-8 hover:bg-primary hover:text-white">Book Custom Package</a> */}
 
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="w-full lg:w-1/3 px-4">
-                                    <div className="relative max-w-sm lg:max-w-none mx-auto bg-white rounded-6xl">
-                                        <div className="pt-2 px-2">
-                                            <div className="relative pt-12 pb-10 px-6 h-52 rounded-6xl bg-purple-50 overflow-hidden">
-                                                <img className="absolute bottom-0 left-0 w-full" src="saturn-assets/images/pricing/wave-bg1.svg" alt="" />
-                                                <div className="relative text-center">
-                                                    <span className="inline-block py-1.5 px-5 mb-6 font-semibold text-gray-100 bg-secondary rounded-full">Premium</span>
-                                                    <span className="block text-3xl font-bold">UGX 99,000</span>
-                                                    <span className="block text-sm font-medium">Per Month</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="h-8 mb-7 relative">
-                                            <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-full">
-                                                <div className="w-full border-b-8 border-dotted border-orange-50"></div>
-                                            </div>
-                                            <div className="absolute top-0 left-0 transform -translate-x-1/2 w-8 h-8 bg-orange-50 rounded-full"></div>
-                                            <div className="absolute top-0 right-0 transform translate-x-1/2 w-8 h-8 bg-orange-50 rounded-full"></div>
-                                        </div>
-                                        <div className="px-6 pb-12">
-                                            <ul className="mb-12">
-                                                <li className="flex mb-5 items-center">
-                                                    <img src="saturn-assets/images/pricing/green-check.svg" alt="" />
-                                                    <span className="ml-3 text-gray-900">All standard features</span>
-                                                </li>
-                                                <li className="flex mb-5 items-center">
-                                                    <img src="saturn-assets/images/pricing/green-check.svg" alt="" />
-                                                    <span className="ml-3 text-gray-900">View your business analytics</span>
-                                                </li>
-                                                <li className="flex mb-5 items-center">
-                                                    <img src="saturn-assets/images/pricing/red-check.svg" alt="" />
-                                                    <span className="ml-3 text-gray-900">Unlimited queries</span>
-                                                </li>
-                                                <li className="flex mb-5 items-center">
-                                                    <img src="saturn-assets/images/pricing/red-check.svg" alt="" />
-                                                    <span className="ml-3 text-gray-900">Add unlimited staff</span>
-                                                </li>
-                                                <li className="flex mb-5 items-center">
-                                                    <img src="saturn-assets/images/pricing/red-check.svg" alt="" />
-                                                    <span className="ml-3 text-gray-900">Send custom smses to your customers</span>
-                                                </li>
-
-                                            </ul>
-                                            <div className="text-center">
-                                                <Link href='/company'>
-                                                    <Button className='bg-secondary' >Start Free Trial</Button>
-                                                </Link>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
 
 
-                </div>
+                </section>
 
-            </section>
+                <section className="py-6 dark:bg-gray-800 dark:text-gray-50">
+
+                    <div className='container mx-auto flex flex-wrap  max-w-full'>
+
+                        <div className="container px-4 mt-10 mx-auto">
+                            <div>
+                                <h3 className="my-6 w-full text-center text-3xl sm:text-4xl leading-normal font-extrabold tracking-tight text-gray-900">
+                                    Our<span className="text-primary"> Pricing</span>
+                                </h3>
 
 
-            <section class="bg-white ">
 
-                <div class="container px-6 py-8 mx-auto">
-                    <h2 class="text-2xl font-semibold text-center text-gray-800 capitalize lg:text-3xl ">Our <span className='text-primary'>Team</span></h2>
+                            </div>
+                            <div className="max-w-7xl mx-auto">
+                                <div className="flex flex-wrap -mx-4">
+                                    <div className="w-full lg:w-1/3 px-4 mb-10 lg:mb-0">
+                                        <div className="relative max-w-sm lg:max-w-none mx-auto bg-white rounded-6xl">
+                                            <div className="pt-2 px-2">
+                                                <div className="relative pt-12 pb-10 px-6 h-52 rounded-6xl bg-purple-50 overflow-hidden">
+                                                    <img className="absolute bottom-0 left-0 w-full" src="saturn-assets/images/pricing/wave-bg1.svg" alt="" />
+                                                    <div className="relative text-center">
+                                                        <span className="inline-block py-1.5 px-5 mb-6 font-semibold text-gray-50 bg-secondary rounded-full">Basic</span>
+                                                        <span className="block text-3xl font-bold">UGX 38,500</span>
+                                                        <span className="block text-sm font-medium">Per month</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="h-8 mb-7 relative">
+                                                <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-full">
+                                                    <div className="w-full border-b-8 border-dotted border-orange-50"></div>
+                                                </div>
+                                                <div className="absolute top-0 left-0 transform -translate-x-1/2 w-8 h-8 bg-orange-50 rounded-full"></div>
+                                                <div className="absolute top-0 right-0 transform translate-x-1/2 w-8 h-8 bg-orange-50 rounded-full"></div>
+                                            </div>
+                                            <div className="px-6 pb-12">
+                                                <ul className="mb-12">
+                                                    <li className="flex mb-5 items-center">
+                                                        <img src="saturn-assets/images/pricing/green-check.svg" alt="" />
+                                                        <span className="ml-3 text-gray-900">Retail functions only</span>
+                                                    </li>
+                                                    <li className="flex mb-5 items-center">
+                                                        <img src="saturn-assets/images/pricing/green-check.svg" alt="" />
+                                                        <span className="ml-3 text-gray-900">Point of sale</span>
+                                                    </li>
+                                                    <li className="flex mb-5 items-center">
+                                                        <img src="saturn-assets/images/pricing/red-check.svg" alt="" />
+                                                        <span className="ml-3 text-gray-900">Print receipts</span>
+                                                    </li>
+                                                    <li className="flex mb-5 items-center">
+                                                        <img src="saturn-assets/images/pricing/red-check.svg" alt="" />
+                                                        <span className="ml-3 text-gray-900">Limited to 3 employees</span>
+                                                    </li>
+                                                    <li className="flex mb-5 items-center">
+                                                        <img src="saturn-assets/images/pricing/red-check.svg" alt="" />
+                                                        <span className="ml-3 text-gray-900">Query only 1 month range</span>
+                                                    </li>
 
-                    <div class="grid gap-8 mt-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 justify-center w-full">
-                        <div class="w-full max-w-xs text-center">
-                            <img class="object-cover object-top w-full h-48 mx-auto rounded-lg" src="/images/team/opoka-daniel.jpeg" alt="opoka" />
+                                                </ul>
+                                                <div className="text-center">
+                                                    <Link href='/company'>
+                                                        <Button className='bg-secondary' >Start Free Trial</Button>
+                                                    </Link>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="w-full lg:w-1/3 px-4 mb-10 lg:mb-0">
+                                        <div className="relative max-w-sm lg:max-w-none mx-auto bg-orange-700 rounded-6xl">
+                                            <div className="pt-2 px-2">
+                                                <div className="relative pt-12 pb-10 px-6 h-52 rounded-6xl bg-orange-900 overflow-hidden">
+                                                    <img className="absolute bottom-0 left-0 w-full" src="saturn-assets/images/pricing/wave-bg2.svg" alt="" />
+                                                    <div className="relative text-center">
+                                                        <span className="inline-block py-1.5 px-5 mb-6 font-semibold text-white bg-primary rounded-full">Standard</span>
+                                                        <span className="block text-3xl font-bold text-white">UGX 54,000</span>
+                                                        <span className="block text-sm font-medium text-white">Per Month</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="h-8 mb-7 relative">
+                                                <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-full">
+                                                    <div className="w-full border-b-8 border-dotted border-orange-50"></div>
+                                                </div>
+                                                <div className="absolute top-0 left-0 transform -translate-x-1/2 w-8 h-8 bg-orange-50 rounded-full"></div>
+                                                <div className="absolute top-0 right-0 transform translate-x-1/2 w-8 h-8 bg-orange-50 rounded-full"></div>
+                                            </div>
+                                            <div className="px-6 pb-12">
+                                                <ul className="mb-12">
+                                                    <li className="flex mb-5 items-center">
+                                                        <img src="saturn-assets/images/pricing/orange-check.svg" alt="" />
+                                                        <span className="ml-3 text-gray-50">Both retail and service functions</span>
+                                                    </li>
+                                                    <li className="flex mb-5 items-center">
+                                                        <img src="saturn-assets/images/pricing/orange-check.svg" alt="" />
+                                                        <span className="ml-3 text-gray-50">Print receipts, bills and reports</span>
+                                                    </li>
+                                                    <li className="flex mb-5 items-center">
+                                                        <img src="saturn-assets/images/pricing/orange-check.svg" alt="" />
+                                                        <span className="ml-3 text-gray-50">QR code showing your products or services</span>
+                                                    </li>
+                                                    <li className="flex mb-5 items-center">
+                                                        <img src="saturn-assets/images/pricing/orange-check.svg" alt="" />
+                                                        <span className="ml-3 text-gray-50">Add upto 10 employees</span>
+                                                    </li>
+                                                    <li className="flex mb-5 items-center">
+                                                        <img src="saturn-assets/images/pricing/orange-check.svg" alt="" />
+                                                        <span className="ml-3 text-gray-50">Add customer bookings and appointments</span>
+                                                    </li>
+                                                </ul>
+                                                <div className="text-center">
 
-                            <div class="mt-2">
-                                <h3 class="text-lg font-medium text-gray-700 ">Opoka Daniel</h3>
-                                <span class="mt-1 font-medium text-gray-600 ">C.E.O / Sotware Developer</span>
+                                                    <Link href='/company'>
+                                                        <Button className='bg-primary' >Start Free Trial</Button>
+                                                    </Link>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="w-full lg:w-1/3 px-4">
+                                        <div className="relative max-w-sm lg:max-w-none mx-auto bg-white rounded-6xl">
+                                            <div className="pt-2 px-2">
+                                                <div className="relative pt-12 pb-10 px-6 h-52 rounded-6xl bg-purple-50 overflow-hidden">
+                                                    <img className="absolute bottom-0 left-0 w-full" src="saturn-assets/images/pricing/wave-bg1.svg" alt="" />
+                                                    <div className="relative text-center">
+                                                        <span className="inline-block py-1.5 px-5 mb-6 font-semibold text-gray-100 bg-secondary rounded-full">Premium</span>
+                                                        <span className="block text-3xl font-bold">UGX 99,000</span>
+                                                        <span className="block text-sm font-medium">Per Month</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="h-8 mb-7 relative">
+                                                <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-full">
+                                                    <div className="w-full border-b-8 border-dotted border-orange-50"></div>
+                                                </div>
+                                                <div className="absolute top-0 left-0 transform -translate-x-1/2 w-8 h-8 bg-orange-50 rounded-full"></div>
+                                                <div className="absolute top-0 right-0 transform translate-x-1/2 w-8 h-8 bg-orange-50 rounded-full"></div>
+                                            </div>
+                                            <div className="px-6 pb-12">
+                                                <ul className="mb-12">
+                                                    <li className="flex mb-5 items-center">
+                                                        <img src="saturn-assets/images/pricing/green-check.svg" alt="" />
+                                                        <span className="ml-3 text-gray-900">All standard features</span>
+                                                    </li>
+                                                    <li className="flex mb-5 items-center">
+                                                        <img src="saturn-assets/images/pricing/green-check.svg" alt="" />
+                                                        <span className="ml-3 text-gray-900">View your business analytics</span>
+                                                    </li>
+                                                    <li className="flex mb-5 items-center">
+                                                        <img src="saturn-assets/images/pricing/red-check.svg" alt="" />
+                                                        <span className="ml-3 text-gray-900">Unlimited queries</span>
+                                                    </li>
+                                                    <li className="flex mb-5 items-center">
+                                                        <img src="saturn-assets/images/pricing/red-check.svg" alt="" />
+                                                        <span className="ml-3 text-gray-900">Add unlimited staff</span>
+                                                    </li>
+                                                    <li className="flex mb-5 items-center">
+                                                        <img src="saturn-assets/images/pricing/red-check.svg" alt="" />
+                                                        <span className="ml-3 text-gray-900">Send custom smses to your customers</span>
+                                                    </li>
+
+                                                </ul>
+                                                <div className="text-center">
+                                                    <Link href='/company'>
+                                                        <Button className='bg-secondary' >Start Free Trial</Button>
+                                                    </Link>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        {/* <div class="w-full max-w-xs text-center">
+
+                    </div>
+
+                </section>
+
+
+                <section class="bg-white ">
+
+                    <div class="container px-6 py-8 mx-auto">
+                        <h2 class="text-2xl font-semibold text-center text-gray-800 capitalize lg:text-3xl ">Our <span className='text-primary'>Team</span></h2>
+
+                        <div class="grid gap-8 mt-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 justify-center w-full">
+                            <div class="w-full max-w-xs text-center">
+                                <img class="object-cover object-top w-full h-48 mx-auto rounded-lg" src="/images/team/opoka-daniel.jpeg" alt="opoka" />
+
+                                <div class="mt-2">
+                                    <h3 class="text-lg font-medium text-gray-700 ">Opoka Daniel</h3>
+                                    <span class="mt-1 font-medium text-gray-600 ">C.E.O / Sotware Developer</span>
+                                </div>
+                            </div>
+
+                            {/* <div class="w-full max-w-xs text-center">
                 <img class="object-cover object-center w-full h-48 mx-auto rounded-lg" src="https://images.unsplash.com/photo-1516756587022-7891ad56a8cd?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80" alt="avatar" />
 
                 <div class="mt-2">
@@ -408,24 +413,24 @@ function HomeScreen() {
                 </div>
             </div> */}
 
-                        <div class="w-full max-w-xs text-center">
-                            <img class="object-cover object-top w-full h-48 mx-auto rounded-lg" src="/images/team/hannah-mercy.jpg" alt="hannah" />
+                            <div class="w-full max-w-xs text-center">
+                                <img class="object-cover object-top w-full h-48 mx-auto rounded-lg" src="/images/team/hannah-mercy.jpg" alt="hannah" />
 
-                            <div class="mt-2">
-                                <h3 class="text-lg font-medium text-gray-700 ">Biyinzika Hannah</h3>
-                                <span class="mt-1 font-medium text-gray-600 ">Database Administrator / I.S.O</span>
-                            </div>
-                        </div>
-
-                        <div class="w-full max-w-xs text-center">
-                            <img class="object-cover object-top w-full h-48 mx-auto rounded-lg" src="/images/team/olet.JPG" alt="Olet Robert" />
-
-                            <div class="mt-2">
-                                <h3 class="text-lg font-medium text-gray-700 ">Olet Robert</h3>
-                                <span class="mt-1 font-medium text-gray-600 ">Creative Director</span>
+                                <div class="mt-2">
+                                    <h3 class="text-lg font-medium text-gray-700 ">Biyinzika Hannah</h3>
+                                    <span class="mt-1 font-medium text-gray-600 ">Database Administrator / I.S.O</span>
+                                </div>
                             </div>
 
-                            {/* <div class="flex justify-center mt-2 -mx-2">
+                            <div class="w-full max-w-xs text-center">
+                                <img class="object-cover object-top w-full h-48 mx-auto rounded-lg" src="/images/team/olet.JPG" alt="Olet Robert" />
+
+                                <div class="mt-2">
+                                    <h3 class="text-lg font-medium text-gray-700 ">Olet Robert</h3>
+                                    <span class="mt-1 font-medium text-gray-600 ">Creative Director</span>
+                                </div>
+
+                                {/* <div class="flex justify-center mt-2 -mx-2">
                     <a href="#" class="mx-2 text-gray-600 transition-colors duration-300  hover:text-red-700 dark:hover:text-blue-400" aria-label="Reddit">
                         <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -453,9 +458,9 @@ function HomeScreen() {
                         </svg>
                     </a>
                 </div> */}
-                        </div>
+                            </div>
 
-                        {/* <div class="w-full max-w-xs text-center">
+                            {/* <div class="w-full max-w-xs text-center">
                 <img class="object-cover object-center w-full h-48 mx-auto rounded-lg" src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=731&q=80" alt="avatar" />
 
                 <div class="mt-2">
@@ -464,7 +469,7 @@ function HomeScreen() {
                 </div>
             </div> */}
 
-                        {/* <div class="w-full max-w-xs text-center">
+                            {/* <div class="w-full max-w-xs text-center">
                 <img class="object-cover object-center w-full h-48 mx-auto rounded-lg" src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=731&q=80" alt="avatar" />
 
                 <div class="mt-2">
@@ -472,233 +477,234 @@ function HomeScreen() {
                     <span class="mt-1 font-medium text-gray-600 ">Marketing Manager</span>
                 </div>
             </div> */}
-                    </div>
-                </div>
-            </section>
-
-
-            <h3 className="w-full text-center text-3xl sm:text-4xl leading-normal font-extrabold tracking-tight text-gray-900">
-                Frequent<span className="text-primary"> Questions</span>
-            </h3>
-            <section className="bg-white">
-                <div className="container px-6 py-12 mx-auto">
-
-
-                    <div className="grid grid-cols-1 gap-8 mt-8 lg:mt-8 md:grid-cols-2 xl:grid-cols-3">
-                        <div>
-                            <div className="inline-block p-3 text-white bg-primary rounded-lg">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                            </div>
-
-                            <div>
-                                <h1 className="text-xl font-semibold text-gray-700">What type of businesses can use the Biashari system</h1>
-
-                                <p className="mt-2 text-sm text-gray-500">
-                                    The Biashari system is designed for all retail and service type of businesses like shops, supermarkets hardware stores, electronic stores, pharmacies, restaurants, hotels and so many more. Has long has there is a product that can be sold to customers we are here to help you thrive and get reach more customers
-                                </p>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div className="inline-block p-3 text-white bg-primary rounded-lg">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                            </div>
-
-                            <div>
-                                <h1 className="text-xl font-semibold text-gray-700">What happens if i fail to renew my subscription</h1>
-
-                                <p className="mt-2 text-sm text-gray-500">
-                                    Pretty much nothing big, we disable the important features from working but your data still remains safe until you renew the subscription. We also give reminders and a 4 day grace period to enable you proceed, our aim is to make sure your business succeeds and if it does ours does too.
-                                </p>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div className="inline-block p-3 text-white bg-primary rounded-lg">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                            </div>
-
-                            <div>
-                                <h1 className="text-xl font-semibold text-gray-700">Does your system work offline</h1>
-
-                                <p className="mt-2 text-sm text-gray-500">
-                                    Currently the system is fully online but we are soon releasing an offline sale point where by you can sell and make transactions without interent then later on you when you get internet connect it the data of your transactions will be automatically uploaded.
-
-                                </p>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div className="inline-block p-3 text-white bg-primary rounded-lg">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                            </div>
-
-                            <div>
-                                <h1 className="text-xl font-semibold text-gray-700">What is your cancellation policy?</h1>
-
-                                <p className="mt-2 text-sm text-gray-500">
-                                    Our cancellation policy may vary depending on the specific reason of the package. If you feel you wish to discontinue the use of the system. No penalty will be given, just simply stop the use of the system. Or let the subcription expire. You thoroughly revise through our terms and contions and privacy policy, or you could contact our team on any of the provided platforms.
-                                </p>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div className="inline-block p-3 text-white bg-primary rounded-lg">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                            </div>
-
-                            <div>
-                                <h1 className="text-xl font-semibold text-gray-700">If my retail store has very many products, do you do data entry for us?</h1>
-
-                                <p className="mt-2 text-sm text-gray-500">
-                                    If you feel it will be difficult to enter the data first time, we can offer to get for you data entrants who you will compensate with shs.70 per product entered and stocked on the system. These are proffessionals and will ensure the data is entered  correctly.
-                                </p>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div className="inline-block p-3 text-white bg-primary rounded-lg">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                            </div>
-
-                            <div>
-                                <h1 className="text-xl font-semibold text-gray-700">How can I contact Biashari for further assistance or inquiries?</h1>
-
-                                <p className="mt-2 text-sm text-gray-500">
-                                    For further assistance or inquiries, you can reach our friendly team through various channels. You can fill out the contact form on our website, email us at info@lehub.dev, or call us at +256-752-553-236. We'll be more than happy to assist you and provide any additional information you may need.
-                                </p>
-                            </div>
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
+
+
+                <h3 className="w-full text-center text-3xl sm:text-4xl leading-normal font-extrabold tracking-tight text-gray-900">
+                    Frequent<span className="text-primary"> Questions</span>
+                </h3>
+                <section className="bg-white">
+                    <div className="container px-6 py-12 mx-auto">
+
+
+                        <div className="grid grid-cols-1 gap-8 mt-8 lg:mt-8 md:grid-cols-2 xl:grid-cols-3">
+                            <div>
+                                <div className="inline-block p-3 text-white bg-primary rounded-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+
+                                <div>
+                                    <h1 className="text-xl font-semibold text-gray-700">What type of businesses can use the Biashari system</h1>
+
+                                    <p className="mt-2 text-sm text-gray-500">
+                                        The Biashari system is designed for all retail and service type of businesses like shops, supermarkets hardware stores, electronic stores, pharmacies, restaurants, hotels and so many more. Has long has there is a product that can be sold to customers we are here to help you thrive and get reach more customers
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div className="inline-block p-3 text-white bg-primary rounded-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+
+                                <div>
+                                    <h1 className="text-xl font-semibold text-gray-700">What happens if i fail to renew my subscription</h1>
+
+                                    <p className="mt-2 text-sm text-gray-500">
+                                        Pretty much nothing big, we disable the important features from working but your data still remains safe until you renew the subscription. We also give reminders and a 4 day grace period to enable you proceed, our aim is to make sure your business succeeds and if it does ours does too.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div className="inline-block p-3 text-white bg-primary rounded-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+
+                                <div>
+                                    <h1 className="text-xl font-semibold text-gray-700">Does your system work offline</h1>
+
+                                    <p className="mt-2 text-sm text-gray-500">
+                                        Currently the system is fully online but we are soon releasing an offline sale point where by you can sell and make transactions without interent then later on you when you get internet connect it the data of your transactions will be automatically uploaded.
+
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div className="inline-block p-3 text-white bg-primary rounded-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+
+                                <div>
+                                    <h1 className="text-xl font-semibold text-gray-700">What is your cancellation policy?</h1>
+
+                                    <p className="mt-2 text-sm text-gray-500">
+                                        Our cancellation policy may vary depending on the specific reason of the package. If you feel you wish to discontinue the use of the system. No penalty will be given, just simply stop the use of the system. Or let the subcription expire. You thoroughly revise through our terms and contions and privacy policy, or you could contact our team on any of the provided platforms.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div className="inline-block p-3 text-white bg-primary rounded-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+
+                                <div>
+                                    <h1 className="text-xl font-semibold text-gray-700">If my retail store has very many products, do you do data entry for us?</h1>
+
+                                    <p className="mt-2 text-sm text-gray-500">
+                                        If you feel it will be difficult to enter the data first time, we can offer to get for you data entrants who you will compensate with shs.70 per product entered and stocked on the system. These are proffessionals and will ensure the data is entered  correctly.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div className="inline-block p-3 text-white bg-primary rounded-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+
+                                <div>
+                                    <h1 className="text-xl font-semibold text-gray-700">How can I contact Biashari for further assistance or inquiries?</h1>
+
+                                    <p className="mt-2 text-sm text-gray-500">
+                                        For further assistance or inquiries, you can reach our friendly team through various channels. You can fill out the contact form on our website, email us at info@lehub.dev, or call us at +256-752-553-236. We'll be more than happy to assist you and provide any additional information you may need.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
 
 
 
-            <div className="bg-gray-100 py-12">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="lg:text-center">
-                        <h2 className="text-base text-primary font-semibold tracking-wide uppercase">Location</h2>
-                        <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-                            Our Offices
-                        </p>
-                        {/* <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
+                <div className="bg-gray-100 py-12">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="lg:text-center">
+                            <h2 className="text-base text-primary font-semibold tracking-wide uppercase">Location</h2>
+                            <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                                Our Offices
+                            </p>
+                            {/* <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus magnam voluptatum cupiditate veritatis
                             in, accusamus quisquam.
                         </p> */}
-                    </div>
+                        </div>
 
-                    <div className="mt-10">
-                        <dl className="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
-                            <div className="flex">
-                                <div className="flex-shrink-0">
-                                    <div className="flex items-center justify-center h-12 w-12 rounded-md bg-primary text-white">
-                                        {/* <!-- Heroicon name: globe-alt --> */}
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
-                                            <path strokeLinecap="round" strokeLinejoin="round"
-                                                d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />
-                                        </svg>
+                        <div className="mt-10">
+                            <dl className="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
+                                <div className="flex">
+                                    <div className="flex-shrink-0">
+                                        <div className="flex items-center justify-center h-12 w-12 rounded-md bg-primary text-white">
+                                            {/* <!-- Heroicon name: globe-alt --> */}
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                                                <path strokeLinecap="round" strokeLinejoin="round"
+                                                    d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />
+                                            </svg>
 
+                                        </div>
+                                    </div>
+                                    <div className="ml-4">
+                                        <dt className="text-lg leading-6 font-medium text-gray-900">
+                                            Addresses
+                                        </dt>
+                                        <dd className="mt-2 text-base text-gray-500">
+                                            1. Kati House, Level 3, Kampala<br />
+                                            2. Namanve Exibition and Business Center (opening soon)
+                                        </dd>
                                     </div>
                                 </div>
-                                <div className="ml-4">
-                                    <dt className="text-lg leading-6 font-medium text-gray-900">
-                                        Addresses
-                                    </dt>
-                                    <dd className="mt-2 text-base text-gray-500">
-                                        1. Kati House, Level 3, Kampala<br />
-                                        2. Namanve Exibition and Business Center (opening soon)
-                                    </dd>
-                                </div>
-                            </div>
 
-                            <div className="flex">
-                                <div className="flex-shrink-0">
-                                    <div className="flex items-center justify-center h-12 w-12 rounded-md bg-primary text-white">
-                                        {/* <!-- Heroicon name: phone --> */}
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
-                                            <path strokeLinecap="round" strokeLinejoin="round"
-                                                d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
-                                        </svg>
+                                <div className="flex">
+                                    <div className="flex-shrink-0">
+                                        <div className="flex items-center justify-center h-12 w-12 rounded-md bg-primary text-white">
+                                            {/* <!-- Heroicon name: phone --> */}
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                                                <path strokeLinecap="round" strokeLinejoin="round"
+                                                    d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+                                            </svg>
 
+                                        </div>
+                                    </div>
+                                    <div className="ml-4">
+                                        <dt className="text-lg leading-6 font-medium text-gray-900">
+                                            Phone number
+                                        </dt>
+                                        <dd className="mt-2 text-base text-gray-500">
+                                            +256 752 553 236
+                                        </dd>
                                     </div>
                                 </div>
-                                <div className="ml-4">
-                                    <dt className="text-lg leading-6 font-medium text-gray-900">
-                                        Phone number
-                                    </dt>
-                                    <dd className="mt-2 text-base text-gray-500">
-                                        +256 752 553 236
-                                    </dd>
-                                </div>
-                            </div>
 
-                            <div className="flex">
-                                <div className="flex-shrink-0">
-                                    <div className="flex items-center justify-center h-12 w-12 rounded-md bg-primary text-white">
-                                        {/* <!-- Heroicon name: mail --> */}
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
-                                            <path strokeLinecap="round" strokeLinejoin="round"
-                                                d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
-                                        </svg>
+                                <div className="flex">
+                                    <div className="flex-shrink-0">
+                                        <div className="flex items-center justify-center h-12 w-12 rounded-md bg-primary text-white">
+                                            {/* <!-- Heroicon name: mail --> */}
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                                                <path strokeLinecap="round" strokeLinejoin="round"
+                                                    d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                                            </svg>
 
+                                        </div>
+                                    </div>
+                                    <div className="ml-4">
+                                        <dt className="text-lg leading-6 font-medium text-gray-900">
+                                            Email
+                                        </dt>
+                                        <dd className="mt-2 text-base text-gray-500">
+                                            info@lehub.dev
+                                        </dd>
                                     </div>
                                 </div>
-                                <div className="ml-4">
-                                    <dt className="text-lg leading-6 font-medium text-gray-900">
-                                        Email
-                                    </dt>
-                                    <dd className="mt-2 text-base text-gray-500">
-                                        info@lehub.dev
-                                    </dd>
-                                </div>
-                            </div>
 
-                            <div className="flex">
-                                <div className="flex-shrink-0">
-                                    <div className="flex items-center justify-center h-12 w-12 rounded-md bg-primary text-white">
-                                        {/* <!-- Heroicon name: clock --> */}
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
-                                            <path strokeLinecap="round" strokeLinejoin="round"
-                                                d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                        </svg>
+                                <div className="flex">
+                                    <div className="flex-shrink-0">
+                                        <div className="flex items-center justify-center h-12 w-12 rounded-md bg-primary text-white">
+                                            {/* <!-- Heroicon name: clock --> */}
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                                                <path strokeLinecap="round" strokeLinejoin="round"
+                                                    d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
 
+                                        </div>
+                                    </div>
+                                    <div className="ml-4">
+                                        <dt className="text-lg leading-6 font-medium text-gray-900">
+                                            Working Hours
+                                        </dt>
+                                        <dd className="mt-2 text-base text-gray-500">
+                                            Monday -  Friday: 9am to 6pm<br />
+                                            Saturday - 10am to 2pm<br />
+                                            Sunday -  Contact if its a serious emergency
+                                        </dd>
                                     </div>
                                 </div>
-                                <div className="ml-4">
-                                    <dt className="text-lg leading-6 font-medium text-gray-900">
-                                        Working Hours
-                                    </dt>
-                                    <dd className="mt-2 text-base text-gray-500">
-                                        Monday -  Friday: 9am to 6pm<br />
-                                        Saturday - 10am to 2pm<br />
-                                        Sunday -  Contact if its a serious emergency
-                                    </dd>
-                                </div>
-                            </div>
-                        </dl>
+                            </dl>
+                        </div>
                     </div>
                 </div>
+
+
+                <Footer />
             </div>
-
-
-            <Footer />
         </div>
     )
 }

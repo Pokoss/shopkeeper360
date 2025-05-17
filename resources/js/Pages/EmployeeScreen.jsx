@@ -11,7 +11,7 @@ import {
 } from "@material-tailwind/react";
 import React, { useState, Fragment } from 'react'
 import DataTable from 'react-data-table-component'
-import { Link, router } from '@inertiajs/react'
+import { Head, Link, router } from '@inertiajs/react'
 import Layout from "@/Layouts/components/Layout";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -204,6 +204,11 @@ function EmployeeScreen({ company, employees }) {
     const handleOpenEdit = (value) => setSizeEdit(value);
     return (
         <div>
+            <Head>
+                <title>
+                    Staff
+                </title>
+            </Head>
             <Fragment>
                 <Dialog
                     open={

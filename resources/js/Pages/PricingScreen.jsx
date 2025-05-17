@@ -1,12 +1,17 @@
 import Footer from '@/Layouts/components/Footer'
 import Navbar from '@/Layouts/components/Navbar'
-import { Link } from '@inertiajs/react'
+import { Head, Link } from '@inertiajs/react'
 import { Button } from '@material-tailwind/react'
 import React from 'react'
 
 function PricingScreen() {
     return (
         <div>
+            <Head>
+                <title>
+                    Pricing
+                </title>
+            </Head>
             <Navbar />
             <div className='container mx-auto flex flex-wrap  max-w-full'>
 

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import Compressor from 'compressorjs';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { router } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
 import Navbar from '@/Layouts/components/Navbar';
 import Footer from '@/Layouts/components/Footer';
 
@@ -100,6 +100,11 @@ function RegisterCompanyScreen({ category }) {
 
   return (
     <div className='font-oswald'>
+      <Head>
+                <title>
+                    Create a business
+                </title>
+            </Head>
       <Navbar />
       <section className="max-w-4xl p-6 mx-auto bg-gray-100 rounded-md shadow-md dark:bg-gray-800 my-10">
         <div className='flex justify-center'>

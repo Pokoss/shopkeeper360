@@ -11,7 +11,7 @@ import {
 } from "@material-tailwind/react";
 import React, { useState, Fragment, useEffect } from 'react'
 import DataTable from 'react-data-table-component'
-import { Link, router } from '@inertiajs/react'
+import { Head, Link, router } from '@inertiajs/react'
 import Select from 'react-select'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -274,6 +274,11 @@ function StockScreen({ company, stock_item, product }) {
     const handleOpenEdit = (value) => setSizeEdit(value);
     return (
         <div>
+            <Head>
+                <title>
+                    Stock Product
+                </title>
+            </Head>
             <Fragment>
                 <Dialog
                     open={
