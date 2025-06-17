@@ -65,7 +65,7 @@ function HomeScreen() {
         <div>
             <Head>
                 <title>
-                    Biashari ERP System
+                    Smart ERP for Retail & Services
                 </title>
             </Head>
             <div className="font-oswald h-screen w-full scrollbar-thumb-rounded overflow-y-scroll scrollbar-thin scrollbar-thumb-primary scrollbar-track-gray-200 dark:bg-gray-800 dark:text-gray-100">

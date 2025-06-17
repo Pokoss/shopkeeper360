@@ -29,6 +29,8 @@ use App\Models\FavouriteBusiness;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Spatie\Sitemap\Sitemap;
+use Spatie\Sitemap\Tags\Url;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +51,23 @@ use Inertia\Inertia;
 //         'phpVersion' => PHP_VERSION,
 //     ]);
 // });
+Route::get('/sitemap.xml', function () {
+    return Sitemap::create()
+        ->add(Url::create('/')
+            ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)
+            ->setPriority(1.0))
+        ->add(Url::create('/pricing')
+            ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
+            ->setPriority(0.9))
+        ->add(Url::create('/login')
+            ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
+            ->setPriority(0.9))
+        ->add(Url::create('/register')
+            ->setChangeFrequency(Url::CHANGE_FREQUENCY_YEARLY)
+            ->setPriority(0.3))
+        ->toResponse(request());
+});
+
 Route::get('/', function () {
     return Inertia::render('HomeScreen');
 });
