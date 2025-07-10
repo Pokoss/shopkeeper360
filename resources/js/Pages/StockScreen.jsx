@@ -7,7 +7,8 @@ import {
     DialogFooter,
     Typography,
     Input,
-    Option
+    Option,
+    Spinner
 } from "@material-tailwind/react";
 import React, { useState, Fragment, useEffect } from 'react'
 import DataTable from 'react-data-table-component'
@@ -44,6 +45,7 @@ function StockScreen({ company, stock_item, product }) {
     const [editBatch, setEditBatch] = useState('');
     const [editExpiry, setEditExpiry] = useState('');
     const [editQuantity, setEditQuantity] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     function editStock(id,name, quantity, batch, expiry) {
         handleOpenEdit("xl")
@@ -99,25 +101,24 @@ function StockScreen({ company, stock_item, product }) {
     const customStyles = {
         headRow: {
             style: {
-                border: 'none',
-            },
+                backgroundColor: '#f8fafc',
+            }
         },
         headCells: {
             style: {
+                fontWeight: 'bold',
+                fontSize: '13px',
+                textTransform: 'uppercase',
                 color: '#4CAF50',
-                fontSize: '14px',
-            },
+            }
         },
         rows: {
-            highlightOnHoverStyle: {
-                backgroundColor: 'rgb(230, 244, 244)',
-                borderBottomColor: '#FFFFFF',
-                outline: '1px solid #FFFFFF',
-            },
-        },
-        pagination: {
             style: {
-                border: 'none',
+                minHeight: '50px',
+            },
+            highlightOnHoverStyle: {
+                backgroundColor: '#f1f5f9',
+                cursor: 'pointer',
             },
         },
     };
@@ -144,7 +145,8 @@ function StockScreen({ company, stock_item, product }) {
             selector: row => new Date(row.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }),
         },
         {
-            selector: row => <button onClick={() => editStock(row.id, row.product.name, row.quantity, row.batch, row.expiry_date)} className='bg-green-600 rounded-md p-1'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-5 h-5">
+            name: 'Action',
+            selector: row => <button onClick={() => editStock(row.id, row.product.name, row.quantity, row.batch, row.expiry_date)} className='p-2 bg-green-600 rounded hover:bg-green-700'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-4 h-4">
                 <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
             </svg>
             </button>
@@ -247,6 +249,8 @@ function StockScreen({ company, stock_item, product }) {
             toast.error('Quantity cannot be 0 pr less')
         }
         else {
+            if (isSubmitting) return; // Prevent multiple submissions
+        setIsSubmitting(true);
             try {
                 router.post('/add-stock', { product_id, companyId, quantity, batch, expiry },
                     {
@@ -257,6 +261,7 @@ function StockScreen({ company, stock_item, product }) {
                             setQuantity('');
                             setExpiry('');
                             setInputVal('');
+                            setIsSubmitting(false);
                             // setSelectedOption(useState(null));
                         }
                     }
@@ -264,6 +269,7 @@ function StockScreen({ company, stock_item, product }) {
             } catch (error) {
                 toast.dismiss()
                 toast.error(error);
+                setIsSubmitting(false);
             }
         }
     }
@@ -326,33 +332,25 @@ function StockScreen({ company, stock_item, product }) {
                             <Button onClick={handleOpen} variant="gradient" color="blue-gray">
                                 Close
                             </Button>
-                            <Button type='submit' className='bg-primary'>
-                                Add
+                            <Button disabled={isSubmitting} type='submit' className='bg-primary'>
+                                 {isSubmitting ? <Spinner size="sm" /> : 'Add'}
                             </Button>
                         </DialogFooter>
                     </form>
                 </Dialog>
             </Fragment>
             <DataTable
-                title={'Stock' &&
-                    <div className='flex flex-col md:flex-row space-x-0 md:space-x-5 space-y-5 md:space-y-0 whitespace-nowrap items-start md:items-center justify-between w-full border-b-2 border-primary pb-3 pt-2'>
-                        <span>{'Stock'}</span>
-                        <div className='flex space-x-3 items-center md:space-x-5 w-full md:w-1/2 md:justify-end print:hidden'>
-
-                            <Input type='text' label='Search'
-                                value={search}
-                                onChange={handleSearch}
-                                className='md:w-full' />
-                            <span>
-                                <Button size='sm' color='green' type='submit' className='flex h-10 items-center bg-gradient-to-r from-primary to-secondary'
-                                    onClick={() => handleOpen("xl")}
-                                >
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="mr-2 w-5 h-5">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                                    </svg>
-                                    Add
-                                </Button>
-                            </span>
+                title={
+                    <div className="p-2 flex flex-col md:flex-row items-start md:items-center justify-between border-b border-primary pb-3">
+                        <span className="text-lg font-medium">Stock</span>
+                        <div className="flex items-center space-x-2 mt-2 md:mt-0 w-full md:w-1/2">
+                            <Input type="text" label="Search" value={search} onChange={handleSearch} />
+                            <Button onClick={() => handleOpen("xl")} className=" bg-gradient-to-r from-primary to-secondary text-white flex items-center gap-2 h-10">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                </svg>
+                                Add
+                            </Button>
                         </div>
                     </div>
                 }

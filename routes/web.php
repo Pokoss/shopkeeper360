@@ -107,6 +107,18 @@ Route::get('/wholesale', [WholesaleHomeController::class, 'index']);
 Route::get('/pricing', function () {
     return Inertia::render('PricingScreen');
 });
+Route::get('/res', function () {
+    return Inertia::render('WebTemplates/Restaurant/HomeScreen');
+});
+Route::get('/res/menu', function () {
+    return Inertia::render('WebTemplates/Restaurant/MenuScreen');
+});
+Route::get('/res/aboutus', function () {
+    return Inertia::render('WebTemplates/Restaurant/AboutUsScreen');
+});
+Route::get('/res/reservations', function () {
+    return Inertia::render('WebTemplates/Restaurant/ReservationsScreen');
+});
 
 
 // Route::get('/products', [BusinessCategoryController::class, 'index']);

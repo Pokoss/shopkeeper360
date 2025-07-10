@@ -1,499 +1,399 @@
 import Receipt from '@/Components/Receipt';
-import Layout from '@/Layouts/components/Layout'
-import { Head, router } from '@inertiajs/react'
-import { Button, Dialog, DialogBody, DialogFooter, DialogHeader, Input, Typography } from '@material-tailwind/react';
-import React, { useEffect, useState, Fragment, useRef } from 'react'
-import Select from 'react-select'
-import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css';
-import { useReactToPrint } from "react-to-print";
 import CustomerBill from '@/Components/CustomerBill';
+import Layout from '@/Layouts/components/Layout';
+import { Head, router } from '@inertiajs/react';
+import React, { useEffect, useState, useRef } from 'react';
+import Select from 'react-select';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useReactToPrint } from 'react-to-print';
+import {
+    Dialog,
+    DialogHeader,
+    DialogBody,
+    DialogFooter,
+    Button,
+    Input,
+    Typography,
+} from '@material-tailwind/react';
 
-function ServiceDetailsScreen({ company, service, service_id, service_items, cart_items }) {
-
-
+export default function ServiceDetailsScreen({ company, service, service_id, service_items, cart_items }) {
     const [cartTotal, setCartTotal] = useState(0);
-    const [received, setReceived] = useState();
+    const [received, setReceived] = useState('');
     const [change, setChange] = useState(0);
     const [discountAmount, setDiscountAmount] = useState(0);
     const [receiptProducts, setReceiptProducts] = useState(null);
     const [size, setSize] = useState(null);
     const [size1, setSize1] = useState(null);
+
     const componentRef = useRef();
     const componentRef1 = useRef();
 
     const handleOpen = (value) => setSize(value);
     const handleOpen1 = (value) => setSize1(value);
 
-    function closeDialog() {
-        handleOpen();
-        router.visit(`/dashboard/${company.company.slug}/service/panel`);
-    }
-    function closeDialog1() {
-        handleOpen1();
-    }
-
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
         onAfterPrint: () => {
             handleOpen();
-            router.visit(`/dashboard/${company.company.slug}/service/panel`)
+            router.visit(`/dashboard/${company.company.slug}/service/panel`);
         },
     });
+
     const handlePrint1 = useReactToPrint({
         content: () => componentRef1.current,
-        onAfterPrint: () => {
-            handleOpen1();
-        },
+        onAfterPrint: () => handleOpen1(),
     });
-
-    useEffect(() => {
-        var initialOptions = service_items.data.map((item) => ({
-            value: item.id,
-            label: String(item.name),
-            price: 'UGX ' + Intl.NumberFormat('en-US').format(item.retail_price),
-
-        }));
-        setOptions(initialOptions);
-    }, [service_items]);
-
-    useEffect(() => {
-        if (received == '') {
-            setChange(0)
-        }
-        if (cart_items.length == 0) {
-            setCartTotal(0);
-        }
-        var total = 0;
-        var tot_profit = 0;
-        var cart = cart_items && cart_items.map((item) => {
-            var itemtotal = item.quantity * parseFloat(item.product.retail_price)
-            total = total + itemtotal
-            setCartTotal(total)
-            // var total_profit = item.quantity * (parseFloat(item.product.retail_price) - parseFloat(item.product.cost_price));
-            // tot_profit = tot_profit + total_profit;
-            // setProfit(tot_profit)
-        });
-    }, [cart_items, received]);
-
-    const getDiscountAmount = e => {
-        e.preventDefault();
-        setDiscountAmount(e.target.value)
-        var dis = parseFloat(e.target.value) + (parseFloat(received) - parseFloat(cartTotal))
-        setChange(dis)
-    }
-
-    const getChange = e => {
-        e.preventDefault();
-        setReceived(e.target.value)
-        var total = e.target.value - cartTotal
-        setChange(total)
-    }
-
 
     const [options, setOptions] = useState([]);
     const [selectedOption, setSelectedOption] = useState(null);
     const [inputVal, setInputVal] = useState('');
+    const [number, setNumber] = useState(1);
 
-    const handleSelectChange = (selectedOption) => {
-        setSelectedOption(selectedOption); // Update selectedOption state when an option is selected
-    };
-
-    const filterOptions = async (inputValue) => {
-        var company_id = company.company_id;
-        setInputVal(inputValue)
-        if (!inputValue) {
-            var initialOptions = service_items.data.map((item) => ({
+    // Initialize options
+    useEffect(() => {
+        if (service_items?.data) {
+            const initialOptions = service_items.data.map((item) => ({
                 value: item.id,
-                label: String(item.name),
+                label: item.name,
                 price: 'UGX ' + Intl.NumberFormat('en-US').format(item.retail_price),
-
             }));
             setOptions(initialOptions);
-            return;
         }
-        try {
-            const response = await axios.get(`/search_services?q=${inputValue}&company_id=${company_id}`);
+    }, [service_items]);
 
-            if (response.data.service_items.data && response.data.service_items.data) {
-                const service_itemss = response.data.service_items.data;
-                var filteredOptions = service_itemss.map((item) => ({
-                    value: item.id,
-                    label: String(item.name),
-                    price: 'UGX ' + Intl.NumberFormat('en-US').format(item.retail_price),
-                }));
-                setOptions(filteredOptions);
-            }
-            else {
-                console.error('unexpected')
-                setOptions([]);
-            }
-        } catch (error) {
-            console.error('Error fetching services:', error);
+    // Calculate totals
+    useEffect(() => {
+        let total = 0;
+        if (Array.isArray(cart_items)) {
+            cart_items.forEach((item) => {
+                const price = parseFloat(item.product?.retail_price) || 0;
+                const quantity = parseInt(item.quantity) || 0;
+                total += price * quantity;
+            });
+        }
+
+        setCartTotal(total);
+
+        if (received) {
+            const numReceived = parseFloat(received);
+            setChange(numReceived - total);
+        } else {
+            setChange(0);
+        }
+    }, [cart_items, received]);
+
+    // Handle search input
+    const filterOptions = async (inputValue) => {
+        setInputVal(inputValue);
+        if (!inputValue) return setOptions(service_items.data.map((item) => ({
+            value: item.id,
+            label: item.name,
+            price: 'UGX ' + Intl.NumberFormat('en-US').format(item.retail_price),
+        })));
+
+        try {
+            const res = await axios.get(`/search_services?q=${inputValue}&company_id=${company.company.id}`);
+            const filtered = res.data.service_items.data.map((item) => ({
+                value: item.id,
+                label: item.name,
+                price: 'UGX ' + Intl.NumberFormat('en-US').format(item.retail_price),
+            }));
+            setOptions(filtered);
+        } catch (err) {
+            console.error('Search error:', err);
             setOptions([]);
         }
     };
 
-    const formatOptionLabel = ({ value, label, available, price }) => (
-        <div style={{ display: "" }}>
-            <div className='text-normal font-semibold'>{label}</div>
-            <div className='flex justify-between'>
-                <div className='text-red-700 text-xs font-semibold'>
-                    {price}
-                </div>
-            </div>
+    const formatOptionLabel = ({ label, price }) => (
+        <div className="flex flex-col">
+            <span className="font-semibold">{label}</span>
+            <span className="text-xs text-red-600 font-medium">{price}</span>
         </div>
     );
 
-
-
-    let [number, setNumber] = useState(0);
-    function addNumber() {
-        if (number == 1000) {
-            toast.error('1000 is the max number');
-        } else {
-            number = number + 1;
-            setNumber(parseInt(number));
+    const addNumber = () => {
+        if (number >= 1000) {
+            toast.error('Maximum quantity reached');
+            return;
         }
-    }
-    function subtractNumber() {
-        if (number == 0) {
-            toast.error('Quantity below 0 is forbidden')
-        } else {
-            number = number - 1;
-            setNumber(parseInt(number));
-        }
-    }
+        setNumber((prev) => prev + 1);
+    };
 
-    function addToCart() {
+    const subtractNumber = () => {
+        if (number <= 1) {
+            toast.error('Minimum quantity reached');
+            return;
+        }
+        setNumber((prev) => prev - 1);
+    };
+
+    const addToCart = () => {
+        if (!selectedOption) {
+            toast.error('Please select a product');
+            return;
+        }
 
         if (number < 1) {
-            toast.error('Quantity must be 1 or higher')
+            toast.error('Quantity must be at least 1');
+            return;
         }
-        else if (number == '') {
-            toast.error('Input the quantity')
-        }
-        else if (selectedOption == null) {
-            toast.error('Select the service/item')
-        }
-        else {
-            // console.log(selectedOption.value)
-            var company_id = company.company.id;
-            var user_id = company.user.id;
-            var product_id = selectedOption.value;
-            var quantity = number;
-            router.post('/addtoservice', { service_id, quantity, product_id, company_id, user_id }, {
-                preserveScroll: true,
-                onSuccess: () => {
-                    toast.success(selectedOption.label + ' added to tab')
-                    setSelectedOption(null);
-                    setNumber(0);
-                    setInputVal('');
-                }
-            })
-        }
-    }
 
-    function removeItem(itemId, itemName) {
-        var company_id = company.company.id;
+        const { value: product_id } = selectedOption;
+        const { id: user_id } = company.user;
+        const company_id = company.company.id;
+        const quantity = number;
+
+        router.post('/addtoservice', { service_id, quantity, product_id, company_id, user_id }, {
+            preserveScroll: true,
+            onSuccess: () => {
+                toast.success(`${selectedOption.label} added to tab`);
+                setSelectedOption(null);
+                setNumber(1);
+                setInputVal('');
+            },
+        });
+    };
+
+    const getDiscountAmount = e => {
+    const val = e.target.value;
+    setDiscountAmount(val);
+    setChange(parseFloat(val) + (parseFloat(received) - parseFloat(cartTotal)));
+  };
+
+    const removeItem = (itemId, itemName) => {
+        const company_id = company.company.id;
         router.post('/delete_service_item', { itemId, company_id, service_id }, {
             preserveScroll: true,
             onSuccess: () => {
-                toast.success(itemName + ' removed');
-            }
-        })
-    }
+                toast.success(`${itemName} removed`);
+            },
+        });
+    };
 
-    function emptyCart() {
-        var company_id = company.company.id;
+    const emptyCart = () => {
+        const company_id = company.company.id;
         router.post('/empty_service_items', { company_id, service_id }, {
             preserveScroll: true,
             onSuccess: () => {
-                toast.success('Tab as been cleared');
-                router.visit(`/dashboard/${company.company.slug}/service/panel`)
-            }
-        })
-    }
+                toast.success('Tab cleared');
+                router.visit(`/dashboard/${company.company.slug}/service/panel`);
+            },
+        });
+    };
 
-    var theBill ={ 'receipts': {
-        'sale_id':service_id,
-        'sale_total':cartTotal,
-        'sales':cart_items,
-
-    }}
-
-
-    function viewReceipt() {
-        handleOpen1('xl')
-        
-        console.log('oi')
-    }
-    function registerPay() {
-        var company_id = company.company.id;
-        if (cart_items.length == 0) {
-            toast.error('You cant sale nothing')
+    const registerPay = async () => {
+        if (!cart_items.length) {
+            toast.error('Cannot proceed with an empty cart');
+            return;
         }
-        else {
-            var sale_total = cartTotal;
-            var discount = discountAmount;
 
-            router.post('/record_service_sale', { service_id, company_id, sale_total, discount }, {
-                preserveScroll: true,
-                onSuccess: async () => {
-                    toast.success('Success');
-                    try {
-                        const response = await axios.get(`/getlastsale?company_id=${company_id}`);
-                        if (response.data && response.data) {
-                            setReceiptProducts(response.data);
-                            handleOpen("xl")
-                        }
-                        else {
-                            console.error('unexpected')
-                            setReceiptProducts(null);
-                        }
-                    } catch (error) {
-                        console.error('Error fetching products:', error);
-                        setReceiptProducts(null);
+        const company_id = company.company.id;
+        const sale_total = cartTotal;
+        const discount = discountAmount;
+
+        router.post('/record_service_sale', { service_id, company_id, sale_total, discount }, {
+            preserveScroll: true,
+            onSuccess: async () => {
+                toast.success('Sale recorded successfully');
+                try {
+                    const res = await axios.get(`/getlastsale?company_id=${company_id}`);
+                    if (res.data) {
+                        setReceiptProducts(res.data);
+                        handleOpen('xl');
                     }
+                } catch (error) {
+                    console.error('Error fetching receipt data:', error);
+                    toast.error('Failed to load receipt');
                 }
-            })
-        }
-
-    }
-
-
-
+            },
+        });
+    };
+    const viewReceipt = () => {
+        handleOpen1('xl');
+    };
     return (
-        <div>
-            <Head>
-                <title>
-                    Service Details
-                </title>
-            </Head>
-            <div className='w-full'>
-
-                Service id <span className='text-red-800'>{service_id}</span>
-            </div>
-
-            <div className='px-5 pt-1'>
-
-
-
-                <div className="w-full grid grid-cols-1 gap-3 sm:grid-cols-3 place-items-center class justify-center">
-                    <div className='w-full space-y-2 mt-2'>
-
-                        <Input type='number' label='Amount received'
-                            value={received} onChange={getChange}
-                        >
-
-                        </Input>
-                        {cart_items && cart_items.length == 0 ? <></> :
-
-                            <Input type='number' label='Discount Amount' value={discountAmount} onChange={getDiscountAmount}></Input>
-                        }
-                    </div>
-                    <div className='font-bold text-xl'>
-                        {cart_items && cart_items.length == 0 ?
-                            <></>
-                            :
-
-                            <span className='text-base font-semibold'>
-                                Change: UGX {Intl.NumberFormat('en-US').format(change)}
-                            </span>
-                        }
-                    </div>
-                    <div>
-                        <div className='font-bold text-xl mb-1'>
-                            UGX {Intl.NumberFormat('en-US').format(cartTotal)}<br />
-
-                        </div>
-                        <button
-                            onClick={() => registerPay()}
-                            className='py-2 px-10 rounded-md font-semibold text-base text-gray-100 bg-gradient-to-r from-primary to-secondary hover:bg-red-700'>Record Sale</button>
-                    </div>
-                </div>
-
-                <div className='bg-gray-400 p-2 mt-7 w-full grid grid-cols-1 gap-3 sm:grid-cols-3 place-items-center class justify-center'>
-                    <Select
-                        value={selectedOption} // Set the value prop to the selected option state
-                        onChange={handleSelectChange} // Call handleSelectChange when an option is selected
-                        formatOptionLabel={formatOptionLabel}
-                        options={options}
-                        isClearable
-                        placeholder="Search for service / item..."
-                        onInputChange={filterOptions}
-                        noOptionsMessage={() => 'No product found'}
-                        inputValue={inputVal}
-                        className='w-full' styles={{
-                            control: (baseStyles, state) => ({
-                                ...baseStyles,
-                                borderColor: state.isFocused ? 'blue' : 'green',
-                            }),
-                        }}
-                    />
-
-                    <div className='flex gap-1'>
-                        <button
-                            onClick={subtractNumber}
-                            className='bg-primary h-10 w-10 rounded-full flex justify-center items-center'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-6 h-6">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14" />
-                            </svg>
-                        </button>
-                        <input type="number" required placeholder='' form='stock_item_form' className='rounded-md w-16 flex [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'
-                            value={number} onChange={(event) => setNumber(event.target.value)}
-                        />
-                        <button
-                            onClick={addNumber}
-                            className='bg-primary h-10 w-10 rounded-full flex justify-center items-center'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="white" className="w-6 h-6">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                            </svg>
-                        </button>
-                    </div>
-
-                    <button
-                        onClick={addToCart}
-                        className='rounded-md text-white flex justify-center items bg-gradient-to-r from-primary to-secondary p-2 w-full sm:w-32'> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-6 h-6 mr-1">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg> Add</button>
-                </div>
-
-                {cart_items && cart_items.length == 0 ?
-                    <></>
-                    :
-                    <div className='bg-white p-1 rounded-xl mt-1 shadow-md shadow-black'>
-                        <div className="flex justify-between items-center bg-tertiary px-5 py-2 my-3 ">
-                            <span className='font-semibold text-base'>Items</span>
-                            <button onClick={() => viewReceipt()} className='bg-primary flex py-1 px-2 rounded-md text-white hover:bg-secondary md:mr-28'>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 mr-1">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="m9 14.25 6-6m4.5-3.493V21.75l-3.75-1.5-3.75 1.5-3.75-1.5-3.75 1.5V4.757c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0c1.1.128 1.907 1.077 1.907 2.185ZM9.75 9h.008v.008H9.75V9Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm4.125 4.5h.008v.008h-.008V13.5Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
-                                </svg>
-                                Print Bill
-                            </button>
-
-                        </div>
-                        <table className="w-full text-left">
-                            <thead>
-                                <tr>
-                                    <th className='w-2/6'>Product</th>
-                                    <th className='w-1/6'>Price (UGX)</th>
-                                    <th className='w-1/6'>Qty</th>
-                                    <th className='w-1/6 print:hidden'>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody className="text-gray-600 dark:text-gray-100 ">
-                                {
-                                    cart_items && cart_items.map((item => (
-                                        <tr key={item.id} className='w-full justify-end'>
-                                            <td onClick={() => toast.success(item.product.name)} className="cursor-pointer sm:px-3 py-2 px-1 border-b border-gray-200 dark:border-gray-800 w-1/3">
-                                                {item.product.name}
-                                            </td>
-                                            <td className="sm:px-3 py-2 px-1 border-b border-gray-200 dark:border-gray-800 ">
-                                                {Intl.NumberFormat('en-US').format(item.product.retail_price)}
-                                            </td>
-                                            <td className="sm:px-3 py-2 px-1 border-b border-gray-200 dark:border-gray-800">
-                                                {item.quantity}
-                                            </td>
-                                            <td className="sm:px-3 py-2 px-1 border-b border-gray-200 dark:border-gray-800">
-                                                <button onClick={() => removeItem(item.id, item.product.name)} className='bg-red-400 rounded-md p-2'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-5 h-5">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                                                </svg>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    )))
-                                }
-                            </tbody>
-                        </table>
-
-                        <div className="flex justify-between items-center bg-tertiary px-5 py-2 mt-5 ">
-                            <button onClick={() => emptyCart()} className='bg-red-400 py-1 px-5 rounded-md text-white hover:bg-primary md:mr-28 p-2'>Clear and discard service</button>
-
-                        </div>
-                    </div>
-                }
-
-
-            </div>
-            <Fragment>
-                <Dialog
-                    open={
-                        size === "xl"
-                    }
-                    size={size}
-                    handler={handleOpen}
-                >
-                    <DialogHeader>
-                        <Typography variant="h5" color="blue-gray">
-                            Print Receipt
-                        </Typography>
-                    </DialogHeader>
-                    <form
-                    >
-                        <DialogBody divider className="h-[29rem] overflow-scroll">
-                            <div ref={componentRef}>
-                                <Receipt company={company} props={receiptProducts} />
-                            </div>
-                        </DialogBody>
-                    </form>
-                    <DialogFooter>
-                        <div className='flex w-full justify-between'>
-
-                            <Button onClick={closeDialog} variant="gradient" color="red">
-                                Ignore
-                            </Button>
-                            <div className="space-x-2">
-                                <Button onClick={handlePrint} type='submit' className='bg-green-500'>
-                                    Print
-                                </Button>
-                            </div>
-                        </div>
-                    </DialogFooter>
-                </Dialog>
-            </Fragment>
-
-            <Fragment>
-                <Dialog
-                    open={
-                        size1 === "xl"
-                    }
-                    size={size1}
-                    handler={handleOpen1}
-                >
-                    <DialogHeader>
-                        <Typography variant="h5" color="blue-gray">
-                            Print Bill
-                        </Typography>
-                    </DialogHeader>
-                    <form
-                    >
-                        <DialogBody divider className="h-[29rem] overflow-scroll">
-                            <div ref={componentRef1}>
-
-                           
-                                <CustomerBill company={company} props={theBill} />
-                            </div>
-                        </DialogBody>
-                    </form>
-                    <DialogFooter>
-                        <div className='flex w-full justify-between'>
-
-                            <Button onClick={closeDialog1} variant="gradient" color="red">
-                                Ignore
-                            </Button>
-                            <div className="space-x-2">
-                                <Button onClick={handlePrint1} type='submit' className='bg-green-500'>
-                                    Print
-                                </Button>
-                            </div>
-                        </div>
-                    </DialogFooter>
-                </Dialog>
-            </Fragment>
+        <div className="p-4">
+            <Head title="Service Details" />
             <ToastContainer />
-            {/* <Receipt/> */}
-            
+
+            {/* Header */}
+            <div className="mb-4">
+                <span>Service ID: <span className="text-red-800">{service_id}</span></span>
+            </div>
+
+            {/* Product Search & Add */}
+            <div className='bg-white shadow-xl rounded-2xl p-5 mb-2 grid grid-cols-1 md:grid-cols-3 gap-6 items-end'>
+                <Select
+                    value={selectedOption}
+                    onChange={setSelectedOption}
+                    options={options}
+                    onInputChange={filterOptions}
+                    inputValue={inputVal}
+                    placeholder="Search service/item..."
+                    formatOptionLabel={formatOptionLabel}
+                    noOptionsMessage={() => "No item found"}
+                    className="w-full"
+                    styles={{
+                        control: (base, state) => ({
+                            ...base,
+                            borderColor: state.isFocused ? '#3B82F6' : '#A5B4FC',
+                        }),
+                    }}
+                />
+                <div className="flex items-center justify-center space-x-2">
+                    <button onClick={subtractNumber} disabled={number <= 1} className="bg-green-600 text-white rounded-full w-10 h-10 flex justify-center items-center disabled:opacity-50">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-5 h-5">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12H4" />
+                        </svg>
+                    </button>
+                    <input
+                        type="number"
+                        min="1"
+                        max="1000"
+                        value={number}
+                        onChange={(e) => {
+                            const val = parseInt(e.target.value);
+                            setNumber(isNaN(val) ? 1 : Math.max(1, Math.min(1000, val)));
+                        }}
+                        className="w-16 text-center border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
+                    />
+                    <button onClick={addNumber} className="bg-green-600 text-white rounded-full w-10 h-10 flex justify-center items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-5 h-5">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v12m6-6H6" />
+                        </svg>
+                    </button>
+                </div>
+                <button onClick={addToCart} className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-secondary hover:to-primary text-white py-2 rounded-md flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-5 h-5 mr-2">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                    Add to Cart
+                </button>
+            </div>
+
+            {/* Payment Summary */}
+
+            {!!cart_items.length && (
+                <div className="bg-gradient-to-br from-white to-slate-50 border mb-2 p-5 rounded-2xl shadow-xl space-y-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-1 gap-3">
+                            <Input type="number" label="Amount Received" value={received} onChange={(e) => setReceived(e.target.value)} />
+                            {cart_items?.length > 0 && (
+                                <Input type="number" label="Discount Amount" value={discountAmount} onChange={getDiscountAmount} />
+                            )}
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-1 gap-6">
+                            <div className="flex justify-between items-end w-full">
+                                {/* Left Side: Change to Return */}
+                                <div className="">
+                                    {change > 0 && (
+                                        <>
+                                            <Typography className="text-sm text-gray-500">Change to Return</Typography>
+                                            <Typography className="text-lg font-semibold text-green-600">
+                                                UGX {Intl.NumberFormat('en-US').format(change)}
+                                            </Typography>
+                                        </>
+                                    )}
+                                </div>
+
+                                {/* Right Side: Total */}
+                                <div className="text-right">
+                                    <Typography className="text-sm text-gray-500">Total</Typography>
+                                    <Typography className="text-xl font-black text-gray-900">
+                                        UGX {Intl.NumberFormat('en-US').format(cartTotal)}
+                                    </Typography>
+                                </div>
+                            </div>
+                            <div className="w-full sm:w-auto text-right">
+                                <Button className='bg-gradient-to-r from-green-500 to-blue-500 hover:from-secondary hover:to-primary' onClick={registerPay}>Record Sale</Button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            )}
+
+
+
+
+            {/* Cart Table */}
+            {cart_items?.length > 0 && (
+                <div className="bg-white rounded-xl shadow-md overflow-hidden">
+                    <div className="flex justify-between items-center bg-green-100 px-4 py-3">
+                        <h3 className="font-semibold text-lg">Items</h3>
+                        <button onClick={viewReceipt} className="bg-green-600 text-white py-1 px-3 rounded flex items-center text-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-5 h-5 mr-1">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2" />
+                            </svg>
+                            Print Bill
+                        </button>
+                    </div>
+                    <table className="min-w-full divide-y divide-gray-200">
+                        <thead className="bg-gray-50">
+                            <tr>
+                                <th className="px-4 py-3 text-left text-sm font-semibold">Product</th>
+                                <th className="px-4 py-3 text-left text-sm font-semibold">Price (UGX)</th>
+                                <th className="px-4 py-3 text-left text-sm font-semibold">Qty</th>
+                                <th className="px-4 py-3 text-right text-sm font-semibold print:hidden">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-gray-100">
+                            {cart_items.map((item) => (
+                                <tr key={item.id} className="hover:bg-gray-50 transition-colors">
+                                    <td className="px-4 py-3 text-sm">{item.product.name}</td>
+                                    <td className="px-4 py-3 text-sm">{Intl.NumberFormat('en-US').format(item.product.retail_price)}</td>
+                                    <td className="px-4 py-3 text-sm">{item.quantity}</td>
+                                    <td className="px-4 py-3 text-right print:hidden">
+                                        <button onClick={() => removeItem(item.id, item.product.name)} className="text-red-500 hover:text-red-700">
+                                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                            </svg>
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                    <div className="flex justify-end bg-green-100 px-4 py-3 mt-4">
+                        <button onClick={emptyCart} className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded">
+                            Clear Cart
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            {/* Receipt Dialog */}
+            <Dialog open={size === 'xl'} size={size} handler={handleOpen}>
+                <DialogHeader>Print Receipt</DialogHeader>
+                <DialogBody className="max-h-[30rem] overflow-auto">
+                    <div ref={componentRef}>
+                        <Receipt company={company} props={receiptProducts} />
+                    </div>
+                </DialogBody>
+                <DialogFooter>
+                    <Button color="red" onClick={handleOpen}>Close</Button>
+                    <Button color="green" onClick={handlePrint}>Print</Button>
+                </DialogFooter>
+            </Dialog>
+
+            {/* Bill Dialog */}
+            <Dialog open={size1 === 'xl'} size={size1} handler={handleOpen1}>
+                <DialogHeader>Print Bill</DialogHeader>
+                <DialogBody className="max-h-[30rem] overflow-auto">
+                    <div ref={componentRef1}>
+                        <CustomerBill company={company} props={{ receipts: { sale_id: service_id, sale_total: cartTotal, sales: cart_items } }} />
+                    </div>
+                </DialogBody>
+                <DialogFooter>
+                    <Button color="red" onClick={handleOpen1}>Close</Button>
+                    <Button color="green" onClick={handlePrint1}>Print</Button>
+                </DialogFooter>
+            </Dialog>
         </div>
-    )
+    );
 }
-ServiceDetailsScreen.layout = page => <Layout children={page} props={page.props.company} />
-export default ServiceDetailsScreen
+
+ServiceDetailsScreen.layout = (page) => <Layout children={page} props={page.props.company} />;

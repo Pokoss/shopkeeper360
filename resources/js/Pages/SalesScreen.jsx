@@ -35,30 +35,29 @@ function SalesScreen({ company, sales, sales_today, profit }) {
   };
 
   const customStyles = {
-    headRow: {
-      style: {
-        border: 'none',
-      },
-    },
-    headCells: {
-      style: {
-        color: '#4CAF50',
-        fontSize: '14px',
-      },
-    },
-    rows: {
-      highlightOnHoverStyle: {
-        backgroundColor: 'rgb(230, 244, 244)',
-        borderBottomColor: '#FFFFFF',
-        outline: '1px solid #FFFFFF',
-      },
-    },
-    pagination: {
-      style: {
-        border: 'none',
-      },
-    },
-  };
+        headRow: {
+            style: {
+                backgroundColor: '#f8fafc',
+            }
+        },
+        headCells: {
+            style: {
+                fontWeight: 'bold',
+                fontSize: '13px',
+                textTransform: 'uppercase',
+                color: '#4CAF50',
+            }
+        },
+        rows: {
+            style: {
+                minHeight: '50px',
+            },
+            highlightOnHoverStyle: {
+                backgroundColor: '#f1f5f9',
+                cursor: 'pointer',
+            },
+        },
+    };
 
   const columns = [
     {
