@@ -107,6 +107,10 @@ const CustomerBill = forwardRef(( {company, props} ) => {
 
             {/* {props.receiptData.employee && */}
                 <div className="flex justify-between mt-5">
+                    <div className="text-start pl-5">Billed To</div>
+                    <div className="text-end pr-5">{props.receipts.service_name ?? 'Unnamed' }</div>
+                </div>
+                <div className="flex justify-between mt-5">
                     <div className="text-start pl-5">Served by</div>
                     <div className="text-end pr-5">{company.user.name}</div>
                 </div>

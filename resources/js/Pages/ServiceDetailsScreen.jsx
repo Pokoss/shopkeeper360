@@ -18,6 +18,7 @@ import {
 } from '@material-tailwind/react';
 
 export default function ServiceDetailsScreen({ company, service, service_id, service_items, cart_items }) {
+    console.log(service)
     const [cartTotal, setCartTotal] = useState(0);
     const [received, setReceived] = useState('');
     const [change, setChange] = useState(0);
@@ -384,7 +385,7 @@ export default function ServiceDetailsScreen({ company, service, service_id, ser
                 <DialogHeader>Print Bill</DialogHeader>
                 <DialogBody className="max-h-[30rem] overflow-auto">
                     <div ref={componentRef1}>
-                        <CustomerBill company={company} props={{ receipts: { sale_id: service_id, sale_total: cartTotal, sales: cart_items } }} />
+                        <CustomerBill company={company} props={{ receipts: { sale_id: service_id, sale_total: cartTotal, sales: cart_items, service_name: service.name} }} />
                     </div>
                 </DialogBody>
                 <DialogFooter>
