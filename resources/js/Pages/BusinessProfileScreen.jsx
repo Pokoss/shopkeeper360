@@ -21,7 +21,7 @@ function BusinessProfileScreen({ company }) {
     }
 
   const config = {
-    public_key: 'FLWPUBK_TEST-dcc65cf1c7e549240c7a97b4a913307c-X',
+    public_key: 'FLWPUBK-505ff9ef3205cff84de16c7170ee6d88-X',
     tx_ref: Date.now(),
     amount: 38500,
     currency: 'UGX',
