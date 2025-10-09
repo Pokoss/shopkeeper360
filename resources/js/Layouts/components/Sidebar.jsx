@@ -350,6 +350,66 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
               </li>
             )}
 
+            {/* Room Management */}
+            {(props.position === 'owner' || props.position === 'admin') && (
+              <li className="transition-all duration-200">
+                <button
+                  onClick={() => toggleMenu(7)}
+                  className="flex items-center justify-between w-full px-4 py-2.5 rounded-lg text-sm font-medium text-gray-200 hover:bg-secondary hover:text-white transition-all duration-200"
+                >
+                  <div className="flex items-center gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" />
+                    </svg>
+                    Room Management
+                  </div>
+                  <svg
+                    className={`w-4 h-4 transition-transform ${openMenu === 7 ? 'rotate-180' : ''}`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                {openMenu === 7 && (
+                  <ul className="ml-4 mt-1 space-y-1 bg-gray-800">
+                    <li>
+                      <Link
+                        href={`/dashboard/${props.company.slug}/rooms`}
+                        className="block px-4 py-2 text-sm text-gray-300 hover:bg-primary rounded-md"
+                      >
+                        Rooms
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href={`/dashboard/${props.company.slug}/rooms/bookings`}
+                        className="block px-4 py-2 text-sm text-gray-300 hover:bg-primary rounded-md"
+                      >
+                        Bookings
+                      </Link>
+                    </li>
+                  </ul>
+                )}
+              </li>
+            )}
+
+            {/* Analytics */}
+            {(props.position === 'owner' || props.position === 'admin') && (
+              <li>
+                <Link
+                  href={`/dashboard/${props.company.slug}/analytics`}
+                  className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium text-gray-200 hover:bg-secondary hover:text-white transition-all duration-200"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z" />
+                  </svg>
+                  Analytics
+                </Link>
+              </li>
+            )}
+
             {/* Business Account */}
             {(props.position === 'owner' || props.position === 'admin' || props.position === 'accountant') && (
               <li className="transition-all duration-200">

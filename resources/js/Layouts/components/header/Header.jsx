@@ -25,9 +25,9 @@ function Header({sidebarOpen, setSidebarOpen,props}) {
                 <rect x="4" y="17" width="16" height="2" />
               </svg>
             </button>
-            <Link href='/'>
-            <p className='text-primary font-bold ml-3'>Dashboard</p>
-            </Link>
+           
+            <p className='text-primary font-bold ml-3'>Biashari</p>
+          
           </div>
 
           {/* Header: Right side */}

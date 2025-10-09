@@ -23,7 +23,7 @@ class ReceiptController extends Controller
             $query->where('slug', $company);
         })->with('company', 'user')->where('user_id', Auth::user()->id)->first();
 
-        $receipts = Receipt::with('sales.product','user')->where('company_id',$comp->company_id)->where('sale_id','like','%'.$search_text.'%')->latest()->paginate(10);
+        $receipts = Receipt::with(['sales.product', 'sales.roomBooking.room', 'user'])->where('company_id',$comp->company_id)->where('sale_id','like','%'.$search_text.'%')->latest()->paginate(10);
 
         return Inertia::render('ReceiptScreen', ['company' => $comp, 'receipts'=> $receipts]);
     }
@@ -46,7 +46,7 @@ class ReceiptController extends Controller
     public function sale(Request $request)
     {
         //
-        $receipt = Receipt::with('sales.product','user')->where('company_id',$request->company_id)->where('sold_by', Auth::user()->id)->latest()->first();
+        $receipt = Receipt::with(['sales.product', 'sales.roomBooking.room', 'user'])->where('company_id',$request->company_id)->where('sold_by', Auth::user()->id)->latest()->first();
 
         return Response(['receipts'=>$receipt]);
     }

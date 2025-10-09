@@ -31,19 +31,49 @@ function OnlineProductScreen({ company, products, product,category }) {
     const [description, setDescription] = useState('');
     const [productName, setProductName] = useState('');
     const [image, setImage] = useState(null);
+    
+    // Edit states
+    const [editId, setEditId] = useState(null);
+    const [editProductId, setEditProductId] = useState('');
+    const [editCategoryId, setEditCategoryId] = useState('');
+    const [editDescription, setEditDescription] = useState('');
+    const [editProductName, setEditProductName] = useState('');
+    const [editImage, setEditImage] = useState(null);
+    const [editSelectedOption, setEditSelectedOption] = useState(null);
 
-    const handleImageChange = (event) => {
+    const handleImageChange = (event, isEdit = false) => {
         const file = event.target.files[0];
+        
+        if (!file) return;
 
-        new Compressor(file, {
-            quality: 0.6,
-            success(result) {
-                setImage(result);
-            },
-            error(err) {
-                console.log(err.message);
-            },
-        });
+        const setImageFunc = isEdit ? setEditImage : setImage;
+
+        // Only compress if file is larger than 1MB
+        if (file.size > 1024 * 1024) {
+            new Compressor(file, {
+                quality: 0.6,
+                maxWidth: 1920,
+                maxHeight: 1920,
+                success(result) {
+                    // Convert Blob to File object
+                    const compressedFile = new File([result], file.name, {
+                        type: file.type || 'image/jpeg',
+                        lastModified: Date.now(),
+                    });
+                    console.log('Compressed file:', compressedFile.name, compressedFile.size, compressedFile.type);
+                    setImageFunc(compressedFile);
+                },
+                error(err) {
+                    console.error('Compression error:', err.message);
+                    // Fallback to original file if compression fails
+                    setImageFunc(file);
+                },
+            });
+        } else {
+            // Use original file if it's small enough
+            console.log('Original file:', file.name, file.size, file.type);
+            setImageFunc(file);
+        }
     };
 
 
@@ -69,49 +99,151 @@ function OnlineProductScreen({ company, products, product,category }) {
         });
     }
 
+    const editProduct = (row) => {
+        setEditId(row.id);
+        setEditProductId(row.product_id);
+        setEditCategoryId(row.category_id);
+        setEditDescription(row.description);
+        setEditProductName(row.product.name);
+        setEditSelectedOption({
+            value: row.product.id,
+            label: row.product.name,
+            product: row.product.name
+        });
+        handleOpenEdit("xl");
+    };
+
+    const updateProduct = async (event) => {
+        event.preventDefault();
+        
+        var companyId = company.company_id;
+        
+        if (editCategoryId == '0' || editCategoryId == '') {
+            toast.error('Select the category');
+            return;
+        }
+        if (editDescription == '') {
+            toast.error('Description is required');
+            return;
+        }
+        
+        // Create FormData manually
+        const formData = new FormData();
+        formData.append('companyId', companyId);
+        formData.append('productId', editProductId);
+        formData.append('categoryId', editCategoryId);
+        if (editImage) {
+            formData.append('image', editImage);
+        }
+        formData.append('description', editDescription);
+        formData.append('productName', editProductName);
+        
+        toast.loading('Updating product...');
+        
+        try {
+            router.post(`/update-online-product/${editId}`, formData, {
+                forceFormData: true,
+                preserveState: true,
+                onSuccess: () => {
+                    toast.dismiss();
+                    toast.success('Product updated successfully');
+                    handleOpenEdit(null);
+                    
+                    // Reset edit form fields
+                    setEditId(null);
+                    setEditProductId('');
+                    setEditCategoryId('');
+                    setEditDescription('');
+                    setEditProductName('');
+                    setEditImage(null);
+                    setEditSelectedOption(null);
+                },
+                onError: (errors) => {
+                    toast.dismiss();
+                    console.error('Errors:', errors);
+                    const errorMsg = errors.error || errors.image || 'Failed to update product.';
+                    toast.error(errorMsg);
+                }
+            });
+        } catch (error) {
+            toast.dismiss();
+            toast.error(error.message || 'An error occurred');
+        }
+    };
+
     const postProduct = async (event) => {
         event.preventDefault();
-        toast.loading();
+        
         var companyId = company.company_id;
+        
         if (image == null) {
-            toast.dismiss()
             toast.error('Product Image is a must Online');
+            return;
         }
         else if (productId == '') {
-            toast.dismiss()
-            toast.error('Select the product')
+            toast.error('Select the product');
+            return;
         }
         else if (categoryId == '0'|| categoryId == '') {
-            toast.dismiss()
-            toast.error('Select the category')
+            toast.error('Select the category');
+            return;
         }
         else if (description == '') {
-            toast.dismiss()
-            toast.error('Select the category')
+            toast.error('Description is required');
+            return;
         }
         
+        // Debug: Log image details before sending
+        console.log('Submitting product with image:', {
+            name: image?.name,
+            size: image?.size,
+            type: image?.type,
+            isFile: image instanceof File,
+            isBlob: image instanceof Blob
+        });
         
-        else {
-            toast.success('success')
-            try {
-                router.post('/add-online-product', { companyId, productId, categoryId, image, description, productName },
-                    {
-                        onSuccess: () => {
-                            toast.success('Product added successfully');
-                            handleOpen();
-                            companyId('');
-                            productId('');
-                            setCategoryId('');
-                            productName('');
-                            setImage(null);
-
-                        }
-                    }
-                )
-            } catch (error) {
-                toast.dismiss()
-                toast.error(error);
-            }
+        // Create FormData manually to ensure file upload works
+        const formData = new FormData();
+        formData.append('companyId', companyId);
+        formData.append('productId', productId);
+        formData.append('categoryId', categoryId);
+        formData.append('image', image);
+        formData.append('description', description);
+        formData.append('productName', productName);
+        
+        // Show loading toast
+        toast.loading('Adding product...');
+        
+        try {
+            router.post('/add-online-product', formData, {
+                forceFormData: true,
+                preserveState: true,
+                onSuccess: (page) => {
+                    console.log('Success - Product added!');
+                    toast.dismiss();
+                    toast.success('Product added successfully');
+                    handleOpen(null); // Close the modal
+                    
+                    // Reset form fields
+                    setProductId('');
+                    setCategoryId('');
+                    setDescription('');
+                    setProductName('');
+                    setImage(null);
+                    setSelectedOption(null);
+                },
+                onError: (errors) => {
+                    console.log('Error callback triggered:', errors);
+                    toast.dismiss();
+                    console.error('Errors:', errors);
+                    const errorMsg = errors.error || errors.image || 'Failed to add product. Please try again.';
+                    toast.error(errorMsg);
+                }
+            });
+        } catch (error) {
+            toast.dismiss();
+            console.error('Catch error:', error);
+            toast.error(error.message || 'An error occurred');
         }
     }
 
@@ -217,7 +349,7 @@ function OnlineProductScreen({ company, products, product,category }) {
         },
         {
             name: 'Action',
-            selector: row => <button onClick={() => editEmployee(row.user.name, row.user.email, row.position, row.id)} className='p-2 bg-green-600 rounded hover:bg-green-700'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-4 h-4">
+            selector: row => <button onClick={() => editProduct(row)} className='p-2 bg-green-600 rounded hover:bg-green-700'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-4 h-4">
                 <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
             </svg>
             </button>
@@ -321,6 +453,80 @@ function OnlineProductScreen({ company, products, product,category }) {
                     </form>
                 </Dialog>
             </Fragment>
+
+            {/* Edit Product Dialog */}
+            <Fragment>
+                <Dialog
+                    open={sizeEdit === "xl"}
+                    size={sizeEdit}
+                    handler={handleOpenEdit}
+                >
+                    <DialogHeader>
+                        <Typography variant="h5" color="blue-gray">
+                            Edit Product
+                        </Typography>
+                    </DialogHeader>
+                    <form onSubmit={updateProduct}>
+                        <DialogBody divider className="h-[28rem] overflow-scroll grid place-items-center gap-4">
+                            <Input 
+                                label='Product Image (Optional)' 
+                                accept=".jpg,.jpeg,.png" 
+                                size='md' 
+                                type='file' 
+                                onChange={(e) => handleImageChange(e, true)} 
+                            />
+                            <Select 
+                                className='w-full'
+                                value={editSelectedOption}
+                                onChange={(selectedOption) => {
+                                    setEditSelectedOption(selectedOption);
+                                    setEditProductId(selectedOption.value);
+                                    setEditProductName(selectedOption.product);
+                                }}
+                                options={options}
+                                isClearable
+                                placeholder="Search for a product..."
+                                onInputChange={filterOptions}
+                                inputValue={inputVal}
+                                loadingMessage={'searching..'}
+                                styles={{
+                                    control: (baseStyles, state) => ({
+                                        ...baseStyles,
+                                        borderColor: state.isFocused ? 'brown' : 'brown',
+                                    }),
+                                }} 
+                            />
+
+                            <select 
+                                className='w-full' 
+                                value={editCategoryId} 
+                                onChange={(e) => setEditCategoryId(e.target.value)}
+                            >
+                                <option value={0} className='bg-gray-200'>Select the category.......</option>
+                                {category && category.map((m, index) =>
+                                    <option key={index} value={m.id}>{m.name}</option>
+                                )}
+                            </select>
+
+                            <Input 
+                                label='Description'
+                                value={editDescription} 
+                                onChange={(event) => setEditDescription(event.target.value)} 
+                                size='sm'
+                            />
+                        </DialogBody>
+                        <DialogFooter className="space-x-2">
+                            <Button onClick={() => handleOpenEdit(null)} variant="gradient" color="blue-gray">
+                                Close
+                            </Button>
+                            <Button type='submit' className='bg-primary'>
+                                Update
+                            </Button>
+                        </DialogFooter>
+                    </form>
+                </Dialog>
+            </Fragment>
+
             <ToastContainer />
         </div>
     )
