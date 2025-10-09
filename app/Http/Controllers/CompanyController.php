@@ -130,14 +130,13 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
-        //
-         //
-         $request->validate([
-            'companyName' => 'required',
-            'contact' => 'required',
-            'location' => 'required',
-            'email' => 'required',
-            'logo' => 'image|mimes:jpeg,png,jpg|max:2048',
+        $request->validate([
+            'companyName' => 'required|string|max:255',
+            'contact' => 'required|string',
+            'location' => 'required|string',
+            'email' => 'required|email',
+            'categoryId' => 'required|exists:business_category,id',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         $user = Auth::user();
@@ -147,9 +146,13 @@ class CompanyController extends Controller
         $company_name = $request->companyName . ' ' . Str::random();
         $company_slug = Str::slug($company_name, '-');
 
-        $file = $request->file('logo');
-        $filename = $logo_slug . '.' . $file->extension();
-        $path = $file->storeAs('/images/company', $filename, ['disk' => 'public_uploads']);
+        // Handle logo upload only if provided
+        $path = '';
+        if ($request->hasFile('logo')) {
+            $file = $request->file('logo');
+            $filename = $logo_slug . '.' . $file->extension();
+            $path = $file->storeAs('/images/company', $filename, ['disk' => 'public_uploads']);
+        }
 
         $company = Company::create([
             'name' => $request->companyName,
@@ -159,8 +162,8 @@ class CompanyController extends Controller
             'category_id' => $request->categoryId,
             'location' => $request->location,
             'email' => $request->email,
-            'latitude' => $request->latitude,
-            'longitude' => $request->longitude,
+            'latitude' => $request->latitude ?? null,
+            'longitude' => $request->longitude ?? null,
             'slogan' => 'Thank you for supporting us!',
             'status' => 'inactive',
         ]);
@@ -215,6 +218,40 @@ class CompanyController extends Controller
         ]);;
         
         
+    }
+
+    public function view_business_category($company, $categoryId)
+    {
+        $business = Company::where('slug',$company)->first();
+
+        $category = OnlineCategory::where('company_id',$business->id)->get();
+
+        // Filter products by category
+        $products = OnlineProduct::with('product','category')
+            ->where('company_id',$business->id)
+            ->where('category_id', $categoryId)
+            ->latest()
+            ->paginate(10);
+
+        $favourite = 0;
+
+        if(Auth::user()){
+
+            $get_favourite = FavouriteBusiness::where('company_id', $business->id)->where('user_id', Auth::user()->id)->get();
+            if ($get_favourite->isEmpty()){
+                $favourite = 0;
+            }
+            else{
+                $favourite = 1;
+            }
+        }
+        
+
+        return Inertia::render('UserBusinessScreen', ['business' => $business, 'category'=> $category, 'products' => $products, 'favourite'=> $favourite])
+        ->withViewData([
+            'title' => $business->name . ' | Biashari',
+            'image' => url($business->logo),
+        ]);
     }
 
     /**

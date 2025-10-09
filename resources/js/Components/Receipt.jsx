@@ -9,7 +9,11 @@ import DataTable from "react-data-table-component";
 const columns = [
     {
         name: <b>Item</b>,
-        selector: row => row.product.name,
+        selector: row => row.type === 'product' 
+            ? row.product?.name ?? 'Unknown Product'
+            : row.type === 'room'
+                ? `Room: ${row.room_booking?.room?.name ?? 'Unknown Room'}`
+                : 'Unknown Item',
         wrap: true,
     },
     {

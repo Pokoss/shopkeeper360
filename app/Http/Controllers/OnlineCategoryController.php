@@ -81,9 +81,24 @@ class OnlineCategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, OnlineCategory $onlineCategory)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'categoryName' => 'required',
+            'companyId' => 'required',
+        ]);
+
+        $category = OnlineCategory::findOrFail($id);
+        
+        // Verify the category belongs to the company
+        if ($category->company_id != $request->companyId) {
+            return redirect()->back()->withErrors(['error' => 'Unauthorized action']);
+        }
+
+        $category->name = $request->categoryName;
+        $category->save();
+
+        return redirect()->back()->with('success', 'Category updated successfully');
     }
 
     /**

@@ -47,12 +47,12 @@ class SaleController extends Controller
 
         if ($startDate && $endDate) {
             // If both dates are provided, filter between the dates
-            $query->with('product')->where('company_id', $comp->company_id)->whereBetween('created_at', [$startDate, $endDate])->latest();
+            $query->with(['product', 'roomBooking.room'])->where('company_id', $comp->company_id)->whereBetween('created_at', [$startDate, $endDate])->latest();
 
             $query2->where('company_id', $comp->company_id)->whereBetween('created_at', [$startDate, $endDate]);
         } elseif ($startDate) {
             // If only the start date is provided, filter records for that date
-            $query->with('product')->where('company_id', $comp->company_id)->whereDate('created_at', $startDate)->latest();
+            $query->with(['product', 'roomBooking.room'])->where('company_id', $comp->company_id)->whereDate('created_at', $startDate)->latest();
 
             $query2->where('company_id', $comp->company_id)->whereDate('created_at', $startDate);
         }

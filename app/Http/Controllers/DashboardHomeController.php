@@ -92,6 +92,7 @@ class DashboardHomeController extends Controller
     $topProductsQuery = Sale::select('product_id', DB::raw('SUM(quantity) as total_quantity'))
         ->where('company_id', $comp->company->id)
         ->where('created_at', '>=', $threeMonthsAgo)
+        ->where('type', 'product')
         ->groupBy('product_id')
         ->orderByDesc('total_quantity')
         ->with('product')
@@ -107,6 +108,7 @@ class DashboardHomeController extends Controller
     $out = Product::where('company_id', $comp->company_id)
         ->where('type', 'product')
         ->where('available', '<', 1)
+        ->where('type', 'product')
         ->get();
 
     $out_of_stock = $out->count();

@@ -62,7 +62,9 @@ function SalesScreen({ company, sales, sales_today, profit }) {
   const columns = [
     {
       name: 'Product Name',
-      selector: row => row.product.name,
+      selector: row => row.product
+        ? row.product.name
+        : (row.room_booking && row.room_booking.room ? row.room_booking.room.name : 'N/A'),
     },
     {
       name: 'Receipt Number',

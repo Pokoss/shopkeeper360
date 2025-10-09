@@ -13,8 +13,12 @@ function OnlineCategoryScreen({company,category}) {
 
   const [search, setSearch] = useState('');
   const [categoryName, setCategoryName] = useState('');
+  
+  // Edit states
+  const [editId, setEditId] = useState(null);
+  const [editCategoryName, setEditCategoryName] = useState('');
 
-    const [page, setPage] = useState(category.current_page);
+  const [page, setPage] = useState(category.current_page);
     const fetchData = (page) => {
         router.get(`/dashboard/${company.company.slug}/online-portal/category`, { page,search }, { preserveState: true });
     };
@@ -35,32 +39,74 @@ function OnlineCategoryScreen({company,category}) {
             }
         });
     }
+    const editCategory = (row) => {
+        setEditId(row.id);
+        setEditCategoryName(row.name);
+        handleOpenEdit("xl");
+    };
+
+    const updateCategory = async (event) => {
+        event.preventDefault();
+        toast.loading('Updating category...');
+        var companyId = company.company_id;
+        
+        if (editCategoryName == '') {
+            toast.dismiss();
+            toast.error('Category name is required');
+            return;
+        }
+        
+        try {
+            router.post(`/update-online-category/${editId}`, 
+                { companyId, categoryName: editCategoryName },
+                {
+                    onSuccess: () => {
+                        toast.dismiss();
+                        toast.success('Category updated successfully');
+                        setEditCategoryName('');
+                        setEditId(null);
+                        handleOpenEdit(null);
+                    },
+                    onError: (errors) => {
+                        toast.dismiss();
+                        toast.error('Failed to update category');
+                    }
+                }
+            );
+        } catch (error) {
+            toast.dismiss();
+            toast.error(error.message || 'An error occurred');
+        }
+    };
+
     const postCategory = async (event) => {
       event.preventDefault();
-      toast.loading();
+      toast.loading('Adding category...');
       var companyId = company.company_id;
       if (categoryName == '') {
           toast.dismiss()
-          toast.error('The category name');
+          toast.error('The category name is required');
+          return;
       }
      
-      else {
-          try {
-              router.post('/add-online-category', { companyId, categoryName},
-                  {
-                      onSuccess: () => {
-                          toast.success('Category added successfully');
-                          setCategoryName('');
-                          handleOpen
-                         
-
-                      }
+      try {
+          router.post('/add-online-category', { companyId, categoryName},
+              {
+                  onSuccess: () => {
+                      toast.dismiss();
+                      toast.success('Category added successfully');
+                      setCategoryName('');
+                      handleOpen(null);
+                  },
+                  onError: (errors) => {
+                      toast.dismiss();
+                      toast.error('Failed to add category');
                   }
-              )
-          } catch (error) {
-              toast.dismiss()
-              toast.error(error);
-          }
+              }
+          )
+      } catch (error) {
+          toast.dismiss()
+          toast.error(error.message || 'An error occurred');
       }
   }
 
@@ -107,7 +153,7 @@ function OnlineCategoryScreen({company,category}) {
       },
       {
         name: 'Action',
-          selector: row => <button onClick={() => editEmployee(row.user.name, row.user.email, row.position, row.id)} className='p-2 bg-green-600 rounded hover:bg-green-700'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-4 h-4">
+          selector: row => <button onClick={() => editCategory(row)} className='p-2 bg-green-600 rounded hover:bg-green-700'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-4 h-4">
               <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
           </svg>
           </button>
@@ -189,6 +235,40 @@ function OnlineCategoryScreen({company,category}) {
                     </form>
                 </Dialog>
             </Fragment>
+
+            {/* Edit Category Dialog */}
+            <Fragment>
+                <Dialog
+                    open={sizeEdit === "xl"}
+                    size={sizeEdit}
+                    handler={handleOpenEdit}
+                >
+                    <DialogHeader>
+                        <Typography variant="h5" color="blue-gray">
+                            Edit Category
+                        </Typography>
+                    </DialogHeader>
+                    <form onSubmit={updateCategory}>
+                        <DialogBody divider className="">
+                            <Input 
+                                label='Category'
+                                value={editCategoryName} 
+                                onChange={(event) => setEditCategoryName(event.target.value)} 
+                                size='sm'
+                            />
+                        </DialogBody>
+                        <DialogFooter className="space-x-2">
+                            <Button onClick={() => handleOpenEdit(null)} variant="gradient" color="blue-gray">
+                                Close
+                            </Button>
+                            <Button type='submit' className='bg-primary'>
+                                Update
+                            </Button>
+                        </DialogFooter>
+                    </form>
+                </Dialog>
+            </Fragment>
+
             <ToastContainer/>
     </div>
   )
