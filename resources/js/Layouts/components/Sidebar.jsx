@@ -351,7 +351,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
             )}
 
             {/* Room Management */}
-            {(props.position === 'owner' || props.position === 'admin') && (
+            {/* {(props.position === 'owner' || props.position === 'admin') && (
               <li className="transition-all duration-200">
                 <button
                   onClick={() => toggleMenu(7)}
@@ -393,7 +393,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
                   </ul>
                 )}
               </li>
-            )}
+            )} */}
 
             {/* Analytics */}
             {(props.position === 'owner' || props.position === 'admin') && (
