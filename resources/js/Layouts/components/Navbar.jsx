@@ -11,6 +11,7 @@ import { Link, usePage } from '@inertiajs/react';
 function Navbar() {
     const [navbar, setNavbar] = useState(false);
     const { auth } = usePage().props;
+    console.log(auth);
 
     return (
         <nav className="font-oswald w-full bg-gradient-to-r from-primary via-secondary to-primary shadow-lg backdrop-blur-md sticky top-0 z-50 border-b border-white/10">
@@ -43,6 +44,21 @@ function Navbar() {
                                 Pricing
                             </div>
                         </Link>
+
+                        {/* Admin Panel Button - Only visible to admin users */}
+                        {auth.user && auth.user.admin >= 1 && (
+                            <Link href="/admin/dashboard">
+                                <div className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-600 hover:to-indigo-700 transition-all hover:shadow-xl hover:shadow-purple-500/30 hover:scale-105 transform">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                    </svg>
+                                    <span>Admin Panel</span>
+                                    <span className="px-2 py-0.5 bg-yellow-400 text-purple-900 text-xs rounded-full font-bold">
+                                        {auth.user.admin}
+                                    </span>
+                                </div>
+                            </Link>
+                        )}
 
                         {/* Divider */}
                         <div className="h-6 w-px bg-white/20 mx-2"></div>
@@ -226,6 +242,22 @@ function Navbar() {
                         <Link href={'/pricing'}>
                             <div className="block px-4 py-2 text-white hover:bg-white/10 rounded-lg transition-all">Pricing</div>
                         </Link>
+                        
+                        {/* Admin Panel Button - Mobile - Only visible to admin users */}
+                        {auth.user && auth.user.admin >= 1 && (
+                            <Link href="/admin/dashboard">
+                                <div className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-600 hover:to-indigo-700 transition-all shadow-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                    </svg>
+                                    <span>Admin Panel</span>
+                                    <span className="px-2 py-0.5 bg-yellow-400 text-purple-900 text-xs rounded-full font-bold ml-auto">
+                                        Level {auth.user.admin}
+                                    </span>
+                                </div>
+                            </Link>
+                        )}
+                        
                         <Link href={'/favourite-business'}>
                             <div className="block px-4 py-2 text-white hover:bg-white/10 rounded-lg transition-all">Favourite Businesses</div>
                         </Link>
