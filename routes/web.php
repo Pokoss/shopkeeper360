@@ -224,7 +224,12 @@ Route::middleware(['auth', 'admin:1'])->prefix('admin')->group(function () {
     Route::post('/measurements', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'storeMeasurement'])->name('admin.measurements.store');
     Route::put('/measurements/{measurement}', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'updateMeasurement'])->name('admin.measurements.update');
     
-    Route::get('/analytics', fn() => Inertia::render('Admin/Analytics'))->name('admin.analytics');
+    // Analytics & Reports
+    Route::get('/analytics', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'analytics'])->name('admin.analytics');
+    Route::get('/analytics/companies', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'companiesAnalytics'])->name('admin.analytics.companies');
+    Route::get('/analytics/users', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'usersAnalytics'])->name('admin.analytics.users');
+    Route::get('/analytics/subscriptions', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'subscriptionsAnalytics'])->name('admin.analytics.subscriptions');
+    Route::get('/analytics/transactions', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'transactionsAnalytics'])->name('admin.analytics.transactions');
     
     // Admin level 2+ routes (Super Admin)
     Route::middleware(['admin:2'])->group(function () {
