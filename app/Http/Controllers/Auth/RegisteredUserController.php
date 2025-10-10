@@ -44,6 +44,7 @@ class RegisteredUserController extends Controller
             'phone' => '',
             'admin' => 0,
             'country' => 1,
+            'last_login_at' => now(),
         ]);
 
         event(new Registered($user));

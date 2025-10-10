@@ -26,6 +26,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'country',
         'google_id',
         'email_verified_at',
+        'last_login_at',
     ];
 
     /**
@@ -45,6 +46,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'last_login_at' => 'datetime',
         'password' => 'hashed',
     ];
 
@@ -56,5 +58,17 @@ class User extends Authenticatable implements MustVerifyEmail
     public function sales()
     {
         return $this->hasMany(Sale::class, 'sold_by', 'id');
+    }
+
+    public function employees()
+    {
+        return $this->hasMany(Employee::class, 'user_id', 'id');
+    }
+
+    public function companies()
+    {
+        return $this->belongsToMany(Company::class, 'employees', 'user_id', 'company_id')
+            ->withPivot('position')
+            ->withTimestamps();
     }
 }

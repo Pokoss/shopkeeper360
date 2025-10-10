@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\BusinessAccountController;
 use App\Http\Controllers\BusinessCategoryController;
@@ -199,6 +200,45 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard/{company}/business-account/subscription', [BusinessAccountController::class, 'subscription']);
     Route::get('/dashboard/{company}/business-account/qr', [BusinessAccountController::class, 'qr_code']);
     Route::post('/accounting/expense', [ExpenseController::class, 'store']);
+});
+
+/**
+ * Admin Panel Routes
+ * Only accessible to users with admin >= 1
+ */
+Route::middleware(['auth', 'admin:1'])->prefix('admin')->group(function () {
+    Route::get('/dashboard', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/users', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'users'])->name('admin.users');
+    Route::get('/users/admins', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'adminUsers'])->name('admin.users.admins');
+    Route::get('/companies', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'companies'])->name('admin.companies');
+    Route::get('/companies/{company}/edit', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'editCompany'])->name('admin.companies.edit');
+    Route::put('/companies/{company}', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'updateCompany'])->name('admin.companies.update');
+    
+    // Business Categories
+    Route::get('/business-categories', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'businessCategories'])->name('admin.business-categories');
+    Route::post('/business-categories', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'storeBusinessCategory'])->name('admin.business-categories.store');
+    Route::put('/business-categories/{category}', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'updateBusinessCategory'])->name('admin.business-categories.update');
+    
+    // Measurements
+    Route::get('/measurements', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'measurements'])->name('admin.measurements');
+    Route::post('/measurements', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'storeMeasurement'])->name('admin.measurements.store');
+    Route::put('/measurements/{measurement}', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'updateMeasurement'])->name('admin.measurements.update');
+    
+    // Analytics & Reports
+    Route::get('/analytics', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'analytics'])->name('admin.analytics');
+    Route::get('/analytics/companies', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'companiesAnalytics'])->name('admin.analytics.companies');
+    Route::get('/analytics/users', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'usersAnalytics'])->name('admin.analytics.users');
+    Route::get('/analytics/subscriptions', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'subscriptionsAnalytics'])->name('admin.analytics.subscriptions');
+    Route::get('/analytics/transactions', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'transactionsAnalytics'])->name('admin.analytics.transactions');
+    
+    // Admin level 2+ routes (Super Admin)
+    Route::middleware(['admin:2'])->group(function () {
+        Route::post('/users/{user}/admin-level', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'updateAdminLevel'])->name('admin.users.update-level');
+        Route::delete('/users/{user}', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'deleteUser'])->name('admin.users.delete');
+        Route::get('/settings/general', fn() => Inertia::render('Admin/Settings/General'))->name('admin.settings.general');
+        Route::get('/settings/security', fn() => Inertia::render('Admin/Settings/Security'))->name('admin.settings.security');
+        Route::get('/activity-logs', fn() => Inertia::render('Admin/ActivityLogs'))->name('admin.activity-logs');
+    });
 });
 
 require __DIR__.'/auth.php';
