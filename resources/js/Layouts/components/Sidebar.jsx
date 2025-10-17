@@ -11,6 +11,74 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
     setOpenMenu(openMenu === index ? null : index);
   };
 
+  // Feature Access Logic
+  
+  // Core features available to everyone regardless of plan
+  const coreFeatures = ['dashboard', 'receipts'];
+  
+  // Category-specific features (always available if category matches)
+  const retailFeatures = ['pos', 'inventory'];
+  const serviceFeatures = ['service-panel', 'service-tracking'];
+  const hotelFeatures = ['rooms', 'bookings'];
+
+  // Category-based feature matrix (what features each category TYPE can access)
+  const categoryFeatureMatrix = {
+    'retail-store': [...retailFeatures],
+    'supermarket': [...retailFeatures],
+    'pharmacy': [...retailFeatures],
+    'agricultural-equipment': [...retailFeatures],
+    'saloon-spa': [...serviceFeatures],
+    'professional-services': [...serviceFeatures],
+    'restaurant': [...retailFeatures, ...serviceFeatures],
+    'accommodation': [...serviceFeatures, ...hotelFeatures],
+    'hotel': [...retailFeatures, ...serviceFeatures, ...hotelFeatures],
+  };
+
+  // Plan-based restrictions (what additional features each plan unlocks)
+  const planFeatures = {
+    basic: [], // Only core features + category features
+    standard: ['hr', 'accounting'], // Adds HR and Accounting
+    premium: ['hr', 'accounting', 'online-portal', 'analytics', 'business-account'], // Full suite
+  };
+
+  const getAccessibleFeatures = (categorySlug, plan) => {
+    // Start with core features (always available)
+    const features = [...coreFeatures];
+    
+    // Add category-specific features
+    const categoryFeatures = categoryFeatureMatrix[categorySlug] || [];
+    features.push(...categoryFeatures);
+    
+    // Add plan-based features
+    const planBasedFeatures = planFeatures[plan?.toLowerCase()] || planFeatures.basic;
+    features.push(...planBasedFeatures);
+    
+    return [...new Set(features)]; // Remove duplicates
+  };
+
+  // Get category slug from the category relationship
+  const categorySlug = props?.company?.category?.slug;
+  const plan = props?.company?.plan || 'basic';
+  
+  // Debug logging
+  console.log('🔍 Sidebar Debug:', {
+    categorySlug,
+    plan,
+    categoryId: props?.company?.category_id,
+    category: props?.company?.category,
+    companyName: props?.company?.name
+  });
+  
+  const accessibleFeatures = getAccessibleFeatures(categorySlug, plan);
+  
+  console.log('✅ Accessible Features:', accessibleFeatures);
+
+  const hasAccess = (feature) => accessibleFeatures.includes(feature);
+  
+  const canAccessByPosition = (allowedPositions) => {
+    return allowedPositions.includes(props.position);
+  };
+
   // Close sidebar when clicking outside
   useEffect(() => {
     const clickHandler = ({ target }) => {
@@ -83,7 +151,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
             </li>
 
             {/* POS */}
-            {(props.position === 'owner' || props.position === 'dispenser' || props.position === 'admin') && (
+            {canAccessByPosition(['owner', 'dispenser', 'admin']) && hasAccess('pos') && (
               <li>
                 <Link
                   href={`/dashboard/${props.company.slug}/pos`}
@@ -97,22 +165,22 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
               </li>
             )}
 
-            {/* Service Panel */}
-            {(props.position === 'owner' || props.position === 'dispenser' || props.position === 'admin') && (
+                        {/* Service Panel */}
+            {canAccessByPosition(['owner', 'dispenser', 'admin']) && hasAccess('service-panel') && (
               <li>
                 <Link
                   href={`/dashboard/${props.company.slug}/service/panel`}
                   className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium text-gray-200 hover:bg-secondary hover:text-white transition-all duration-200"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621a3 3 0 01-.879-2.122V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621a3 3 0 01-.879-2.122V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 03 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 03 12V5.25z" />
                   </svg>
                   Service Panel
                 </Link>
               </li>
             )}
             {/* Receipts */}
-            {(props.position === 'owner' || props.position === 'dispenser' || props.position === 'admin') && (
+            {canAccessByPosition(['owner', 'dispenser', 'admin']) && hasAccess('receipts') && (
               <li>
                 <Link
                   href={`/dashboard/${props.company.slug}/accounting/receipts`}
@@ -126,7 +194,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
               </li>
             )}
             {/* Inventory */}
-            {(props.position === 'owner' || props.position === 'admin') && (
+            {canAccessByPosition(['owner', 'admin']) && hasAccess('inventory') && (
               <li className="transition-all duration-200 ">
                 <button
                   onClick={() => toggleMenu(1)}
@@ -178,7 +246,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
               </li>
             )}
             {/* Service */}
-            {(props.position === 'owner' || props.position === 'admin') && (
+            {canAccessByPosition(['owner', 'admin']) && hasAccess('service-tracking') && (
               <li className="transition-all duration-200">
                 <button
                   onClick={() => toggleMenu(6)}
@@ -216,7 +284,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
             )}
 
             {/* Human Resource */}
-            {(props.position === 'owner' || props.position === 'admin' || props.position === 'hr') && (
+            {canAccessByPosition(['owner', 'admin', 'hr']) && hasAccess('hr') && (
               <li className="transition-all duration-200">
                 <button
                   onClick={() => toggleMenu(2)}
@@ -253,7 +321,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
             )}
 
             {/* Accounting */}
-            {(props.position === 'owner' || props.position === 'admin' || props.position === 'accountant') && (
+            {canAccessByPosition(['owner', 'admin', 'accountant']) && hasAccess('accounting') && (
               <li className="transition-all duration-200">
                 <button
                   onClick={() => toggleMenu(3)}
@@ -298,7 +366,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
             )}
 
             {/* Online Portal */}
-            {(props.position === 'owner' || props.position === 'admin' || props.position === 'dispenser') && (
+            {canAccessByPosition(['owner', 'admin', 'dispenser']) && hasAccess('online-portal') && (
               <li className="transition-all duration-200">
                 <button
                   onClick={() => toggleMenu(4)}
@@ -351,7 +419,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
             )}
 
             {/* Room Management */}
-            {/* {(props.position === 'owner' || props.position === 'admin') && (
+            {canAccessByPosition(['owner', 'admin']) && (hasAccess('rooms') || hasAccess('bookings')) && (
               <li className="transition-all duration-200">
                 <button
                   onClick={() => toggleMenu(7)}
@@ -393,10 +461,10 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
                   </ul>
                 )}
               </li>
-            )} */}
+            )}
 
             {/* Analytics */}
-            {(props.position === 'owner' || props.position === 'admin') && (
+            {canAccessByPosition(['owner', 'admin']) && hasAccess('analytics') && (
               <li>
                 <Link
                   href={`/dashboard/${props.company.slug}/analytics`}
@@ -411,7 +479,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
             )}
 
             {/* Business Account */}
-            {(props.position === 'owner' || props.position === 'admin' || props.position === 'accountant') && (
+            {canAccessByPosition(['owner', 'admin', 'accountant']) && hasAccess('business-account') && (
               <li className="transition-all duration-200">
                 <button
                   onClick={() => toggleMenu(5)}

@@ -4,52 +4,21 @@ import { Head, Link } from '@inertiajs/react'
 import { Button } from '@material-tailwind/react'
 import React from 'react'
 
-const plans = [
-    {
-        name: 'Basic',
-        price: 'UGX 38,500',
-        color: 'bg-purple-100',
-        badge: 'Retail Focused',
-        features: [
-            'Retail functions only',
-            'Point of Sale',
-            'No Receipt Printing',
-            'Up to 3 Employees',
-            'Query 1 Month Range'
-        ],
-        highlight: false
-    },
-    {
-        name: 'Standard',
-        price: 'UGX 54,000',
-        color: 'bg-orange-100',
-        badge: 'Most Popular',
-        features: [
-            'Retail & Service Functions',
-            'Print Receipts & Reports',
-            'QR Product Display Page',
-            'Up to 10 Employees',
-            'Customer Bookings & Appointments'
-        ],
-        highlight: true
-    },
-    {
-        name: 'Premium',
-        price: 'UGX 99,000',
-        color: 'bg-gray-100',
-        badge: 'Complete Access',
-        features: [
-            'All Standard Features',
-            'Business Analytics Dashboard',
-            'Unlimited Queries',
-            'Unlimited Staff Accounts',
-            'Send SMS Campaigns'
-        ],
-        highlight: false
-    }
-];
+export default function PricingScreen({ plans = [] }) {
+    // Map database plans to the format expected by the UI
+    const formattedPlans = plans.map(plan => ({
+        id: plan.id,
+        name: plan.name,
+        price: `${plan.currency} ${Number(plan.price).toLocaleString()}`,
+        rawPrice: plan.price,
+        currency: plan.currency,
+        color: plan.color || 'bg-gray-100',
+        badge: plan.badge || '',
+        features: plan.features || [],
+        highlight: plan.is_highlighted || false,
+        slug: plan.slug
+    }));
 
-export default function PricingScreen() {
     return (
         <div>
             <Head title="Pricing" />
@@ -65,13 +34,15 @@ export default function PricingScreen() {
                     </p>
                 </div>
                 <div className="flex flex-wrap justify-center gap-8 px-4">
-                    {plans.map((plan, idx) => (
+                    {formattedPlans.map((plan, idx) => (
                         <div
-                            key={idx}
+                            key={plan.id || idx}
                             className={`w-full md:w-1/3 max-w-sm rounded-xl shadow-md ${plan.highlight ? 'border-4 border-primary' : ''}`}
                         >
                             <div className={`${plan.color} p-6 rounded-t-xl`}>
-                                <span className="text-sm font-medium uppercase tracking-wide text-gray-700">{plan.badge}</span>
+                                {plan.badge && (
+                                    <span className="text-sm font-medium uppercase tracking-wide text-gray-700">{plan.badge}</span>
+                                )}
                                 <h3 className="text-2xl font-bold mt-2">{plan.name}</h3>
                                 <p className="text-3xl font-semibold mt-4">{plan.price}</p>
                                 <p className="text-sm text-gray-600">Per Month</p>
@@ -93,6 +64,11 @@ export default function PricingScreen() {
                         </div>
                     ))}
                 </div>
+                {formattedPlans.length === 0 && (
+                    <div className="text-center py-12">
+                        <p className="text-gray-500">No pricing plans available at the moment.</p>
+                    </div>
+                )}
             </section>
             <Footer />
         </div>

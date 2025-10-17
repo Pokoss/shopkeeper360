@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Company;
+use App\Models\PricingPlan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -525,5 +526,147 @@ class AdminDashboardController extends Controller
         $measurement->update($validated);
 
         return redirect()->route('admin.measurements')->with('success', 'Measurement updated successfully.');
+    }
+
+    /**
+     * Display pricing plans management page
+     */
+    public function pricingPlans()
+    {
+        // Check if user is super admin
+        if (auth()->user()->admin < 2) {
+            abort(403, 'Unauthorized access. Super Admin privileges required.');
+        }
+
+        $plans = PricingPlan::ordered()->get();
+
+        return Inertia::render('Admin/PricingPlans/Index', [
+            'plans' => $plans,
+        ]);
+    }
+
+    /**
+     * Store a new pricing plan
+     */
+    public function storePricingPlan(Request $request)
+    {
+        // Check if user is super admin
+        if (auth()->user()->admin < 2) {
+            abort(403, 'Unauthorized access. Super Admin privileges required.');
+        }
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'slug' => 'required|string|max:255|unique:pricing_plans,slug',
+            'price' => 'required|numeric|min:0',
+            'currency' => 'required|string|max:10',
+            'badge' => 'nullable|string|max:255',
+            'features' => 'required|array',
+            'features.*' => 'required|string',
+            'color' => 'nullable|string|max:255',
+            'is_highlighted' => 'boolean',
+            'is_active' => 'boolean',
+            'sort_order' => 'integer|min:0',
+        ]);
+
+        PricingPlan::create($validated);
+
+        return redirect()->route('admin.pricing-plans')->with('success', 'Pricing plan created successfully.');
+    }
+
+    /**
+     * Update a pricing plan
+     */
+    public function updatePricingPlan(Request $request, PricingPlan $plan)
+    {
+        // Check if user is super admin
+        if (auth()->user()->admin < 2) {
+            abort(403, 'Unauthorized access. Super Admin privileges required.');
+        }
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'slug' => 'required|string|max:255|unique:pricing_plans,slug,' . $plan->id,
+            'price' => 'required|numeric|min:0',
+            'currency' => 'required|string|max:10',
+            'badge' => 'nullable|string|max:255',
+            'features' => 'required|array',
+            'features.*' => 'required|string',
+            'color' => 'nullable|string|max:255',
+            'is_highlighted' => 'boolean',
+            'is_active' => 'boolean',
+            'sort_order' => 'integer|min:0',
+        ]);
+
+        $plan->update($validated);
+
+        return redirect()->route('admin.pricing-plans')->with('success', 'Pricing plan updated successfully.');
+    }
+
+    /**
+     * Delete a pricing plan
+     */
+    public function deletePricingPlan(PricingPlan $plan)
+    {
+        // Check if user is super admin
+        if (auth()->user()->admin < 2) {
+            abort(403, 'Unauthorized access. Super Admin privileges required.');
+        }
+
+        $plan->delete();
+
+        return redirect()->route('admin.pricing-plans')->with('success', 'Pricing plan deleted successfully.');
+    }
+
+    /**
+     * View subscription payment history with filters
+     */
+    public function subscriptionPayments(Request $request)
+    {
+        // Check if user is admin
+        if (auth()->user()->admin < 1) {
+            abort(403, 'Unauthorized access. Admin privileges required.');
+        }
+
+        $query = \App\Models\SubscriptionPayment::with(['company', 'user', 'pricingPlan'])
+            ->orderBy('created_at', 'desc');
+
+        // Filter by date range
+        if ($request->filled('start_date') && $request->filled('end_date')) {
+            $query->whereBetween('created_at', [
+                $request->start_date . ' 00:00:00',
+                $request->end_date . ' 23:59:59'
+            ]);
+        }
+
+        // Filter by company name
+        if ($request->filled('company_name')) {
+            $query->whereHas('company', function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->company_name . '%');
+            });
+        }
+
+        // Filter by plan type
+        if ($request->filled('plan_type')) {
+            $query->where('plan_type', $request->plan_type);
+        }
+
+        // Filter by status
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        $payments = $query->paginate(20)->withQueryString();
+
+        // Calculate totals for the filtered results
+        $totalAmount = $query->sum('amount');
+        $totalPayments = $query->count();
+
+        return Inertia::render('Admin/SubscriptionPayments/Index', [
+            'payments' => $payments,
+            'filters' => $request->only(['start_date', 'end_date', 'company_name', 'plan_type', 'status']),
+            'totalAmount' => $totalAmount,
+            'totalPayments' => $totalPayments,
+        ]);
     }
 }

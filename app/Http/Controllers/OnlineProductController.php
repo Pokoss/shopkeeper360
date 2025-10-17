@@ -25,7 +25,7 @@ class OnlineProductController extends Controller
 
         $comp = Employee::whereHas('company', function ($query) use ($company) {
             $query->where('slug', $company);
-        })->with('company', 'user')->where('user_id', Auth::user()->id)->first();
+        })->with('company.category', 'user')->where('user_id', Auth::user()->id)->first();
 
         $products = OnlineProduct::whereHas('product', function ($query) use ($search_text){
             $query->where('name', 'LIKE', "%{$search_text}%");

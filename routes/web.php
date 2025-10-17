@@ -76,7 +76,8 @@ Route::get('/products/nearby', [ProductController::class, 'products']);
 Route::post('/home', [CompanyController::class, 'getNearbyBusinesses']);
 
 Route::get('/wholesale', [WholesaleHomeController::class, 'index']);
-Route::get('/pricing', fn() => Inertia::render('PricingScreen'));
+Route::get('/pricing', [CompanyController::class, 'pricing']);
+Route::get('/api/pricing-plans', [CompanyController::class, 'getPricingPlans']);
 
 // Inquiry form submission
 Route::post('/submit-inquiry', [InquiryController::class, 'submitInquiry']);
@@ -207,37 +208,48 @@ Route::middleware(['auth', 'verified'])->group(function () {
  * Only accessible to users with admin >= 1
  */
 Route::middleware(['auth', 'admin:1'])->prefix('admin')->group(function () {
-    Route::get('/dashboard', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'index'])->name('admin.dashboard');
-    Route::get('/users', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'users'])->name('admin.users');
-    Route::get('/users/admins', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'adminUsers'])->name('admin.users.admins');
-    Route::get('/companies', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'companies'])->name('admin.companies');
-    Route::get('/companies/{company}/edit', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'editCompany'])->name('admin.companies.edit');
-    Route::put('/companies/{company}', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'updateCompany'])->name('admin.companies.update');
+    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/users', [AdminDashboardController::class, 'users'])->name('admin.users');
+    Route::get('/users/admins', [AdminDashboardController::class, 'adminUsers'])->name('admin.users.admins');
+    Route::get('/companies', [AdminDashboardController::class, 'companies'])->name('admin.companies');
+    Route::get('/companies/{company}/edit', [AdminDashboardController::class, 'editCompany'])->name('admin.companies.edit');
+    Route::put('/companies/{company}', [AdminDashboardController::class, 'updateCompany'])->name('admin.companies.update');
     
     // Business Categories
-    Route::get('/business-categories', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'businessCategories'])->name('admin.business-categories');
-    Route::post('/business-categories', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'storeBusinessCategory'])->name('admin.business-categories.store');
-    Route::put('/business-categories/{category}', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'updateBusinessCategory'])->name('admin.business-categories.update');
+    Route::get('/business-categories', [AdminDashboardController::class, 'businessCategories'])->name('admin.business-categories');
+    Route::post('/business-categories', [AdminDashboardController::class, 'storeBusinessCategory'])->name('admin.business-categories.store');
+    Route::put('/business-categories/{category}', [AdminDashboardController::class, 'updateBusinessCategory'])->name('admin.business-categories.update');
     
     // Measurements
-    Route::get('/measurements', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'measurements'])->name('admin.measurements');
-    Route::post('/measurements', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'storeMeasurement'])->name('admin.measurements.store');
-    Route::put('/measurements/{measurement}', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'updateMeasurement'])->name('admin.measurements.update');
+    Route::get('/measurements', [AdminDashboardController::class, 'measurements'])->name('admin.measurements');
+    Route::post('/measurements', [AdminDashboardController::class, 'storeMeasurement'])->name('admin.measurements.store');
+    Route::put('/measurements/{measurement}', [AdminDashboardController::class, 'updateMeasurement'])->name('admin.measurements.update');
     
     // Analytics & Reports
-    Route::get('/analytics', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'analytics'])->name('admin.analytics');
-    Route::get('/analytics/companies', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'companiesAnalytics'])->name('admin.analytics.companies');
-    Route::get('/analytics/users', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'usersAnalytics'])->name('admin.analytics.users');
-    Route::get('/analytics/subscriptions', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'subscriptionsAnalytics'])->name('admin.analytics.subscriptions');
-    Route::get('/analytics/transactions', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'transactionsAnalytics'])->name('admin.analytics.transactions');
+    Route::get('/analytics', [AdminDashboardController::class, 'analytics'])->name('admin.analytics');
+    Route::get('/analytics/companies', [AdminDashboardController::class, 'companiesAnalytics'])->name('admin.analytics.companies');
+    Route::get('/analytics/users', [AdminDashboardController::class, 'usersAnalytics'])->name('admin.analytics.users');
+    Route::get('/analytics/subscriptions', [AdminDashboardController::class, 'subscriptionsAnalytics'])->name('admin.analytics.subscriptions');
+    Route::get('/analytics/transactions', [AdminDashboardController::class, 'transactionsAnalytics'])->name('admin.analytics.transactions');
     
     // Admin level 2+ routes (Super Admin)
     Route::middleware(['admin:2'])->group(function () {
-        Route::post('/users/{user}/admin-level', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'updateAdminLevel'])->name('admin.users.update-level');
-        Route::delete('/users/{user}', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'deleteUser'])->name('admin.users.delete');
+        Route::post('/users/{user}/admin-level', [AdminDashboardController::class, 'updateAdminLevel'])->name('admin.users.update-level');
+        Route::delete('/users/{user}', [AdminDashboardController::class, 'deleteUser'])->name('admin.users.delete');
         Route::get('/settings/general', fn() => Inertia::render('Admin/Settings/General'))->name('admin.settings.general');
         Route::get('/settings/security', fn() => Inertia::render('Admin/Settings/Security'))->name('admin.settings.security');
-        Route::get('/activity-logs', fn() => Inertia::render('Admin/ActivityLogs'))->name('admin.activity-logs');
+        
+        // Pricing Plans Management
+        Route::get('/pricing-plans', [AdminDashboardController::class, 'pricingPlans'])->name('admin.pricing-plans');
+        Route::post('/pricing-plans', [AdminDashboardController::class, 'storePricingPlan'])->name('admin.pricing-plans.store');
+        Route::put('/pricing-plans/{plan}', [AdminDashboardController::class, 'updatePricingPlan'])->name('admin.pricing-plans.update');
+        Route::delete('/pricing-plans/{plan}', [AdminDashboardController::class, 'deletePricingPlan'])->name('admin.pricing-plans.delete');
+        
+        // Subscription Payments History
+        Route::get('/subscription-payments', [AdminDashboardController::class, 'subscriptionPayments'])->name('admin.subscription-payments');
+        
+        // Laravel Log Viewer - accessible at /admin/logs
+        Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index'])->name('admin.logs');
     });
 });
 
