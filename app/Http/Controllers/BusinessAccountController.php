@@ -20,7 +20,7 @@ class BusinessAccountController extends Controller
 
         $comp = Employee::whereHas('company', function ($query) use ($company) {
             $query->where('slug', $company);
-        })->with('company', 'user')->where('user_id', Auth::user()->id)->first();
+        })->with('company.category', 'user')->where('user_id', Auth::user()->id)->first();
 
         return Inertia::render('BusinessProfileScreen', ['company' => $comp,]);
     }
@@ -31,7 +31,7 @@ class BusinessAccountController extends Controller
 
         $comp = Employee::whereHas('company', function ($query) use ($company) {
             $query->where('slug', $company);
-        })->with('company', 'user')->where('user_id', Auth::user()->id)->first();
+        })->with('company.category', 'user')->where('user_id', Auth::user()->id)->first();
 
         return Inertia::render('BusinessSubscriptionScreen', ['company' => $comp,]);
     }
@@ -42,7 +42,7 @@ class BusinessAccountController extends Controller
 
         $comp = Employee::whereHas('company', function ($query) use ($company) {
             $query->where('slug', $company);
-        })->with('company', 'user')->where('user_id', Auth::user()->id)->first();
+        })->with('company.category', 'user')->where('user_id', Auth::user()->id)->first();
 
         return Inertia::render('BusinessQrScreen', ['company' => $comp,]);
     }

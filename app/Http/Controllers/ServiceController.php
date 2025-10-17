@@ -26,7 +26,7 @@ class ServiceController extends Controller
 
         $comp = Employee::whereHas('company', function ($query) use ($company) {
             $query->where('slug', $company);
-        })->with('company', 'user')->where('user_id', Auth::user()->id)->first();
+        })->with('company.category', 'user')->where('user_id', Auth::user()->id)->first();
 
         $services = Service::where('service_id', 'LIKE', "%{$search_text}%")->where('company_id',$comp->company_id)->with('employee','service_items.product')->latest()->paginate();
 
@@ -41,7 +41,7 @@ class ServiceController extends Controller
 
         $comp = Employee::whereHas('company', function ($query) use ($company) {
             $query->where('slug', $company);
-        })->with('company', 'user')->where('user_id', Auth::user()->id)->first();
+        })->with('company..category', 'user')->where('user_id', Auth::user()->id)->first();
 
         $service = Service::where('company_id',$comp->company_id)->with('employee')->where('service_id',$id)->first(); 
 

@@ -24,6 +24,9 @@ class Company extends Model
         'subscription_date',
         'subscription_expiry',
         'plan',
+        'pricing_plan_id',
+        'pricing_plan_name',
+        'pricing_plan_price',
         'slogan',
         'status',
     ];
@@ -37,6 +40,10 @@ class Company extends Model
 
     public function employees(){
         return $this->hasMany(Employee::class, 'company_id', 'id');
+    }
+
+    public function pricingPlan(){
+        return $this->belongsTo(PricingPlan::class, 'pricing_plan_id', 'id');
     }
 
     public function users(){

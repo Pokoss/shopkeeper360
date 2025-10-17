@@ -28,7 +28,7 @@ class SalePointController extends Controller
        
         $comp = Employee::whereHas('company', function ($query) use ($company) {
             $query->where('slug', $company);
-        })->with('company', 'user')->where('user_id', Auth::user()->id)->first();
+        })->with('company.category', 'user')->where('user_id', Auth::user()->id)->first();
 
 
         $products = Product::where('company_id', $comp->company_id)->with('measurement')->where('type','product')->latest()->paginate(20);

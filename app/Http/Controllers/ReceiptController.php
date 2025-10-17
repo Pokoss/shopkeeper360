@@ -21,7 +21,7 @@ class ReceiptController extends Controller
 
         $comp = Employee::whereHas('company', function ($query) use ($company) {
             $query->where('slug', $company);
-        })->with('company', 'user')->where('user_id', Auth::user()->id)->first();
+        })->with('company.category', 'user')->where('user_id', Auth::user()->id)->first();
 
         $receipts = Receipt::with(['sales.product', 'sales.roomBooking.room', 'user'])->where('company_id',$comp->company_id)->where('sale_id','like','%'.$search_text.'%')->latest()->paginate(10);
 

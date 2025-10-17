@@ -21,7 +21,7 @@ class EmployeeController extends Controller
        
         $comp = Employee::whereHas('company', function ($query) use ($company) {
             $query->where('slug', $company);
-        })->with('company', 'user')->where('user_id', Auth::user()->id)->first();
+        })->with('company.category', 'user')->where('user_id', Auth::user()->id)->first();
 
         $employees = Employee::whereHas('user', function ($query) use ($search_text){
             $query->where('name', 'LIKE', "%{$search_text}%");

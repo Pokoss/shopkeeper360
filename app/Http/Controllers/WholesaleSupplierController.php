@@ -20,7 +20,7 @@ class WholesaleSupplierController extends Controller
 
         $comp = Employee::whereHas('company', function ($query) use ($company) {
             $query->where('slug', $company);
-        })->with('company', 'user')->where('user_id', Auth::user()->id)->first();
+        })->with('company.category', 'user')->where('user_id', Auth::user()->id)->first();
 
         $supplier = WholesaleSupplier::where('name', 'LIKE', "%{$search_text}%")->latest()->paginate(10);
 

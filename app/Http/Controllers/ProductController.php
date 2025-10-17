@@ -26,7 +26,7 @@ class ProductController extends Controller
 
         $comp = Employee::whereHas('company', function ($query) use ($company) {
             $query->where('slug', $company);
-        })->with('company', 'user')->where('user_id', Auth::user()->id)->first();
+        })->with('company.category', 'user')->where('user_id', Auth::user()->id)->first();
 
         $products = Product::where('name', 'LIKE', "%{$search_text}%")->with('measurement')->where('type','product')->where('company_id', $comp->company_id)->latest()->paginate(10);
         // $products =  Product::with('measurement')->where('company_id',$comp->company_id)->where('name', 'LIKE', "%{$search_text}%")->latest()->paginate(10);
@@ -41,7 +41,7 @@ class ProductController extends Controller
 
         $comp = Employee::whereHas('company', function ($query) use ($company) {
             $query->where('slug', $company);
-        })->with('company', 'user')->where('user_id', Auth::user()->id)->first();
+        })->with('company.category', 'user')->where('user_id', Auth::user()->id)->first();
 
         $services = Product::where('name', 'LIKE', "%{$search_text}%")->where('type', 'service')->where('company_id', $comp->company_id)->latest()->paginate(10);
         // $products =  Product::with('measurement')->where('company_id',$comp->company_id)->where('name', 'LIKE', "%{$search_text}%")->latest()->paginate(10);

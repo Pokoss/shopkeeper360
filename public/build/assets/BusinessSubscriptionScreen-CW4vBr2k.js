@@ -1,1 +1,0 @@
-import{j as r}from"./app-CGou5Y8K.js";import{L as o}from"./Layout-Dd9R_5FO.js";function n({company:s}){return r.jsx("div",{children:"BusinessSubscriptionScreen"})}n.layout=s=>r.jsx(o,{children:s,props:s.props.company});export{n as default};

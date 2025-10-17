@@ -8,6 +8,7 @@ use App\Models\Employee;
 use App\Models\FavouriteBusiness;
 use App\Models\OnlineCategory;
 use App\Models\OnlineProduct;
+use App\Models\PricingPlan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -49,24 +50,63 @@ class CompanyController extends Controller
         
 
     }
+    public function pricing()
+    {
+        $plans = PricingPlan::active()->ordered()->get();
+        return Inertia::render('PricingScreen', [
+            'plans' => $plans
+        ]);
+    }
+
+    public function getPricingPlans()
+    {
+        $plans = PricingPlan::active()->ordered()->get();
+        return response()->json([
+            'plans' => $plans
+        ]);
+    }
+
     public function renew_subscription(Request $request)
     {
         $request->validate([
             'company_id' => 'required',
+            'plan_id' => 'nullable|exists:pricing_plans,id',
         ]);
-
 
         $expiry = Carbon::now();
 
         $company = Company::where('id', $request->company_id)->first();
         if ($company->subscription_expiry > Carbon::now()){
             $expiry = $company->subscription_expiry;
-        };
+        }
 
-        $company->update([
-            'subscription_date'=> Carbon::now(),
-            'subscription_expiry'=> Carbon::parse($expiry)->addMonth()
-        ]);
+        // Get the selected pricing plan
+        $plan = null;
+        if ($request->plan_id) {
+            $plan = PricingPlan::find($request->plan_id);
+        } else {
+            // Default to basic plan if not specified
+            $plan = PricingPlan::where('slug', 'basic')->first();
+        }
+
+        $updateData = [
+            'subscription_date' => Carbon::now(),
+            'subscription_expiry' => Carbon::parse($expiry)->addMonth()
+        ];
+
+        // Store the plan information in the company
+        if ($plan) {
+            // Update the main 'plan' enum field based on slug (for backward compatibility)
+            // This ensures existing feature-checking logic continues to work
+            $updateData['plan'] = $plan->slug; // This maps to 'basic', 'standard', or 'premium'
+            
+            // Store additional pricing details for record-keeping
+            $updateData['pricing_plan_id'] = $plan->id;
+            $updateData['pricing_plan_name'] = $plan->name;
+            $updateData['pricing_plan_price'] = $plan->price;
+        }
+
+        $company->update($updateData);
 
         $companies = Employee::with('company')->where('user_id', Auth::user()->id)->get();
         return Inertia::render('CompanyScreen', ['companies' => $companies]);
@@ -186,7 +226,7 @@ class CompanyController extends Controller
         
          $comp = Employee::whereHas('company', function ($query) use ($company) {
             $query->where('slug', $company);
-        })->with('company', 'user')->where('user_id', Auth::user()->id)->first();
+        })->with('company.category', 'user')->where('user_id', Auth::user()->id)->first();
         return Inertia::render('DashboardHomeScreen', ['company' => $comp]);
     }
     public function view_business($company)
