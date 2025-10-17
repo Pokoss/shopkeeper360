@@ -28,17 +28,19 @@ function SubscriptionExpiredScreen({ company }) {
             });
     }, []);
 
-    const renewSubscription = (planId) => {
+    const renewSubscription = (planId, transactionRef, paymentMethod) => {
         var company_id = company.company.id
 
         router.post('/renew-subscription', { 
             company_id,
-            plan_id: planId 
+            plan_id: planId,
+            transaction_reference: transactionRef,
+            payment_method: paymentMethod
         }, {
-            preserveScroll: true,
+            preserveScroll: false,
             onSuccess: () => {
-                closePaymentModal() // this will close the modal programmatically
-                toast.success('Subscription renewed successfully!');
+                toast.success('Subscription renewed successfully! Check your email for receipt.');
+                // The redirect to CompanyScreen happens automatically via Inertia
             },
             onError: (errors) => {
                 toast.error('Failed to renew subscription');
@@ -52,8 +54,8 @@ function SubscriptionExpiredScreen({ company }) {
         if (!selectedPlan) return null;
 
         const config = {
-            public_key: 'FLWPUBK_TEST-03db37124e5570cb191b65425abfb963-X',
-            // public_key: 'FLWPUBK-505ff9ef3205cff84de16c7170ee6d88-X',
+            // public_key: 'FLWPUBK_TEST-03db37124e5570cb191b65425abfb963-X',
+            public_key: 'FLWPUBK-505ff9ef3205cff84de16c7170ee6d88-X',
             tx_ref: Date.now(),
             amount: parseFloat(selectedPlan.price),
             currency: selectedPlan.currency || 'UGX',
@@ -73,10 +75,26 @@ function SubscriptionExpiredScreen({ company }) {
             ...config,
             text: `Pay ${selectedPlan.currency} ${Number(selectedPlan.price).toLocaleString()}`,
             callback: (response) => {
-                console.log(response);
-                renewSubscription(selectedPlan.id);
+                console.log('FlutterWave Response:', response);
+                
+                // Close the FlutterWave modal
+                closePaymentModal();
+                
+                // Check if payment was successful
+                if (response.status === "successful" || response.status === "completed") {
+                    // Extract payment details from FlutterWave response and ensure they are strings
+                    const transactionRef = String(response.transaction_id || response.tx_ref || 'N/A');
+                    const paymentMethod = String(response.payment_type || 'card');
+                    
+                    // Process the subscription renewal
+                    renewSubscription(selectedPlan.id, transactionRef, paymentMethod);
+                } else {
+                    toast.error('Payment was not successful. Please try again.');
+                }
             },
-            onClose: () => { },
+            onClose: () => {
+                console.log('Payment modal closed');
+            },
         };
     };
 

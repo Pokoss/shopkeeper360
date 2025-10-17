@@ -245,6 +245,9 @@ Route::middleware(['auth', 'admin:1'])->prefix('admin')->group(function () {
         Route::put('/pricing-plans/{plan}', [AdminDashboardController::class, 'updatePricingPlan'])->name('admin.pricing-plans.update');
         Route::delete('/pricing-plans/{plan}', [AdminDashboardController::class, 'deletePricingPlan'])->name('admin.pricing-plans.delete');
         
+        // Subscription Payments History
+        Route::get('/subscription-payments', [AdminDashboardController::class, 'subscriptionPayments'])->name('admin.subscription-payments');
+        
         // Laravel Log Viewer - accessible at /admin/logs
         Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index'])->name('admin.logs');
     });

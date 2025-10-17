@@ -22,6 +22,7 @@ function StartTrialScreen({ company }) {
                 onSuccess: () => {
     
                     toast.dismiss();
+                    toast.success('Trial activated successfully! Check your email for details.');
                     
                 }
             })

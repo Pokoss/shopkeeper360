@@ -9,9 +9,14 @@ use App\Models\FavouriteBusiness;
 use App\Models\OnlineCategory;
 use App\Models\OnlineProduct;
 use App\Models\PricingPlan;
+use App\Models\SubscriptionPayment;
+use App\Mail\SubscriptionReceiptMail;
+use App\Mail\TrialActivatedMail;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
 
@@ -44,6 +49,16 @@ class CompanyController extends Controller
             'subscription_expiry'=> Carbon::now()->addMonth()
         ]);
 
+        // Send trial activation email
+        try {
+            if ($company->email) {
+                Mail::to($company->email)->send(new TrialActivatedMail($company));
+                Log::info('Trial activation email sent successfully to: ' . $company->email);
+            }
+        } catch (\Exception $e) {
+            Log::error('Failed to send trial activation email: ' . $e->getMessage());
+        }
+
         $companies = Employee::with('company')->where('user_id', Auth::user()->id)->get();
         return Inertia::render('CompanyScreen', ['companies' => $companies]);
 
@@ -71,6 +86,8 @@ class CompanyController extends Controller
         $request->validate([
             'company_id' => 'required',
             'plan_id' => 'nullable|exists:pricing_plans,id',
+            'transaction_reference' => 'nullable|string', // FlutterWave transaction ref
+            'payment_method' => 'nullable|string',
         ]);
 
         $expiry = Carbon::now();
@@ -89,9 +106,12 @@ class CompanyController extends Controller
             $plan = PricingPlan::where('slug', 'basic')->first();
         }
 
+        $subscriptionStart = Carbon::now();
+        $subscriptionEnd = Carbon::parse($expiry)->addMonth();
+
         $updateData = [
-            'subscription_date' => Carbon::now(),
-            'subscription_expiry' => Carbon::parse($expiry)->addMonth()
+            'subscription_date' => $subscriptionStart,
+            'subscription_expiry' => $subscriptionEnd
         ];
 
         // Store the plan information in the company
@@ -107,6 +127,44 @@ class CompanyController extends Controller
         }
 
         $company->update($updateData);
+
+        // Record the payment transaction
+        if ($plan) {
+            try {
+                $payment = SubscriptionPayment::create([
+                    'company_id' => $company->id,
+                    'user_id' => Auth::id(),
+                    'pricing_plan_id' => $plan->id,
+                    'plan_name' => $plan->name,
+                    'plan_type' => $plan->slug,
+                    'amount' => $plan->price,
+                    'currency' => $plan->currency,
+                    'transaction_reference' => $request->transaction_reference ?? 'N/A',
+                    'payment_method' => $request->payment_method ?? 'flutterwave',
+                    'status' => 'completed',
+                    'subscription_start' => $subscriptionStart,
+                    'subscription_end' => $subscriptionEnd,
+                    'receipt_number' => SubscriptionPayment::generateReceiptNumber(),
+                    'payment_details' => [
+                        'ip_address' => $request->ip(),
+                        'user_agent' => $request->userAgent(),
+                    ],
+                ]);
+
+                // Send receipt email if company has email
+                if ($company->email) {
+                    try {
+                        Mail::to($company->email)->send(new SubscriptionReceiptMail($payment));
+                    } catch (\Exception $e) {
+                        // Log error but don't fail the subscription
+                        Log::error('Failed to send subscription receipt email: ' . $e->getMessage());
+                    }
+                }
+            } catch (\Exception $e) {
+                // Log payment record error but don't fail the subscription
+                Log::error('Failed to create subscription payment record: ' . $e->getMessage());
+            }
+        }
 
         $companies = Employee::with('company')->where('user_id', Auth::user()->id)->get();
         return Inertia::render('CompanyScreen', ['companies' => $companies]);

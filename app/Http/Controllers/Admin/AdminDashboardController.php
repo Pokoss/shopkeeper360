@@ -617,4 +617,56 @@ class AdminDashboardController extends Controller
 
         return redirect()->route('admin.pricing-plans')->with('success', 'Pricing plan deleted successfully.');
     }
+
+    /**
+     * View subscription payment history with filters
+     */
+    public function subscriptionPayments(Request $request)
+    {
+        // Check if user is admin
+        if (auth()->user()->admin < 1) {
+            abort(403, 'Unauthorized access. Admin privileges required.');
+        }
+
+        $query = \App\Models\SubscriptionPayment::with(['company', 'user', 'pricingPlan'])
+            ->orderBy('created_at', 'desc');
+
+        // Filter by date range
+        if ($request->filled('start_date') && $request->filled('end_date')) {
+            $query->whereBetween('created_at', [
+                $request->start_date . ' 00:00:00',
+                $request->end_date . ' 23:59:59'
+            ]);
+        }
+
+        // Filter by company name
+        if ($request->filled('company_name')) {
+            $query->whereHas('company', function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->company_name . '%');
+            });
+        }
+
+        // Filter by plan type
+        if ($request->filled('plan_type')) {
+            $query->where('plan_type', $request->plan_type);
+        }
+
+        // Filter by status
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        $payments = $query->paginate(20)->withQueryString();
+
+        // Calculate totals for the filtered results
+        $totalAmount = $query->sum('amount');
+        $totalPayments = $query->count();
+
+        return Inertia::render('Admin/SubscriptionPayments/Index', [
+            'payments' => $payments,
+            'filters' => $request->only(['start_date', 'end_date', 'company_name', 'plan_type', 'status']),
+            'totalAmount' => $totalAmount,
+            'totalPayments' => $totalPayments,
+        ]);
+    }
 }

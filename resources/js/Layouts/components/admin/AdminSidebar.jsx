@@ -164,6 +164,21 @@ function AdminSidebar({ sidebarOpen, setSidebarOpen, auth }) {
               </li>
             )}
 
+            {/* Subscription Payments - Level 1+ */}
+            {auth.user.admin >= 1 && (
+              <li>
+                <Link
+                  href="/admin/subscription-payments"
+                  className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium text-gray-200 hover:bg-purple-700 hover:text-white transition-all duration-200"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                  </svg>
+                  Payment History
+                </Link>
+              </li>
+            )}
+
             {/* System Configuration */}
             {auth.user.admin >= 1 && (
               <li className="transition-all duration-200">
