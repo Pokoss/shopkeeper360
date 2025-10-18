@@ -20,8 +20,8 @@ function SmsScreen({ company, smsBalance, sentSms, bundles, maxLength }) {
     // FlutterWave configuration - must be at top level
     const flutterwaveConfig = {
         // public_key: import.meta.env.VITE_FLUTTERWAVE_PUBLIC_KEY || '',
-        public_key: 'FLWPUBK_TEST-03db37124e5570cb191b65425abfb963-X',
-            // public_key: 'FLWPUBK-505ff9ef3205cff84de16c7170ee6d88-X',
+        // public_key: 'FLWPUBK_TEST-03db37124e5570cb191b65425abfb963-X',
+            public_key: 'FLWPUBK-505ff9ef3205cff84de16c7170ee6d88-X',
         tx_ref: Date.now().toString(),
         amount: selectedBundle?.price || 1000,
         currency: 'UGX',
