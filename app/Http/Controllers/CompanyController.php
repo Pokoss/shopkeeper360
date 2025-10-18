@@ -142,7 +142,7 @@ class CompanyController extends Controller
                     'amount' => $plan->price,
                     'currency' => $plan->currency,
                     'transaction_reference' => $request->transaction_reference ?? 'N/A',
-                    'payment_method' => $request->payment_method ?? 'flutterwave',
+                    'payment_method' => $request->payment_method ?? 'card',
                     'status' => 'completed',
                     'subscription_start' => $subscriptionStart,
                     'subscription_end' => $subscriptionEnd,
