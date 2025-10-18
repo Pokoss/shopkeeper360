@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Company;
 use App\Models\PricingPlan;
+use App\Models\SmsBundle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -668,5 +669,75 @@ class AdminDashboardController extends Controller
             'totalAmount' => $totalAmount,
             'totalPayments' => $totalPayments,
         ]);
+    }
+
+    /**
+     * SMS Bundles Management
+     */
+    public function smsBundles()
+    {
+        if (auth()->user()->admin < 2) {
+            abort(403, 'Unauthorized. Super admin access required.');
+        }
+
+        $bundles = SmsBundle::orderBy('sms_count')->get();
+
+        return Inertia::render('Admin/SmsBundles/Index', [
+            'bundles' => $bundles,
+        ]);
+    }
+
+    public function storeSmsBundle(Request $request)
+    {
+        if (auth()->user()->admin < 2) {
+            abort(403, 'Unauthorized. Super admin access required.');
+        }
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'sms_count' => 'required|integer|min:1',
+            'price' => 'required|numeric|min:0',
+            'description' => 'nullable|string',
+        ]);
+
+        SmsBundle::create([
+            'name' => $request->name,
+            'sms_count' => $request->sms_count,
+            'price' => $request->price,
+            'description' => $request->description,
+            'is_active' => true,
+        ]);
+
+        return redirect()->back()->with('success', 'SMS bundle created successfully');
+    }
+
+    public function updateSmsBundle(Request $request, SmsBundle $bundle)
+    {
+        if (auth()->user()->admin < 2) {
+            abort(403, 'Unauthorized. Super admin access required.');
+        }
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'sms_count' => 'required|integer|min:1',
+            'price' => 'required|numeric|min:0',
+            'description' => 'nullable|string',
+            'is_active' => 'boolean',
+        ]);
+
+        $bundle->update($request->all());
+
+        return redirect()->back()->with('success', 'SMS bundle updated successfully');
+    }
+
+    public function deleteSmsBundle(SmsBundle $bundle)
+    {
+        if (auth()->user()->admin < 2) {
+            abort(403, 'Unauthorized. Super admin access required.');
+        }
+
+        $bundle->delete();
+
+        return redirect()->back()->with('success', 'SMS bundle deleted successfully');
     }
 }

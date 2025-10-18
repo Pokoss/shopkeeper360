@@ -23,6 +23,7 @@ use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SalePointController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ServiceItemController;
+use App\Http\Controllers\SmsController;
 use App\Http\Controllers\SocialAuthController;
 use App\Http\Controllers\StockItemController;
 use App\Http\Controllers\SupplierController;
@@ -201,6 +202,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard/{company}/business-account/subscription', [BusinessAccountController::class, 'subscription']);
     Route::get('/dashboard/{company}/business-account/qr', [BusinessAccountController::class, 'qr_code']);
     Route::post('/accounting/expense', [ExpenseController::class, 'store']);
+    
+    // SMS Messaging Routes
+    Route::get('/dashboard/{company}/messaging/sms', [SmsController::class, 'index'])->name('sms.index');
+    Route::post('/dashboard/{company}/messaging/sms/send', [SmsController::class, 'send'])->name('sms.send');
+    Route::post('/dashboard/{company}/messaging/sms/topup', [SmsController::class, 'topup'])->name('sms.topup');
+    Route::get('/api/sms-bundles', [SmsController::class, 'getBundles'])->name('sms.bundles');
 });
 
 /**
@@ -247,6 +254,12 @@ Route::middleware(['auth', 'admin:1'])->prefix('admin')->group(function () {
         
         // Subscription Payments History
         Route::get('/subscription-payments', [AdminDashboardController::class, 'subscriptionPayments'])->name('admin.subscription-payments');
+        
+        // SMS Bundles Management
+        Route::get('/sms-bundles', [AdminDashboardController::class, 'smsBundles'])->name('admin.sms-bundles');
+        Route::post('/sms-bundles', [AdminDashboardController::class, 'storeSmsBundle'])->name('admin.sms-bundles.store');
+        Route::put('/sms-bundles/{bundle}', [AdminDashboardController::class, 'updateSmsBundle'])->name('admin.sms-bundles.update');
+        Route::delete('/sms-bundles/{bundle}', [AdminDashboardController::class, 'deleteSmsBundle'])->name('admin.sms-bundles.delete');
         
         // Laravel Log Viewer - accessible at /admin/logs
         Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index'])->name('admin.logs');
