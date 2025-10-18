@@ -12,6 +12,7 @@ use App\Models\PricingPlan;
 use App\Models\SubscriptionPayment;
 use App\Mail\SubscriptionReceiptMail;
 use App\Mail\TrialActivatedMail;
+use App\Services\SmsService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -46,7 +47,8 @@ class CompanyController extends Controller
         $company->update([
             'status'=>'active',
             'subscription_date'=> Carbon::now(),
-            'subscription_expiry'=> Carbon::now()->addMonth()
+            'subscription_expiry'=> Carbon::now()->addMonth(),
+            'sms_balance' => 10  // Give 10 free SMS on trial activation
         ]);
 
         // Send trial activation email
@@ -164,6 +166,12 @@ class CompanyController extends Controller
                 // Log payment record error but don't fail the subscription
                 Log::error('Failed to create subscription payment record: ' . $e->getMessage());
             }
+        }
+
+        // Add free SMS credits based on plan type
+        if ($plan && $company->sms_balance > 0) {
+            $smsService = app(SmsService::class);
+            $smsService->addFreeSmsOnRenewal($company, $plan->slug);
         }
 
         $companies = Employee::with('company')->where('user_id', Auth::user()->id)->get();
