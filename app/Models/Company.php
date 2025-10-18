@@ -29,6 +29,7 @@ class Company extends Model
         'pricing_plan_price',
         'slogan',
         'status',
+        'sms_balance',
     ];
     public function category(){
         return $this->belongsTo(BusinessCategory::class,'category_id','id');

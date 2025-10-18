@@ -46,7 +46,8 @@ class CompanyController extends Controller
         $company->update([
             'status'=>'active',
             'subscription_date'=> Carbon::now(),
-            'subscription_expiry'=> Carbon::now()->addMonth()
+            'subscription_expiry'=> Carbon::now()->addMonth(),
+            'sms_balance' => 10  // Give 10 free SMS on trial activation
         ]);
 
         // Send trial activation email
