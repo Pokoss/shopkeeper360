@@ -151,14 +151,17 @@ class SmsService
 
         $url = "https://app.linksmsug.com/api/index_get?user={$user}&password={$password}&reciever={$recipient}&sender={$sender}&message={$messageEncoded}";
 
+        Log::info("Sending SMS to: {$recipient}");
+        Log::info("SMS URL: {$url}");
+
         try {
-            $response = Http::timeout(10)->get($url);
+            $response = Http::get($url);
             
             if ($response->successful()) {
-                Log::info("SMS sent successfully to: {$recipient}");
+                Log::info("SMS successfully sent to {$recipient}. Response: " . $response->body());
                 return true;
             } else {
-                Log::error("Failed to send SMS to {$recipient}. Status: {$response->status()}");
+                Log::error("Failed to send SMS to {$recipient}. Status: {$response->status()}. Response: " . $response->body());
                 return false;
             }
         } catch (\Exception $e) {

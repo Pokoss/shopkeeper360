@@ -53,6 +53,18 @@ class Company extends Model
             ->withTimestamps();
     }
 
+    public function wallet(){
+        return $this->hasOne(Wallet::class);
+    }
+
+    public function payoutDetails(){
+        return $this->hasMany(PayoutDetail::class);
+    }
+
+    public function withdrawalRequests(){
+        return $this->hasMany(WithdrawalRequest::class);
+    }
+
     // public function scopeNearest($query, $latitude, $longitude, $limit = 4)
     // {
     //     return $query->selectRaw("*, ST_Distance_Sphere(point(longitude, latitude), point(?, ?)) as distance", [

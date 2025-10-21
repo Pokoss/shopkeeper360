@@ -1,0 +1,56 @@
+<?php
+
+namespace App\Mail;
+
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Content;
+use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Queue\SerializesModels;
+use App\Models\WithdrawalRequest;
+
+class WithdrawalApproved extends Mailable
+{
+    use Queueable, SerializesModels;
+
+    public $withdrawalRequest;
+
+    /**
+     * Create a new message instance.
+     */
+    public function __construct(WithdrawalRequest $withdrawalRequest)
+    {
+        $this->withdrawalRequest = $withdrawalRequest;
+    }
+
+    /**
+     * Get the message envelope.
+     */
+    public function envelope(): Envelope
+    {
+        return new Envelope(
+            subject: 'Withdrawal Request Approved - Payment Processing',
+        );
+    }
+
+    /**
+     * Get the message content definition.
+     */
+    public function content(): Content
+    {
+        return new Content(
+            view: 'emails.withdrawal-approved',
+        );
+    }
+
+    /**
+     * Get the attachments for the message.
+     *
+     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
+     */
+    public function attachments(): array
+    {
+        return [];
+    }
+}

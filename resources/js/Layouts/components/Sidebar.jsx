@@ -715,6 +715,29 @@ function Sidebar({ sidebarOpen, setSidebarOpen, props }) {
                             </Link>
                         </li>
 
+                        {/* Wallet */}
+                        <li className="transition-all duration-200">
+                            <Link
+                                href={`/dashboard/${props.company.slug}/wallet`}
+                                className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium text-gray-200 hover:bg-secondary hover:text-white transition-all duration-200"
+                            >
+                                <svg
+                                    className="w-5 h-5"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth="2"
+                                        d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
+                                    />
+                                </svg>
+                                Wallet
+                            </Link>
+                        </li>
+
                         {/* Business Account */}
                         {canAccessByPosition([
                             "owner",

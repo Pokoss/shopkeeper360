@@ -194,6 +194,21 @@ function AdminSidebar({ sidebarOpen, setSidebarOpen, auth }) {
               </li>
             )}
 
+            {/* Withdrawal Requests - Level 1+ */}
+            {auth.user.admin >= 1 && (
+              <li>
+                <Link
+                  href="/admin/withdrawal-requests"
+                  className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium text-gray-200 hover:bg-purple-700 hover:text-white transition-all duration-200"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                  Withdrawal Requests
+                </Link>
+              </li>
+            )}
+
             {/* System Configuration */}
             {auth.user.admin >= 1 && (
               <li className="transition-all duration-200">

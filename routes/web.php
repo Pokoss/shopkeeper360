@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\AdminWithdrawalController;
 use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\BusinessAccountController;
 use App\Http\Controllers\BusinessCategoryController;
@@ -27,6 +28,9 @@ use App\Http\Controllers\SmsController;
 use App\Http\Controllers\SocialAuthController;
 use App\Http\Controllers\StockItemController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\WalletController;
+use App\Http\Controllers\PayoutDetailController;
+use App\Http\Controllers\WithdrawalRequestController;
 use App\Http\Controllers\WholesaleCategoryController;
 use App\Http\Controllers\WholesaleHomeController;
 use App\Http\Controllers\WholesaleProductController;
@@ -208,6 +212,23 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/dashboard/{company}/messaging/sms/send', [SmsController::class, 'send'])->name('sms.send');
     Route::post('/dashboard/{company}/messaging/sms/topup', [SmsController::class, 'topup'])->name('sms.topup');
     Route::get('/api/sms-bundles', [SmsController::class, 'getBundles'])->name('sms.bundles');
+
+    // Wallet Routes
+    Route::get('/dashboard/{company}/wallet', [WalletController::class, 'index'])->name('wallet.index');
+    Route::post('/dashboard/{company}/wallet/withdraw', [WalletController::class, 'withdraw'])->name('wallet.withdraw');
+    Route::post('/dashboard/{company}/wallet/deposit', [WalletController::class, 'deposit'])->name('wallet.deposit');
+
+    // Payout Details Routes
+    Route::get('/dashboard/{company}/wallet/payout-details', [PayoutDetailController::class, 'index'])->name('payout-details.index');
+    Route::post('/dashboard/{company}/wallet/payout-details', [PayoutDetailController::class, 'store'])->name('payout-details.store');
+    Route::put('/dashboard/{company}/wallet/payout-details/{payoutDetail}', [PayoutDetailController::class, 'update'])->name('payout-details.update');
+    Route::post('/dashboard/{company}/wallet/payout-details/{payoutDetail}/set-default', [PayoutDetailController::class, 'setDefault'])->name('payout-details.set-default');
+    Route::delete('/dashboard/{company}/wallet/payout-details/{payoutDetail}', [PayoutDetailController::class, 'destroy'])->name('payout-details.destroy');
+
+    // Withdrawal Request Routes
+    Route::get('/dashboard/{company}/wallet/withdrawals', [WithdrawalRequestController::class, 'index'])->name('withdrawal-requests.index');
+    Route::post('/dashboard/{company}/wallet/withdrawals', [WithdrawalRequestController::class, 'store'])->name('withdrawal-requests.store');
+    Route::post('/dashboard/{company}/wallet/withdrawals/{withdrawalRequest}/cancel', [WithdrawalRequestController::class, 'cancel'])->name('withdrawal-requests.cancel');
 });
 
 /**
@@ -238,6 +259,14 @@ Route::middleware(['auth', 'admin:1'])->prefix('admin')->group(function () {
     Route::get('/analytics/users', [AdminDashboardController::class, 'usersAnalytics'])->name('admin.analytics.users');
     Route::get('/analytics/subscriptions', [AdminDashboardController::class, 'subscriptionsAnalytics'])->name('admin.analytics.subscriptions');
     Route::get('/analytics/transactions', [AdminDashboardController::class, 'transactionsAnalytics'])->name('admin.analytics.transactions');
+    
+    // Withdrawal Requests Management
+    Route::get('/withdrawal-requests', [AdminWithdrawalController::class, 'index'])->name('admin.withdrawal-requests');
+    Route::get('/withdrawal-requests/{id}', [AdminWithdrawalController::class, 'show'])->name('admin.withdrawal-requests.show');
+    Route::post('/withdrawal-requests/{id}/approve', [AdminWithdrawalController::class, 'approve'])->name('admin.withdrawal-requests.approve');
+    Route::post('/withdrawal-requests/{id}/reject', [AdminWithdrawalController::class, 'reject'])->name('admin.withdrawal-requests.reject');
+    Route::post('/withdrawal-requests/{id}/complete', [AdminWithdrawalController::class, 'complete'])->name('admin.withdrawal-requests.complete');
+    Route::post('/withdrawal-requests/bulk-approve', [AdminWithdrawalController::class, 'bulkApprove'])->name('admin.withdrawal-requests.bulk-approve');
     
     // Admin level 2+ routes (Super Admin)
     Route::middleware(['admin:2'])->group(function () {
