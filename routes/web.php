@@ -3,6 +3,8 @@
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminWithdrawalController;
 use App\Http\Controllers\AnalyticsController;
+use App\Http\Controllers\PaymentLinkController;
+use App\Http\Controllers\PublicPaymentController;
 use App\Http\Controllers\BusinessAccountController;
 use App\Http\Controllers\BusinessCategoryController;
 use App\Http\Controllers\CartItemController;
@@ -94,6 +96,12 @@ Route::prefix('res')->group(function () {
     Route::get('/aboutus', fn() => Inertia::render('WebTemplates/Restaurant/AboutUsScreen'));
     Route::get('/reservations', fn() => Inertia::render('WebTemplates/Restaurant/ReservationsScreen'));
 });
+
+// Public Payment Link Routes (must be before auth middleware)
+Route::get('/pay/{code}', [PublicPaymentController::class, 'show'])->name('payment.show');
+Route::post('/pay/{code}/initiate', [PublicPaymentController::class, 'initiate'])->name('payment.initiate');
+Route::post('/pay/verify', [PublicPaymentController::class, 'verify'])->name('payment.verify');
+Route::post('/webhooks/flutterwave', [PublicPaymentController::class, 'webhook'])->name('payment.webhook');
 
 // Dashboard
 Route::get('/dashboard', fn() => Inertia::render('Dashboard'))
@@ -229,6 +237,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard/{company}/wallet/withdrawals', [WithdrawalRequestController::class, 'index'])->name('withdrawal-requests.index');
     Route::post('/dashboard/{company}/wallet/withdrawals', [WithdrawalRequestController::class, 'store'])->name('withdrawal-requests.store');
     Route::post('/dashboard/{company}/wallet/withdrawals/{withdrawalRequest}/cancel', [WithdrawalRequestController::class, 'cancel'])->name('withdrawal-requests.cancel');
+
+    // Payment Links Routes
+    Route::get('/dashboard/{company}/payment-links', [PaymentLinkController::class, 'index'])->name('payment-links.index');
+    Route::post('/dashboard/{company}/payment-links', [PaymentLinkController::class, 'store'])->name('payment-links.store');
+    Route::get('/dashboard/{company}/payment-links/{id}', [PaymentLinkController::class, 'show'])->name('payment-links.show');
+    Route::post('/dashboard/{company}/payment-links/{id}/cancel', [PaymentLinkController::class, 'cancel'])->name('payment-links.cancel');
+    Route::delete('/dashboard/{company}/payment-links/{id}', [PaymentLinkController::class, 'destroy'])->name('payment-links.destroy');
 });
 
 /**
@@ -252,6 +267,13 @@ Route::middleware(['auth', 'admin:1'])->prefix('admin')->group(function () {
     Route::get('/measurements', [AdminDashboardController::class, 'measurements'])->name('admin.measurements');
     Route::post('/measurements', [AdminDashboardController::class, 'storeMeasurement'])->name('admin.measurements.store');
     Route::put('/measurements/{measurement}', [AdminDashboardController::class, 'updateMeasurement'])->name('admin.measurements.update');
+    
+    // Payment Fees Management
+    Route::get('/payment-fees', [\App\Http\Controllers\PaymentFeeController::class, 'index'])->name('admin.payment-fees');
+    Route::post('/payment-fees', [\App\Http\Controllers\PaymentFeeController::class, 'store'])->name('admin.payment-fees.store');
+    Route::put('/payment-fees/{paymentFee}', [\App\Http\Controllers\PaymentFeeController::class, 'update'])->name('admin.payment-fees.update');
+    Route::delete('/payment-fees/{paymentFee}', [\App\Http\Controllers\PaymentFeeController::class, 'destroy'])->name('admin.payment-fees.destroy');
+    Route::post('/payment-fees/{paymentFee}/toggle', [\App\Http\Controllers\PaymentFeeController::class, 'toggleStatus'])->name('admin.payment-fees.toggle');
     
     // Analytics & Reports
     Route::get('/analytics', [AdminDashboardController::class, 'analytics'])->name('admin.analytics');

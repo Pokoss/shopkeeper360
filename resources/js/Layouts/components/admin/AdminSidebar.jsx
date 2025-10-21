@@ -249,6 +249,14 @@ function AdminSidebar({ sidebarOpen, setSidebarOpen, auth }) {
                         Measurements
                       </Link>
                     </li>
+                    <li>
+                      <Link
+                        href="/admin/payment-fees"
+                        className="block px-4 py-2 text-sm text-gray-300 hover:bg-purple-700 rounded-md"
+                      >
+                        Payment Fees
+                      </Link>
+                    </li>
                   </ul>
                 )}
               </li>

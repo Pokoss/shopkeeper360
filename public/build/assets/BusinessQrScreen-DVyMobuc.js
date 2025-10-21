@@ -1,0 +1,1 @@
+import{j as s}from"./app-NW_fgNe6.js";import{L as o}from"./Layout-CHIFVX3q.js";function n({company:r}){return s.jsx("div",{children:"BusinessQrScreen"})}n.layout=r=>s.jsx(o,{children:r,props:r.props.company});export{n as default};
