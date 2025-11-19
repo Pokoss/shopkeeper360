@@ -46,8 +46,8 @@ export default function PaymentPage({ paymentLink }) {
     const verifyPayment = async (transaction_id, tx_ref) => {
         try {
             const response = await axios.post('/pay/verify', {
-                transaction_id,
-                tx_ref,
+                transaction_id: String(transaction_id),
+                tx_ref: String(tx_ref),
             });
 
             if (response.data.success) {
@@ -57,18 +57,22 @@ export default function PaymentPage({ paymentLink }) {
                     window.location.href = `/pay/${paymentLink.link_code}/success`;
                 }, 2000);
             } else {
+                console.error('Verification failed:', response.data);
                 toast.error(response.data.message || 'Payment verification failed');
             }
         } catch (error) {
             console.error('Payment verification error:', error);
-            toast.error('Payment verification failed. Please contact support.');
+            // Show detailed error message
+            const errorMessage = error.response?.data?.message || error.message || 'Payment verification failed. Please contact support.';
+            toast.error(errorMessage);
         } finally {
             setProcessing(false);
         }
     };
 
     const flutterwaveConfig = {
-        public_key: 'FLWPUBK-505ff9ef3205cff84de16c7170ee6d88-X',
+        // public_key: 'FLWPUBK-505ff9ef3205cff84de16c7170ee6d88-X',
+        public_key: 'FLWPUBK_TEST-03db37124e5570cb191b65425abfb963-X',
         tx_ref: `PLK_${paymentLink.link_code}_${Date.now()}`,
         amount: parseFloat(paymentLink.fees?.total_amount || paymentLink.amount),
         currency: paymentLink.currency || 'UGX',
@@ -81,7 +85,7 @@ export default function PaymentPage({ paymentLink }) {
         customizations: {
             title: paymentLink.company_name,
             description: paymentLink.purpose || 'Payment',
-            logo: paymentLink.company_logo || 'https://biashari.com/images/user/shopkeeper360.png',
+            logo: '/'+paymentLink.company_logo || 'https://biashari.com/images/user/shopkeeper360.png',
         },
         callback: (response) => {
             console.log('Flutterwave Response:', response);
@@ -118,6 +122,8 @@ export default function PaymentPage({ paymentLink }) {
                 handleFlutterPayment({
                     callback: (response) => {
                         console.log('Flutterwave Response:', response);
+                        console.log('Transaction ID type:', typeof response.transaction_id, 'Value:', response.transaction_id);
+                        console.log('TX Ref type:', typeof response.tx_ref, 'Value:', response.tx_ref);
                         closePaymentModal();
 
                         if (response.status === 'successful' || response.status === 'completed') {
@@ -157,7 +163,7 @@ export default function PaymentPage({ paymentLink }) {
                     <div className="text-center mb-6">
                         {paymentLink.company_logo ? (
                             <img 
-                                src={paymentLink.company_logo} 
+                                src={'/'+paymentLink.company_logo} 
                                 alt={paymentLink.company_name}
                                 className="h-20 w-20 mx-auto mb-4 rounded-full object-cover border-4 border-white shadow-lg"
                             />

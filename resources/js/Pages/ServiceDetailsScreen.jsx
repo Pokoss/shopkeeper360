@@ -385,7 +385,7 @@ export default function ServiceDetailsScreen({ company, service, service_id, ser
                 <DialogHeader>Print Bill</DialogHeader>
                 <DialogBody className="max-h-[30rem] overflow-auto">
                     <div ref={componentRef1}>
-                        <CustomerBill company={company} props={{ receipts: { sale_id: service_id, sale_total: cartTotal, sales: cart_items, service_name: service.name} }} />
+                        <CustomerBill company={company} props={{ receipts: { sale_id: service_id, sale_total: cartTotal, sales: cart_items, service_name: service?.name || ''} }} />
                     </div>
                 </DialogBody>
                 <DialogFooter>

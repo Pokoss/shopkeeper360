@@ -99,6 +99,7 @@ Route::prefix('res')->group(function () {
 
 // Public Payment Link Routes (must be before auth middleware)
 Route::get('/pay/{code}', [PublicPaymentController::class, 'show'])->name('payment.show');
+Route::get('/pay/{code}/success', [PublicPaymentController::class, 'success'])->name('payment.success');
 Route::post('/pay/{code}/initiate', [PublicPaymentController::class, 'initiate'])->name('payment.initiate');
 Route::post('/pay/verify', [PublicPaymentController::class, 'verify'])->name('payment.verify');
 Route::post('/webhooks/flutterwave', [PublicPaymentController::class, 'webhook'])->name('payment.webhook');

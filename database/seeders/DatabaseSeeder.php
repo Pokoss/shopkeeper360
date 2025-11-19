@@ -22,6 +22,8 @@ class DatabaseSeeder extends Seeder
         // Seed payment fees
         $this->call([
             PaymentFeeSeeder::class,
+            PricingPlanSeeder::class,
+            SmsBundleSeeder::class,
         ]);
     }
 }

@@ -83,7 +83,7 @@ export default function PaymentLinks({ company, paymentLinks, stats, filters }) 
     };
 
     const handleWhatsAppShare = (link) => {
-        const message = `Hello ${link.customer_name},\n\nYou have a payment request from ${company.company.company_name}.\n\nAmount: ${link.formatted_amount}\n${link.purpose ? `Purpose: ${link.purpose}\n` : ''}\nPay here: ${link.public_url}`;
+        const message = `Hello ${link.customer_name},\n\nYou have a payment request from ${company.company.name}.\n\nAmount: ${link.formatted_amount}\n${link.purpose ? `Purpose: ${link.purpose}\n` : ''}\nPay here: ${link.public_url}`;
         const whatsappUrl = `https://wa.me/${link.customer_phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(message)}`;
         window.open(whatsappUrl, '_blank');
     };

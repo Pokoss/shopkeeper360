@@ -6,11 +6,14 @@ use App\Models\PaymentLink;
 use App\Models\PaymentFee;
 use App\Models\Wallet;
 use App\Models\WalletTransaction;
+use App\Mail\PaymentConfirmationCustomer;
+use App\Mail\PaymentConfirmationBusiness;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class PublicPaymentController extends Controller
 {
@@ -31,7 +34,7 @@ class PublicPaymentController extends Controller
                 'paymentLink' => [
                     'status' => $paymentLink->status,
                     'status_label' => $paymentLink->status_label,
-                    'company_name' => $paymentLink->company->company_name ?? 'Unknown',
+                    'company_name' => $paymentLink->company->name ?? 'Unknown',
                 ]
             ]);
         }
@@ -101,10 +104,22 @@ class PublicPaymentController extends Controller
 
     public function verify(Request $request)
     {
-        $validated = $request->validate([
-            'transaction_id' => 'required|string',
-            'tx_ref' => 'required|string',
-        ]);
+        try {
+            $validated = $request->validate([
+                'transaction_id' => 'required|string',
+                'tx_ref' => 'required|string',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            Log::error('Payment verification validation failed', [
+                'errors' => $e->errors(),
+                'request_data' => $request->all()
+            ]);
+            
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid request data: ' . implode(', ', array_map(fn($err) => implode(', ', $err), $e->errors()))
+            ], 422);
+        }
 
         // Find payment link by tx_ref
         $paymentLink = PaymentLink::where('flutterwave_tx_ref', $validated['tx_ref'])->first();
@@ -136,11 +151,15 @@ class PublicPaymentController extends Controller
             ], 400);
         }
 
-        // Check if amount matches
-        if ((float)$paymentData['amount'] < (float)$paymentLink->amount) {
+        // Calculate expected total amount with fees
+        $feeCalculation = PaymentFee::calculateFees($paymentLink->amount);
+        $expectedAmount = $feeCalculation['total_amount'];
+
+        // Check if amount matches (allow small variance for rounding)
+        if ((float)$paymentData['amount'] < ((float)$expectedAmount - 1)) {
             return response()->json([
                 'success' => false,
-                'message' => 'Payment amount mismatch.'
+                'message' => 'Payment amount mismatch. Expected: ' . $expectedAmount . ', Got: ' . $paymentData['amount']
             ], 400);
         }
 
@@ -168,21 +187,12 @@ class PublicPaymentController extends Controller
             // Add transaction
             WalletTransaction::create([
                 'wallet_id' => $wallet->id,
-                'company_id' => $paymentLink->company_id,
-                'type' => 'credit',
+                'type' => 'deposit',
+                'transaction_type' => 'payment_link',
                 'amount' => $paymentLink->amount,
-                'balance_before' => $wallet->balance,
                 'balance_after' => $wallet->balance + $paymentLink->amount,
-                'source' => 'payment_link',
                 'reference' => $paymentLink->link_code,
                 'description' => "Payment from {$paymentLink->customer_name} - {$paymentLink->purpose}",
-                'metadata' => json_encode([
-                    'payment_link_id' => $paymentLink->id,
-                    'customer_name' => $paymentLink->customer_name,
-                    'customer_phone' => $paymentLink->customer_phone,
-                    'flutterwave_tx_ref' => $validated['tx_ref'],
-                    'transaction_id' => $validated['transaction_id'],
-                ]),
             ]);
 
             // Update wallet balance
@@ -190,13 +200,35 @@ class PublicPaymentController extends Controller
 
             DB::commit();
 
+            // Send confirmation emails
+            try {
+                $feeBreakdown = PaymentFee::getFeeBreakdown($paymentLink->amount);
+                
+                // Send email to customer
+                if ($paymentLink->customer_email) {
+                    Mail::to($paymentLink->customer_email)->send(
+                        new PaymentConfirmationCustomer($paymentLink, $feeBreakdown)
+                    );
+                }
+                
+                // Send email to business
+                if ($paymentLink->company && $paymentLink->company->email) {
+                    Mail::to($paymentLink->company->email)->send(
+                        new PaymentConfirmationBusiness($paymentLink, $feeBreakdown)
+                    );
+                }
+            } catch (\Exception $emailError) {
+                // Log email error but don't fail the payment
+                Log::error('Failed to send payment confirmation emails: ' . $emailError->getMessage());
+            }
+
             return response()->json([
                 'success' => true,
                 'message' => 'Payment processed successfully!',
                 'data' => [
                     'amount' => $paymentLink->amount,
                     'currency' => $paymentLink->currency,
-                    'company_name' => $paymentLink->company->company_name,
+                    'company_name' => $paymentLink->company->name ?? 'Business',
                 ]
             ]);
 
@@ -280,12 +312,10 @@ class PublicPaymentController extends Controller
 
                         WalletTransaction::create([
                             'wallet_id' => $wallet->id,
-                            'company_id' => $paymentLink->company_id,
-                            'type' => 'credit',
+                            'type' => 'deposit',
+                            'transaction_type' => 'payment_link',
                             'amount' => $paymentLink->amount,
-                            'balance_before' => $wallet->balance,
                             'balance_after' => $wallet->balance + $paymentLink->amount,
-                            'source' => 'payment_link',
                             'reference' => $paymentLink->link_code,
                             'description' => "Payment from {$paymentLink->customer_name} - {$paymentLink->purpose}",
                         ]);
@@ -293,6 +323,27 @@ class PublicPaymentController extends Controller
                         $wallet->increment('balance', (float)$paymentLink->amount);
 
                         DB::commit();
+
+                        // Send confirmation emails
+                        try {
+                            $feeBreakdown = PaymentFee::getFeeBreakdown($paymentLink->amount);
+                            
+                            // Send email to customer
+                            if ($paymentLink->customer_email) {
+                                Mail::to($paymentLink->customer_email)->send(
+                                    new PaymentConfirmationCustomer($paymentLink, $feeBreakdown)
+                                );
+                            }
+                            
+                            // Send email to business
+                            if ($paymentLink->company && $paymentLink->company->email) {
+                                Mail::to($paymentLink->company->email)->send(
+                                    new PaymentConfirmationBusiness($paymentLink, $feeBreakdown)
+                                );
+                            }
+                        } catch (\Exception $emailError) {
+                            Log::error('Failed to send webhook payment confirmation emails: ' . $emailError->getMessage());
+                        }
                     } catch (\Exception $e) {
                         DB::rollBack();
                         Log::error('Webhook payment processing error: ' . $e->getMessage());
@@ -302,5 +353,31 @@ class PublicPaymentController extends Controller
         }
 
         return response()->json(['message' => 'Webhook received'], 200);
+    }
+
+    public function success($code)
+    {
+        $paymentLink = PaymentLink::with('company')
+            ->where('link_code', $code)
+            ->firstOrFail();
+
+        // Check if payment was actually completed
+        if ($paymentLink->status !== 'paid') {
+            return redirect()->route('payment.show', $code);
+        }
+
+        return Inertia::render('Public/PaymentSuccess', [
+            'paymentLink' => [
+                'link_code' => $paymentLink->link_code,
+                'customer_name' => $paymentLink->customer_name,
+                'amount' => (float)$paymentLink->amount,
+                'currency' => $paymentLink->currency,
+                'formatted_amount' => $paymentLink->formatted_amount,
+                'company_name' => $paymentLink->company->name ?? 'Business',
+                'company_logo' => $paymentLink->company->logo ?? null,
+                'purpose' => $paymentLink->purpose,
+                'paid_at' => $paymentLink->paid_at?->format('F j, Y g:i A'),
+            ]
+        ]);
     }
 }
