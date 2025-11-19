@@ -71,8 +71,8 @@ export default function PaymentPage({ paymentLink }) {
     };
 
     const flutterwaveConfig = {
-        // public_key: 'FLWPUBK-505ff9ef3205cff84de16c7170ee6d88-X',
-        public_key: 'FLWPUBK_TEST-03db37124e5570cb191b65425abfb963-X',
+        public_key: 'FLWPUBK-505ff9ef3205cff84de16c7170ee6d88-X',
+        // public_key: 'FLWPUBK_TEST-03db37124e5570cb191b65425abfb963-X',
         tx_ref: `PLK_${paymentLink.link_code}_${Date.now()}`,
         amount: parseFloat(paymentLink.fees?.total_amount || paymentLink.amount),
         currency: paymentLink.currency || 'UGX',
